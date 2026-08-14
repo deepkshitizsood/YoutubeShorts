@@ -7,28 +7,33 @@ this was built from for the full design rationale.
 
 ## Pipeline
 
-`analytics pull -> strategy pick -> script (Claude Haiku) -> voiceover (Google TTS)
--> AI images (Imagen) [+ optional AI hero clip (Runway)] -> ffmpeg assembly ->
-YouTube upload -> spend ledger update`
+`analytics pull -> strategy pick -> script (Claude Haiku) -> voiceover (Google Cloud TTS)
+-> AI images (Gemini 2.5 Flash Image, aka "Nano Banana") [+ optional AI hero clip (Runway)]
+-> ffmpeg assembly -> YouTube upload -> spend ledger update`
 
 Runs once/day via GitHub Actions (free tier — see `.github/workflows/daily_short.yml`).
-Estimated real cost: **~$15–25/month**, under the $50 cap configured in `config.yaml`.
+Estimated real cost: **~$20–30/month**, under the $50 cap configured in `config.yaml`.
 
 ## One-time setup
 
 ### 1. Google Cloud project + YouTube API access
 
 1. Go to [console.cloud.google.com](https://console.cloud.google.com), create a new project.
-2. Enable **YouTube Data API v3** and **YouTube Analytics API** (APIs & Services → Library).
-3. Also enable **Cloud Text-to-Speech API** and, if using Imagen, the **Generative Language API**.
-4. Under **APIs & Services → Credentials**:
-   - Create an **API key** (used for TTS + Imagen). Optionally restrict it to those two APIs.
-   - Create an **OAuth client ID** of type **Desktop app** (used for YouTube upload/analytics —
-     uploading video requires a real Google account's consent, an API key alone won't work).
+2. Enable **YouTube Data API v3**, **YouTube Analytics API**, and **Cloud Text-to-Speech API**
+   (APIs & Services → Library).
+3. Under **APIs & Services → Credentials**, create an **API key** restricted to Cloud
+   Text-to-Speech API only — this is `GOOGLE_TTS_API_KEY`.
+4. Also create an **OAuth client ID** of type **Desktop app** (used for YouTube
+   upload/analytics — uploading video requires a real Google account's consent, an API key
+   alone won't work).
 5. Configure the **OAuth consent screen** as External, add your own Google account as a Test User
    (Testing mode is fine — no Google review needed for personal use).
 6. Make sure the YouTube channel you want to post to belongs to the Google account you'll
    authorize in the next step.
+
+Note: the image-generation key (next section) is a *separate* key from a *different*
+console (Google AI Studio, not Cloud Console) — Google splits "Cloud" API keys from
+"Gemini API" keys, and a key restricted to one won't work for the other.
 
 ### 2. Get a YouTube refresh token
 
@@ -43,6 +48,11 @@ refresh token; save it, you'll need it below.
 ### 3. Get the other API keys
 
 - **Anthropic** (script generation): [console.anthropic.com](https://console.anthropic.com) → API keys.
+- **Google Gemini** (image generation, `GOOGLE_IMAGE_API_KEY`): [aistudio.google.com/apikey](https://aistudio.google.com/apikey) →
+  Create API key. This is the easiest way to get a correctly-scoped key — it's auto-restricted
+  to the Gemini API (Google's older "Generative Language API" Cloud Console entry is being phased
+  out of discoverability in favor of this flow). Pick the same Cloud project you made in step 1
+  if it offers a choice, so everything lives in one place.
 - **Runway** (optional AI hero clip): [dev.runwayml.com](https://dev.runwayml.com) → API keys.
 
 ### 4. Configure secrets

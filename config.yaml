@@ -50,10 +50,10 @@ providers:
     voice: "en-US-Neural2-D"
     est_cost_per_1k_chars_usd: 0.012
   image:
-    provider: google_imagen
-    model: imagen-4.0-fast-generate-001
+    provider: google_gemini_image
+    model: gemini-2.5-flash-image   # "Nano Banana"; Imagen models are shut down as of Aug 17 2026
     images_per_video: 9
-    est_cost_per_image_usd: 0.02
+    est_cost_per_image_usd: 0.039
   hero_video_clip:
     provider: runway
     model: gen4_turbo

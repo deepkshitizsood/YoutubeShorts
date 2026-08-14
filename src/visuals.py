@@ -1,5 +1,10 @@
-"""Generates the per-shot AI images (Google Imagen) and, when budget allows,
-one short AI-video hook clip (Runway image-to-video) animated from the first image.
+"""Generates the per-shot AI images (Gemini image model, aka "Nano Banana") and,
+when budget allows, one short AI-video hook clip (Runway image-to-video)
+animated from the first image.
+
+Note: Google's older Imagen models (predict-endpoint based) are being shut down
+Aug 17 2026, so image gen goes through the Gemini generateContent endpoint
+instead - a genuinely different request/response shape, not just a model rename.
 
 Provider REST APIs evolve fastest of anything in this pipeline - if calls start
 failing with schema errors, check the provider's current API docs first; the
@@ -15,23 +20,27 @@ import requests
 
 from . import config as cfg
 
-IMAGEN_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:predict"
+GEMINI_IMAGE_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 RUNWAY_BASE = "https://api.runwayml.com/v1"
 
 
 def generate_image(config: dict, prompt: str) -> bytes:
     providers = config["providers"]["image"]
     api_key = cfg.env("GOOGLE_IMAGE_API_KEY")
-    url = IMAGEN_ENDPOINT.format(model=providers["model"])
+    url = GEMINI_IMAGE_ENDPOINT.format(model=providers["model"])
 
     payload = {
-        "instances": [{"prompt": prompt}],
-        "parameters": {"sampleCount": 1, "aspectRatio": "9:16"},
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "responseModalities": ["IMAGE"],
+            "imageConfig": {"aspectRatio": "9:16"},
+        },
     }
-    resp = requests.post(url, params={"key": api_key}, json=payload, timeout=60)
+    resp = requests.post(url, headers={"x-goog-api-key": api_key}, json=payload, timeout=60)
     resp.raise_for_status()
-    prediction = resp.json()["predictions"][0]
-    return base64.b64decode(prediction["bytesBase64Encoded"])
+    parts = resp.json()["candidates"][0]["content"]["parts"]
+    image_part = next(p for p in parts if "inlineData" in p)
+    return base64.b64decode(image_part["inlineData"]["data"])
 
 
 def generate_images_for_shots(config: dict, shot_list: list[dict], out_dir: Path) -> list[Path]:
