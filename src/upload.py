@@ -39,6 +39,31 @@ def youtube_client():
     return build("youtube", "v3", credentials=credentials())
 
 
+def verify_channel(expected_handle: str) -> None:
+    """Confirms the authenticated token's channel matches config.yaml's channel.handle
+    before we spend any money or upload anything - guards against a repeat of uploading
+    to the wrong channel (e.g. a Google account's personal channel instead of the
+    intended Brand Account channel) if the refresh token ever gets regenerated wrong."""
+    youtube = youtube_client()
+    resp = youtube.channels().list(part="snippet", mine=True).execute()
+    items = resp.get("items", [])
+    if not items:
+        raise RuntimeError("No channel found for the authenticated account.")
+
+    actual_handle = items[0]["snippet"].get("customUrl", "")
+    actual_title = items[0]["snippet"].get("title", "")
+    expected = expected_handle.lstrip("@").lower()
+    actual = actual_handle.lstrip("@").lower()
+    if expected != actual:
+        raise RuntimeError(
+            f"Authenticated channel is '{actual_title}' ({actual_handle}), but "
+            f"config.yaml expects '{expected_handle}'. Refusing to upload - this usually "
+            f"means the OAuth refresh token is bound to the wrong channel/brand account. "
+            f"Regenerate it with scripts/get_refresh_token.py, picking the correct channel "
+            f"at the account-chooser step."
+        )
+
+
 def upload_short(
     video_path: Path,
     title: str,

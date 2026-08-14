@@ -31,6 +31,9 @@ def run(dry_run: bool) -> None:
     if status == "warn":
         print(f"[budget] Warning: month-to-date spend is above ${config['budget']['warn_threshold_usd']}.")
 
+    upload.verify_channel(config["channel"]["handle"])
+    print(f"[upload] Verified target channel: {config['channel']['handle']}")
+
     try:
         new_entries = analytics.pull_and_log()
         print(f"[analytics] Logged {len(new_entries)} fresh performance snapshot(s).")
