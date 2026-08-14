@@ -1,0 +1,73 @@
+# Central configuration for the YouTube Shorts agent.
+# Prices are read from here (not hardcoded) so they can be updated as providers change.
+
+channel:
+  name: "CHANGE_ME"
+  handle: "@CHANGE_ME"
+  timezone: "America/Los_Angeles"   # YouTube API quota resets at midnight Pacific
+
+posting:
+  videos_per_day: 1
+  target_publish_hour_local: 16     # 4 PM performs well per research; adjust from analytics later
+  video_length_seconds: [45, 55]
+  visibility_on_launch: "unlisted"  # flip to "public" after first successful manual verification
+
+content:
+  # Pillars the strategy step picks from. Weights are adjusted over time by the
+  # analytics feedback loop (see data/performance_log.json) - these are starting points only.
+  pillars:
+    - id: mind_blowing_facts
+      description: "Surprising / counter-intuitive facts (science, history, psychology, nature) told with a punchy, entertaining voice."
+      weight: 0.6
+    - id: this_or_that_facts
+      description: "Rapid-fire comparison facts (e.g. 'X vs Y') with a twist ending."
+      weight: 0.2
+    - id: myth_busting
+      description: "Common misconceptions debunked in one fast beat."
+      weight: 0.2
+  avoid_topics:
+    - medical advice
+    - graphic violence
+    - politics / elections
+    - anything requiring on-screen real people/likenesses
+  hook_style: "Question or shocking claim in the first 1.5 seconds. No slow intros."
+  cta: "Follow for more."
+
+budget:
+  monthly_cap_usd: 50.0
+  # Soft warning threshold - below this the pipeline runs normally.
+  warn_threshold_usd: 35.0
+  # Above this, visuals.py skips the optional hero AI-video clip and uses images only.
+  hero_clip_cutoff_usd: 40.0
+
+providers:
+  llm:
+    provider: anthropic
+    model: claude-haiku-4-5-20251001
+    est_cost_per_script_usd: 0.03
+  tts:
+    provider: google_cloud_tts
+    voice: "en-US-Neural2-D"
+    est_cost_per_1k_chars_usd: 0.012
+  image:
+    provider: google_imagen
+    model: imagen-4.0-fast-generate-001
+    images_per_video: 9
+    est_cost_per_image_usd: 0.02
+  hero_video_clip:
+    provider: runway
+    model: gen4_turbo
+    clip_seconds: 4
+    est_cost_per_second_usd: 0.05
+    enabled: true   # auto-disabled by budget.py once hero_clip_cutoff_usd is reached in a month
+
+assembly:
+  resolution: [1080, 1920]
+  fps: 30
+  # Caption font: "DejaVu Sans" ships preinstalled on the GH Actions ubuntu-latest
+  # runner (via fonts-dejavu-core). Drop a .ttf into assets/fonts/ and change the
+  # Fontname in src/assemble.py's ASS_HEADER to use a custom font instead.
+  font: "DejaVu Sans"
+  caption_style: "word-by-word highlight"
+  music_dir: "assets/music"
+  music_volume_db: -18

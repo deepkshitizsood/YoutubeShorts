@@ -1,0 +1,89 @@
+"""Generates the per-shot AI images (Google Imagen) and, when budget allows,
+one short AI-video hook clip (Runway image-to-video) animated from the first image.
+
+Provider REST APIs evolve fastest of anything in this pipeline - if calls start
+failing with schema errors, check the provider's current API docs first; the
+shapes below are correct as of Aug 2026 but are the most likely thing to drift.
+"""
+from __future__ import annotations
+
+import base64
+import time
+from pathlib import Path
+
+import requests
+
+from . import config as cfg
+
+IMAGEN_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:predict"
+RUNWAY_BASE = "https://api.runwayml.com/v1"
+
+
+def generate_image(config: dict, prompt: str) -> bytes:
+    providers = config["providers"]["image"]
+    api_key = cfg.env("GOOGLE_IMAGE_API_KEY")
+    url = IMAGEN_ENDPOINT.format(model=providers["model"])
+
+    payload = {
+        "instances": [{"prompt": prompt}],
+        "parameters": {"sampleCount": 1, "aspectRatio": "9:16"},
+    }
+    resp = requests.post(url, params={"key": api_key}, json=payload, timeout=60)
+    resp.raise_for_status()
+    prediction = resp.json()["predictions"][0]
+    return base64.b64decode(prediction["bytesBase64Encoded"])
+
+
+def generate_images_for_shots(config: dict, shot_list: list[dict], out_dir: Path) -> list[Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for shot in shot_list:
+        img_bytes = generate_image(config, shot["visual_prompt"])
+        path = out_dir / f"shot_{shot['index']:02d}.png"
+        path.write_bytes(img_bytes)
+        paths.append(path)
+    return paths
+
+
+def generate_hero_clip(config: dict, first_image_path: Path, prompt: str, out_path: Path) -> Path:
+    """Animates the first shot image into a short video clip via Runway.
+    Runway's API is async: create a task, poll until SUCCEEDED, download the result."""
+    api_key = cfg.env("RUNWAY_API_KEY")
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    providers = config["providers"]["hero_video_clip"]
+
+    image_b64 = base64.b64encode(first_image_path.read_bytes()).decode("utf-8")
+    payload = {
+        "model": providers["model"],
+        "promptImage": f"data:image/png;base64,{image_b64}",
+        "promptText": prompt,
+        "duration": providers["clip_seconds"],
+        "ratio": "768:1280",
+    }
+    create = requests.post(f"{RUNWAY_BASE}/image_to_video", headers=headers, json=payload, timeout=60)
+    create.raise_for_status()
+    task_id = create.json()["id"]
+
+    for _ in range(60):  # poll up to ~5 minutes
+        time.sleep(5)
+        status = requests.get(f"{RUNWAY_BASE}/tasks/{task_id}", headers=headers, timeout=30)
+        status.raise_for_status()
+        body = status.json()
+        if body["status"] == "SUCCEEDED":
+            video_url = body["output"][0]
+            video_bytes = requests.get(video_url, timeout=60).content
+            out_path.write_bytes(video_bytes)
+            return out_path
+        if body["status"] == "FAILED":
+            raise RuntimeError(f"Runway task failed: {body}")
+
+    raise TimeoutError("Runway hero clip generation timed out")
+
+
+def estimated_image_cost_usd(config: dict, num_images: int) -> float:
+    return num_images * config["providers"]["image"]["est_cost_per_image_usd"]
+
+
+def estimated_hero_clip_cost_usd(config: dict) -> float:
+    hero = config["providers"]["hero_video_clip"]
+    return hero["clip_seconds"] * hero["est_cost_per_second_usd"]

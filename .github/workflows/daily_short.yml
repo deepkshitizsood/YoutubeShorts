@@ -1,0 +1,55 @@
+name: Daily YouTube Short
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Generate the video but skip upload"
+        type: boolean
+        default: true
+  # Enabled in Build Phase F, once a manual dry-run and a manual real run have both been verified.
+  # schedule:
+  #   - cron: "0 23 * * *"   # ~4 PM Pacific (adjust for DST manually, or compute in code)
+
+permissions:
+  contents: write   # workflow commits updated data/*.json back to the repo
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg and caption font
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_TTS_API_KEY: ${{ secrets.GOOGLE_TTS_API_KEY }}
+          GOOGLE_IMAGE_API_KEY: ${{ secrets.GOOGLE_IMAGE_API_KEY }}
+          RUNWAY_API_KEY: ${{ secrets.RUNWAY_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python src/main.py --dry-run
+          else
+            python src/main.py
+          fi
+
+      - name: Commit updated data files
+        run: |
+          git config user.name "youtube-agent-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/*.json
+          git diff --cached --quiet || git commit -m "Update performance log / spend ledger [skip ci]"
+          git push
