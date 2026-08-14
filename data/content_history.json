@@ -70,5 +70,13 @@
     "video_id": null,
     "created_at": "2026-08-14T16:52:15.403754+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "giraffe_vs_elephant_heart_size",
+    "pillar_id": "this_or_that_facts",
+    "title": "Giraffe vs Elephant: Whose Heart Is Bigger? \ud83e\udd92",
+    "video_id": "FvWv-G5qNrU",
+    "created_at": "2026-08-14T17:02:16.092255+00:00",
+    "dry_run": false
   }
 ]
