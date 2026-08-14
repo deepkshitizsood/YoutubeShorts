@@ -11,9 +11,16 @@ from googleapiclient.http import MediaFileUpload
 from . import config as cfg
 
 SCOPES = [
-    "https://www.googleapis.com/auth/youtube",  # full manage scope - needed for videos.update (admin.yml), not just upload
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube.readonly",
     "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
+# Note: admin.yml's videos.update (changing visibility on an already-published video)
+# needs the broader "https://www.googleapis.com/auth/youtube" scope, which the current
+# refresh token does NOT have. Requesting a wider scope than a token was originally
+# granted makes the refresh call itself fail (invalid_scope), breaking uploads too - so
+# don't widen SCOPES here without also regenerating YOUTUBE_REFRESH_TOKEN to match
+# (rerun scripts/get_refresh_token.py after updating SCOPES, then update the GitHub secret).
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 
 
