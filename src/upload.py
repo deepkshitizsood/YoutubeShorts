@@ -11,8 +11,7 @@ from googleapiclient.http import MediaFileUpload
 from . import config as cfg
 
 SCOPES = [
-    "https://www.googleapis.com/auth/youtube.upload",
-    "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/youtube",  # full manage scope - needed for videos.update (admin.yml), not just upload
     "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 TOKEN_URI = "https://oauth2.googleapis.com/token"
