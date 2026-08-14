@@ -37,7 +37,8 @@ def generate_image(config: dict, prompt: str) -> bytes:
         },
     }
     resp = requests.post(url, headers={"x-goog-api-key": api_key}, json=payload, timeout=60)
-    resp.raise_for_status()
+    if not resp.ok:
+        raise RuntimeError(f"Gemini image request failed ({resp.status_code}): {resp.text}")
     parts = resp.json()["candidates"][0]["content"]["parts"]
     image_part = next(p for p in parts if "inlineData" in p)
     return base64.b64decode(image_part["inlineData"]["data"])
@@ -70,13 +71,15 @@ def generate_hero_clip(config: dict, first_image_path: Path, prompt: str, out_pa
         "ratio": "768:1280",
     }
     create = requests.post(f"{RUNWAY_BASE}/image_to_video", headers=headers, json=payload, timeout=60)
-    create.raise_for_status()
+    if not create.ok:
+        raise RuntimeError(f"Runway task creation failed ({create.status_code}): {create.text}")
     task_id = create.json()["id"]
 
     for _ in range(60):  # poll up to ~5 minutes
         time.sleep(5)
         status = requests.get(f"{RUNWAY_BASE}/tasks/{task_id}", headers=headers, timeout=30)
-        status.raise_for_status()
+        if not status.ok:
+            raise RuntimeError(f"Runway task poll failed ({status.status_code}): {status.text}")
         body = status.json()
         if body["status"] == "SUCCEEDED":
             video_url = body["output"][0]

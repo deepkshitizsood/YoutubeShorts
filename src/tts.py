@@ -53,7 +53,8 @@ def synthesize(config: dict, script: str) -> NarrationResult:
     }
 
     resp = requests.post(TTS_ENDPOINT, params={"key": api_key}, json=payload, timeout=60)
-    resp.raise_for_status()
+    if not resp.ok:
+        raise RuntimeError(f"Cloud TTS request failed ({resp.status_code}): {resp.text}")
     data = resp.json()
 
     audio_bytes = base64.b64decode(data["audioContent"])
