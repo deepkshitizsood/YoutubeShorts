@@ -72,7 +72,7 @@ def generate_hero_clip(config: dict, first_image_path: Path, prompt: str, out_pa
         "promptImage": f"data:image/png;base64,{image_b64}",
         "promptText": prompt,
         "duration": providers["clip_seconds"],
-        "ratio": "768:1280",
+        "ratio": "720:1280",  # must be one of Runway's fixed set of ratios; this is the 9:16 option
     }
     create = requests.post(f"{RUNWAY_BASE}/image_to_video", headers=headers, json=payload, timeout=60)
     if not create.ok:
