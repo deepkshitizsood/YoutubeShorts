@@ -48,10 +48,15 @@ def compute_shot_windows(shot_list: list[dict], word_timings: list[WordTiming], 
 def render_image_shot(image_path: Path, duration: float, out_path: Path) -> None:
     frames = max(int(duration * FPS), 1)
     zoom_expr = "min(zoom+0.0012,1.4)"
+    # x/y keep the crop window centered on the source image as zoom changes -
+    # zoompan's default anchors at the top-left corner, which reads as the
+    # subject drifting off to a side rather than a straight zoom in/out.
+    center_x = "iw/2-(iw/zoom/2)"
+    center_y = "ih/2-(ih/zoom/2)"
     vf = (
         f"scale={WIDTH*2}:{HEIGHT*2}:force_original_aspect_ratio=increase,"
         f"crop={WIDTH*2}:{HEIGHT*2},"
-        f"zoompan=z='{zoom_expr}':d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS},"
+        f"zoompan=z='{zoom_expr}':x='{center_x}':y='{center_y}':d={frames}:s={WIDTH}x{HEIGHT}:fps={FPS},"
         f"format=yuv420p"
     )
     _run([

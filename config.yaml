@@ -10,7 +10,7 @@ posting:
   videos_per_day: 1
   target_publish_hour_local: 16     # 4 PM performs well per research; adjust from analytics later
   video_length_seconds: [45, 55]
-  visibility_on_launch: "unlisted"  # flip to "public" after first successful manual verification
+  visibility_on_launch: "public"
 
 content:
   # Pillars the strategy step picks from. Weights are adjusted over time by the
@@ -59,7 +59,10 @@ providers:
     model: gen4_turbo
     clip_seconds: 4
     est_cost_per_second_usd: 0.05
-    enabled: true   # auto-disabled by budget.py once hero_clip_cutoff_usd is reached in a month
+    # Disabled by default: tested Aug 14 2026 - a single animated clip blended into an
+    # otherwise-static-image video wasn't a large enough quality lift for 2.5x the per-clip
+    # cost. Flip to true to re-enable (also auto-disabled by budget.py past hero_clip_cutoff_usd).
+    enabled: false
 
 assembly:
   resolution: [1080, 1920]
