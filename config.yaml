@@ -2,8 +2,8 @@
 # Prices are read from here (not hardcoded) so they can be updated as providers change.
 
 channel:
-  name: "CHANGE_ME"
-  handle: "@CHANGE_ME"
+  name: "Factodixs"
+  handle: "@Factodixs"
   timezone: "America/Los_Angeles"   # YouTube API quota resets at midnight Pacific
 
 posting:
