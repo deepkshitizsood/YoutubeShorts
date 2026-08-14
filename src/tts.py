@@ -14,7 +14,7 @@ import requests
 
 from . import config as cfg
 
-TTS_ENDPOINT = "https://texttospeech.googleapis.com/v1/text:synthesize"
+TTS_ENDPOINT = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"  # v1 doesn't support enableTimePointing
 
 
 @dataclass
