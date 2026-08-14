@@ -95,6 +95,24 @@
       "item": "hero_video_clip",
       "usd": 0.2,
       "video_id": null
+    },
+    {
+      "date": "2026-08-14T11:46:27Z",
+      "item": "llm_script",
+      "usd": 0.03,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-14T11:46:28Z",
+      "item": "tts",
+      "usd": 0.0072,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-14T11:47:12Z",
+      "item": "images",
+      "usd": 0.312,
+      "video_id": null
     }
   ]
 }
