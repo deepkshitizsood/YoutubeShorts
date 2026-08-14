@@ -21,7 +21,7 @@ import requests
 from . import config as cfg
 
 GEMINI_IMAGE_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-RUNWAY_BASE = "https://api.runwayml.com/v1"
+RUNWAY_BASE = "https://api.dev.runwayml.com/v1"
 
 
 def generate_image(config: dict, prompt: str) -> bytes:
@@ -59,7 +59,11 @@ def generate_hero_clip(config: dict, first_image_path: Path, prompt: str, out_pa
     """Animates the first shot image into a short video clip via Runway.
     Runway's API is async: create a task, poll until SUCCEEDED, download the result."""
     api_key = cfg.env("RUNWAY_API_KEY")
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "X-Runway-Version": "2024-11-06",
+    }
     providers = config["providers"]["hero_video_clip"]
 
     image_b64 = base64.b64encode(first_image_path.read_bytes()).decode("utf-8")
