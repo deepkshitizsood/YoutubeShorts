@@ -41,9 +41,9 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            python src/main.py --dry-run
+            python -m src.main --dry-run
           else
-            python src/main.py
+            python -m src.main
           fi
 
       - name: Upload generated video for inspection
