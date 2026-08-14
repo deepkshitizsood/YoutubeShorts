@@ -78,5 +78,13 @@
     "video_id": "FvWv-G5qNrU",
     "created_at": "2026-08-14T17:02:16.092255+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "venus_rotation_backwards",
+    "pillar_id": "myth_busting",
+    "title": "Venus Spins BACKWARDS? \ud83c\udf0d Debunked",
+    "video_id": "lxvVp0y1r0E",
+    "created_at": "2026-08-14T23:16:48.203275+00:00",
+    "dry_run": false
   }
 ]
