@@ -22,8 +22,11 @@ Write one new YouTube Short. Return JSON with exactly this schema:
 {{
   "topic": "short slug describing the topic, e.g. 'octopus_three_hearts'",
   "title": "YouTube title, <=60 chars, curiosity-driven, include relevant emoji sparingly",
-  "description": "1-3 sentences + 3-5 relevant hashtags including #Shorts",
-  "tags": ["array", "of", "5-8", "seo", "tags"],
+  "description": "1-3 sentences summarizing the hook/payoff, then a blank line, then
+    7-10 hashtags for reach: always include #Shorts and #facts, plus a mix of broad
+    discovery tags (e.g. #didyouknow, #mindblowing, #factsdaily, #wow) and 3-5 tags
+    specific to this video's exact topic/subject",
+  "tags": ["array", "of", "8-12", "seo", "tags", "mixing", "broad", "and", "topic-specific", "terms"],
   "hook": "the first 1-2 spoken sentences, must grab attention immediately",
   "script": "the FULL narration script (hook included), 130-160 words, spoken conversationally",
   "shot_list": [
