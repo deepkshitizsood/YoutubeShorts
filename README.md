@@ -82,14 +82,30 @@ real uploads.
 python -m src.main             # full run including upload (as "unlisted" by default)
 ```
 
-## Deploying the daily cron
+## Posting schedule
 
-1. Push this repo to GitHub, add the secrets above.
-2. Manually trigger `.github/workflows/daily_short.yml` (Actions tab → Run workflow) with
-   `dry_run: true` first, confirm it succeeds and the artifact looks right.
-3. Run it again with `dry_run: false` to confirm a real (unlisted) upload works end-to-end.
-4. In the workflow file, uncomment the `schedule:` block to switch to a fully automated
-   daily run, and flip `posting.visibility_on_launch` to `public` in `config.yaml`.
+Live and fully automated: **3 posts/day** at 07:00, 15:00 and 23:00 UTC
+(`.github/workflows/daily_short.yml`). The ~8h spacing is deliberate — same-day Shorts
+posted close together compete for the same audience and split their algorithmic
+evaluation windows.
+
+Runs are serialized by a `concurrency` group, so a manual dispatch during a scheduled
+run queues rather than racing on the data commit.
+
+### Operational notes
+
+- **Failures file a GitHub issue** (label `automation-failure`) so a missed slot is
+  noticed. Transient provider errors are retried automatically before that point.
+- **The refresh token expires every 7 days** while the Google OAuth app is in Testing
+  status. Regenerate with `scripts/get_refresh_token.py` (selecting the **@Factodixs**
+  channel at the account chooser) and update `YOUTUBE_REFRESH_TOKEN`. This goes away
+  once Google verification completes.
+- **GitHub disables scheduled workflows after 60 days without repository activity**, and
+  the bot's own commits do *not* count. Push any human commit occasionally, or the cron
+  silently stops.
+- **Costs** are bounded to ~$28/month worst case at 3/day by
+  `providers.image.max_per_video`; `data/spend_ledger.json` tracks actual spend and the
+  run halts at `budget.monthly_cap_usd`.
 
 ## Monitoring cost & performance
 

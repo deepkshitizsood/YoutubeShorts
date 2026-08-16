@@ -7,9 +7,10 @@ channel:
   timezone: "America/Los_Angeles"   # YouTube API quota resets at midnight Pacific
 
 posting:
-  videos_per_day: 1
-  target_publish_hour_local: 16     # 4 PM performs well per research; adjust from analytics later
-  video_length_seconds: [45, 55]
+  # 3/day is the practical ceiling: 1->2 nearly triples subscriber growth and
+  # 2->3 still helps, but 4+ adds only ~8% while raising the risk of same-day
+  # videos cannibalising each other. Slots live in the workflow cron.
+  videos_per_day: 3
   visibility_on_launch: "public"
 
 content:

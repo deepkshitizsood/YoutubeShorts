@@ -7,8 +7,14 @@ on:
         description: "Generate the video but skip upload"
         type: boolean
         default: true
+  # Three posts/day, ~8h apart. Spacing matters: same-day Shorts posted close
+  # together compete for the same audience and split their algorithmic
+  # evaluation windows, so each slot is given its own run.
+  # Times are UTC and drift 1h relative to Pacific across DST.
   schedule:
-    - cron: "0 23 * * *"   # ~4 PM Pacific (UTC offset drifts 1hr across DST changes - revisit if posting time matters precisely)
+    - cron: "0 15 * * *"   # ~8 AM Pacific
+    - cron: "0 23 * * *"   # ~4 PM Pacific
+    - cron: "0 7 * * *"    # ~12 AM Pacific
 
 permissions:
   contents: write   # workflow commits updated data/*.json back to the repo
