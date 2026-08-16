@@ -33,6 +33,22 @@ content:
   hook_style: "Question or shocking claim in the first 1.5 seconds. No slow intros."
   cta: "Follow for more."
 
+  # Length is deliberately varied so the analytics loop can learn which performs
+  # better on THIS channel. Published benchmarks disagree: sub-30s Shorts get
+  # 70-85% completion vs 50-65% for 30-60s, but longer Shorts have been shown to
+  # earn more total views. Rather than guess, alternate and measure.
+  length_variants:
+    - name: short
+      seconds: 30
+      words: 85
+      shots: 11
+      weight: 0.5
+    - name: long
+      seconds: 50
+      words: 140
+      shots: 18
+      weight: 0.5
+
 budget:
   monthly_cap_usd: 50.0
   # Soft warning threshold - below this the pipeline runs normally.
@@ -49,11 +65,20 @@ providers:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"
     est_cost_per_1k_chars_usd: 0.012
+  # Free stock footage (no key = silently skipped, AI images used instead).
+  # Real motion beats a panning still for retention, and costs nothing.
+  stock_video:
+    provider: pexels
+    enabled: true
   image:
     provider: google_gemini_image
     model: gemini-2.5-flash-image   # "Nano Banana"; Imagen models are shut down as of Aug 17 2026
-    images_per_video: 9
     est_cost_per_image_usd: 0.039
+    # Hard cost ceiling per video. Fast cutting needs many shots but not many
+    # distinct paid images - past this cap, shots reuse earlier visuals with a
+    # different zoom direction, which reads as a new cut. Keeps spend bounded
+    # even if stock footage is unavailable.
+    max_per_video: 7
   hero_video_clip:
     provider: runway
     model: gen4_turbo

@@ -69,8 +69,23 @@ def pick_pillar(config: dict, log: list[dict], history: list[dict]) -> tuple[dic
     return best_pillar, False
 
 
-def recent_topics(history: list[dict], limit: int = 20) -> list[str]:
+def recent_topics(history: list[dict], limit: int = 60) -> list[str]:
+    """Topics to show the LLM as 'already covered'.
+
+    The window is sized in videos, not days, so it has to scale with posting
+    cadence: at 3/day a 20-item window covers under a week.
+    """
     return [h["topic"] for h in history[-limit:] if h.get("topic")]
+
+
+def used_topics() -> set[str]:
+    """Every topic ever produced, for the hard uniqueness check.
+
+    Includes dry runs deliberately - a topic rehearsed in a dry run has usually
+    been reviewed already, and regenerating is cheap next to publishing a
+    near-duplicate.
+    """
+    return {h["topic"].strip().lower() for h in load_content_history() if h.get("topic")}
 
 
 def build_strategy_brief(config: dict) -> dict:

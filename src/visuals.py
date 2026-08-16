@@ -20,6 +20,7 @@ from pathlib import Path
 import requests
 
 from . import config as cfg
+from . import stock
 from .http_util import raise_for_retryable_status, retry_call
 
 GEMINI_IMAGE_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
@@ -90,6 +91,73 @@ def generate_images_for_shots(config: dict, shot_list: list[dict], out_dir: Path
             path = paths[-1]
         paths.append(path)
     return paths
+
+
+def resolve_shot_media(
+    config: dict, shot_list: list[dict], out_dir: Path
+) -> tuple[list[Path], list[str], int]:
+    """Resolves each shot to a media file, returning (paths, kinds, billable_images).
+
+    `kinds[i]` is "video" or "image", which tells the assembler whether to play
+    the clip or apply Ken Burns motion to a still. Shots the LLM marked as
+    "stock" try Pexels first (free, real motion) and fall back to an AI image
+    when no suitable footage exists or no Pexels key is configured.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    max_images = config["providers"]["image"].get("max_per_video", 8)
+
+    paths: list[Path] = []
+    kinds: list[str] = []
+    generated: list[Path] = []   # distinct AI images actually paid for
+    stock_hits = 0
+
+    for shot in shot_list:
+        idx = shot["index"]
+        clip_path = None
+
+        if shot.get("media_type") == "stock" and shot.get("stock_query"):
+            clip_path = stock.fetch_clip(shot["stock_query"], out_dir / f"shot_{idx:02d}.mp4")
+
+        if clip_path is not None:
+            paths.append(clip_path)
+            kinds.append("video")
+            stock_hits += 1
+            continue
+
+        # Past the cap, recycle an already-generated image rather than paying for
+        # another. Alternating zoom direction per shot keeps the reuse from
+        # reading as a repeat.
+        if len(generated) >= max_images and generated:
+            paths.append(generated[len(paths) % len(generated)])
+            kinds.append("image")
+            continue
+
+        image_path = out_dir / f"shot_{idx:02d}.png"
+        try:
+            image_path.write_bytes(generate_image(config, shot["visual_prompt"]))
+        except Exception as e:
+            if not paths:
+                raise
+            print(f"[visuals] Shot {idx} failed ({e}); reusing previous media.", file=sys.stderr)
+            paths.append(paths[-1])
+            kinds.append(kinds[-1])
+            continue
+        generated.append(image_path)
+        paths.append(image_path)
+        kinds.append("image")
+
+    print(
+        f"[visuals] {len(paths)} shots: {stock_hits} stock clip(s), "
+        f"{len(generated)} AI image(s) generated, "
+        f"{len(paths) - stock_hits - len(generated)} reused"
+    )
+    # Only distinct generated images are billable.
+    return paths, kinds, len(generated)
+
+
+def count_ai_images(kinds: list[str]) -> int:
+    """Only AI images cost money; stock clips are free."""
+    return sum(1 for k in kinds if k == "image")
 
 
 def generate_hero_clip(config: dict, first_image_path: Path, prompt: str, out_path: Path) -> Path:

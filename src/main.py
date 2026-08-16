@@ -60,8 +60,12 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     brief = strategy.build_strategy_brief(config)
     print(f"[strategy] Pillar: {brief['pillar_id']} (exploration={brief['is_exploration']})")
 
-    data = script_gen.generate_script(config, brief)
-    print(f"[script] Topic: {data['topic']} | Title: {data['title']}")
+    used_topics = strategy.used_topics()
+    data = script_gen.generate_unique_script(config, brief, used_topics)
+    print(
+        f"[script] Topic: {data['topic']} | Length: {data.get('length_variant', '?')} "
+        f"| Title: {data['title']}"
+    )
     budget.record_spend(ledger, "llm_script", config["providers"]["llm"]["est_cost_per_script_usd"])
 
     run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + _safe_slug(data["topic"])
@@ -76,35 +80,27 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     budget.record_spend(ledger, "tts", tts_cost)
     print(f"[tts] {len(narration.word_timings)} words synthesized (~${tts_cost:.3f})")
 
-    images_dir = run_dir / "images"
-    shot_media_paths = visuals.generate_images_for_shots(config, data["shot_list"], images_dir)
-    image_cost = visuals.estimated_image_cost_usd(config, len(shot_media_paths))
+    media_dir = run_dir / "media"
+    shot_media_paths, shot_kinds, billable_images = visuals.resolve_shot_media(
+        config, data["shot_list"], media_dir
+    )
+    # Stock clips are free and reused images are already paid for, so only newly
+    # generated images are billed.
+    image_cost = visuals.estimated_image_cost_usd(config, billable_images)
     budget.record_spend(ledger, "images", image_cost)
-    print(f"[visuals] Generated {len(shot_media_paths)} images (~${image_cost:.3f})")
-
-    hero_shot_index = None
-    if budget.hero_clip_allowed(ledger, config):
-        try:
-            hero_path = run_dir / "hero_clip.mp4"
-            visuals.generate_hero_clip(config, shot_media_paths[0], data["hook"], hero_path)
-            shot_media_paths[0] = hero_path
-            hero_shot_index = 0
-            hero_cost = visuals.estimated_hero_clip_cost_usd(config)
-            budget.record_spend(ledger, "hero_video_clip", hero_cost)
-            print(f"[visuals] Hero clip generated (~${hero_cost:.3f})")
-        except Exception as e:
-            print(f"[visuals] Hero clip skipped (not fatal): {e}", file=sys.stderr)
+    print(f"[visuals] Image spend ~${image_cost:.3f}")
 
     final_path = run_dir / "final.mp4"
     assemble.assemble_video(
         config=config,
         shot_list=data["shot_list"],
         shot_media_paths=shot_media_paths,
-        hero_shot_index=hero_shot_index,
+        shot_kinds=shot_kinds,
         narration_wav_path=narration_path,
         word_timings=narration.word_timings,
         tmp_dir=tmp_dir,
         out_path=final_path,
+        hook_overlay=data.get("hook_overlay"),
     )
     print(f"[assemble] Final video: {final_path}")
 
@@ -130,6 +126,9 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "pillar_id": brief["pillar_id"],
             "title": data["title"],
             "video_id": video_id,
+            "length_variant": data.get("length_variant"),
+            "stock_shots": sum(1 for k in shot_kinds if k == "video"),
+            "total_shots": len(shot_kinds),
             "created_at": datetime.now(timezone.utc).isoformat(),
             "dry_run": dry_run,
         })
