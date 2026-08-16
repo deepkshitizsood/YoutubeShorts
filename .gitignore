@@ -10,3 +10,8 @@ output/
 *.wav
 *.mp3
 .DS_Store
+
+# Background music must be committed - the GitHub Actions runner builds videos
+# from a fresh clone, so anything not in the repo simply does not exist there.
+!assets/music/*.mp3
+!assets/music/*.wav
