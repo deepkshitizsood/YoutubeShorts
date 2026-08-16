@@ -1,7 +1,7 @@
-"""Composites shots (images with Ken Burns motion, or the optional hero video
-clip) + narration + background music + word-pop captions into the final MP4,
-entirely via ffmpeg subprocess calls (no moviepy dependency, keeps the
-GitHub Actions runner fast and light).
+"""Composites shots (stock clips, or images with Ken Burns motion) + narration
++ background music + word-pop captions into the final MP4, entirely via ffmpeg
+subprocess calls (no moviepy dependency, keeps the GitHub Actions runner fast
+and light).
 """
 from __future__ import annotations
 

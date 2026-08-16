@@ -4,7 +4,6 @@
 channel:
   name: "Factodixs"
   handle: "@Factodixs"
-  timezone: "America/Los_Angeles"   # YouTube API quota resets at midnight Pacific
 
 posting:
   # 3/day is the practical ceiling: 1->2 nearly triples subscriber growth and
@@ -54,8 +53,6 @@ budget:
   monthly_cap_usd: 50.0
   # Soft warning threshold - below this the pipeline runs normally.
   warn_threshold_usd: 35.0
-  # Above this, visuals.py skips the optional hero AI-video clip and uses images only.
-  hero_clip_cutoff_usd: 40.0
 
 providers:
   llm:
@@ -80,23 +77,7 @@ providers:
     # different zoom direction, which reads as a new cut. Keeps spend bounded
     # even if stock footage is unavailable.
     max_per_video: 7
-  hero_video_clip:
-    provider: runway
-    model: gen4_turbo
-    clip_seconds: 4
-    est_cost_per_second_usd: 0.05
-    # Disabled by default: tested Aug 14 2026 - a single animated clip blended into an
-    # otherwise-static-image video wasn't a large enough quality lift for 2.5x the per-clip
-    # cost. Flip to true to re-enable (also auto-disabled by budget.py past hero_clip_cutoff_usd).
-    enabled: false
 
 assembly:
-  resolution: [1080, 1920]
-  fps: 30
-  # Caption font: "DejaVu Sans" ships preinstalled on the GH Actions ubuntu-latest
-  # runner (via fonts-dejavu-core). Drop a .ttf into assets/fonts/ and change the
-  # Fontname in src/assemble.py's ASS_HEADER to use a custom font instead.
-  font: "DejaVu Sans"
-  caption_style: "word-by-word highlight"
   music_dir: "assets/music"
   music_volume_db: -18

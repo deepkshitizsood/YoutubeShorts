@@ -59,10 +59,3 @@ def status(ledger: dict, config: dict) -> Status:
     return "ok"
 
 
-def hero_clip_allowed(ledger: dict, config: dict) -> bool:
-    """Auto-disables the optional AI-video hook clip once month-to-date spend
-    crosses hero_clip_cutoff_usd, so a heavy month can't blow through the cap."""
-    if not config["providers"]["hero_video_clip"].get("enabled", True):
-        return False
-    spend = month_to_date_spend(ledger)
-    return spend < config["budget"]["hero_clip_cutoff_usd"]
