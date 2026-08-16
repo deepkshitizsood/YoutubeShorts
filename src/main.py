@@ -59,6 +59,7 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
 
     brief = strategy.build_strategy_brief(config)
     print(f"[strategy] Pillar: {brief['pillar_id']} (exploration={brief['is_exploration']})")
+    strategy.print_learning_report()
 
     used_topics = strategy.used_topics()
     data = script_gen.generate_unique_script(config, brief, used_topics)
