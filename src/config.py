@@ -34,5 +34,18 @@ def env(name: str, required: bool = True) -> str | None:
 
 
 def ensure_dirs() -> None:
+    """Creates the directories and state files the pipeline assumes exist.
+
+    The loaders all open these files directly, so a fresh clone missing any of
+    them would die on FileNotFoundError before the run even starts.
+    """
     DATA_DIR.mkdir(exist_ok=True)
     OUTPUT_DIR.mkdir(exist_ok=True)
+
+    for path, initial in (
+        (PERFORMANCE_LOG_PATH, "[]\n"),
+        (CONTENT_HISTORY_PATH, "[]\n"),
+        (SPEND_LEDGER_PATH, '{\n  "entries": []\n}\n'),
+    ):
+        if not path.exists():
+            path.write_text(initial, encoding="utf-8")

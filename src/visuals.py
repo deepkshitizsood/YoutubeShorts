@@ -13,12 +13,14 @@ shapes below are correct as of Aug 2026 but are the most likely thing to drift.
 from __future__ import annotations
 
 import base64
+import sys
 import time
 from pathlib import Path
 
 import requests
 
 from . import config as cfg
+from .http_util import raise_for_retryable_status, retry_call
 
 GEMINI_IMAGE_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 RUNWAY_BASE = "https://api.dev.runwayml.com/v1"
@@ -36,21 +38,56 @@ def generate_image(config: dict, prompt: str) -> bytes:
             "imageConfig": {"aspectRatio": "9:16"},
         },
     }
-    resp = requests.post(url, headers={"x-goog-api-key": api_key}, json=payload, timeout=60)
-    if not resp.ok:
-        raise RuntimeError(f"Gemini image request failed ({resp.status_code}): {resp.text}")
-    parts = resp.json()["candidates"][0]["content"]["parts"]
-    image_part = next(p for p in parts if "inlineData" in p)
+    def _call() -> dict:
+        resp = requests.post(url, headers={"x-goog-api-key": api_key}, json=payload, timeout=90)
+        raise_for_retryable_status(resp, "Gemini image request")
+        return resp.json()
+
+    body = retry_call(_call, description="Gemini image generation")
+
+    candidates = body.get("candidates") or []
+    if not candidates:
+        raise RuntimeError(
+            f"Gemini returned no candidates for prompt {prompt[:120]!r}. "
+            f"Response: {str(body)[:400]}"
+        )
+
+    parts = candidates[0].get("content", {}).get("parts", [])
+    image_part = next((p for p in parts if "inlineData" in p), None)
+    if image_part is None:
+        # Usually a safety refusal: the model answers with a text part explaining
+        # why, instead of an image. Surface that text - it names the actual problem.
+        text = " ".join(p.get("text", "") for p in parts).strip()
+        finish = candidates[0].get("finishReason", "unknown")
+        raise RuntimeError(
+            f"Gemini returned no image for prompt {prompt[:120]!r} "
+            f"(finishReason={finish}). Model said: {text[:300] or '<no text>'}"
+        )
     return base64.b64decode(image_part["inlineData"]["data"])
 
 
 def generate_images_for_shots(config: dict, shot_list: list[dict], out_dir: Path) -> list[Path]:
+    """Generates one image per shot, tolerating individual shot failures.
+
+    A permanent failure on one shot (typically a safety refusal on an unlucky
+    prompt) should not throw away the whole run along with everything already
+    paid for, so a failed shot reuses the previous shot's image. The first shot
+    has nothing to fall back to, so that one is still fatal.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
-    paths = []
+    paths: list[Path] = []
     for shot in shot_list:
-        img_bytes = generate_image(config, shot["visual_prompt"])
         path = out_dir / f"shot_{shot['index']:02d}.png"
-        path.write_bytes(img_bytes)
+        try:
+            path.write_bytes(generate_image(config, shot["visual_prompt"]))
+        except Exception as e:
+            if not paths:
+                raise
+            print(
+                f"[visuals] Shot {shot['index']} failed ({e}); reusing previous image.",
+                file=sys.stderr,
+            )
+            path = paths[-1]
         paths.append(path)
     return paths
 

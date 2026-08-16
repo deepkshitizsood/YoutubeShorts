@@ -7,6 +7,7 @@ import re
 from anthropic import Anthropic
 
 from . import config as cfg
+from .http_util import RetryableError, retry_call
 
 SYSTEM_PROMPT = """You write scripts for a daily YouTube Shorts channel about surprising facts.
 You must return ONLY valid JSON matching the schema given in the user message - no prose,
@@ -55,13 +56,20 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
         avoid_topics=", ".join(content_cfg["avoid_topics"]),
     )
 
-    response = client.messages.create(
-        model=config["providers"]["llm"]["model"],
-        max_tokens=2000,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    raw_text = response.content[0].text.strip()
+    def _call() -> str:
+        response = client.messages.create(
+            model=config["providers"]["llm"]["model"],
+            max_tokens=4000,  # a 9-shot list with verbose visual_prompts runs close to 2k
+            system=SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        # A truncated response yields unparseable JSON; retrying is worth a shot
+        # since the model may produce a more compact shot list next time.
+        if response.stop_reason == "max_tokens":
+            raise RetryableError("Claude response hit max_tokens and was truncated")
+        return response.content[0].text.strip()
+
+    raw_text = retry_call(_call, description="Claude script generation")
     data = _parse_json_response(raw_text)
 
     required_keys = {"topic", "title", "description", "tags", "hook", "script", "shot_list"}
@@ -79,11 +87,17 @@ def _parse_json_response(raw_text: str) -> dict:
     it wraps the JSON in a markdown fence) rather than crashing the whole run."""
     try:
         return json.loads(raw_text)
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
         match = re.search(r"\{.*\}", raw_text, re.DOTALL)
-        if not match:
-            raise
-        return json.loads(match.group(0))
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except json.JSONDecodeError:
+                pass  # fall through to the combined error below
+        raise ValueError(
+            f"Could not parse JSON from Claude response ({e}). "
+            f"First 300 chars: {raw_text[:300]!r}"
+        ) from e
 
 
 def _fixup_shot_word_counts(data: dict) -> None:

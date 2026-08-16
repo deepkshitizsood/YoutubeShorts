@@ -9,7 +9,7 @@ budget without needing reconciliation against provider invoices.
 from __future__ import annotations
 
 import json
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Literal
 
 from . import config as cfg
@@ -30,7 +30,7 @@ def save_ledger(ledger: dict) -> None:
 def record_spend(ledger: dict, item: str, usd: float, video_id: str | None = None) -> None:
     ledger["entries"].append(
         {
-            "date": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+            "date": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
             "item": item,
             "usd": round(usd, 4),
             "video_id": video_id,
@@ -39,7 +39,10 @@ def record_spend(ledger: dict, item: str, usd: float, video_id: str | None = Non
 
 
 def month_to_date_spend(ledger: dict, today: date | None = None) -> float:
-    today = today or date.today()
+    # Entries are stamped in UTC, so the month bucket must be UTC too - using
+    # local date here mis-buckets spend for several hours around each month
+    # boundary when run outside UTC.
+    today = today or datetime.now(timezone.utc).date()
     prefix = f"{today.year:04d}-{today.month:02d}"
     return round(
         sum(e["usd"] for e in ledger["entries"] if e["date"].startswith(prefix)), 4

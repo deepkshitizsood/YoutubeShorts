@@ -9,10 +9,12 @@ from __future__ import annotations
 import base64
 import re
 from dataclasses import dataclass
+from xml.sax.saxutils import escape as xml_escape
 
 import requests
 
 from . import config as cfg
+from .http_util import raise_for_retryable_status, retry_call
 
 TTS_ENDPOINT = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"  # v1 doesn't support enableTimePointing
 
@@ -31,8 +33,14 @@ class NarrationResult:
 
 
 def _build_ssml(script: str) -> tuple[str, list[str]]:
+    """Wraps each word in an SSML <mark> so the response carries per-word timings.
+
+    Words are XML-escaped: an unescaped '&' (R&B, AT&T) or '<' makes the whole
+    document malformed, which the API rejects with a 400 - fatal to a run that
+    has already paid for script generation.
+    """
     words = script.split()
-    marked = " ".join(f'<mark name="w{i}"/>{w}' for i, w in enumerate(words))
+    marked = " ".join(f'<mark name="w{i}"/>{xml_escape(w)}' for i, w in enumerate(words))
     ssml = f"<speak>{marked}</speak>"
     return ssml, words
 
@@ -52,16 +60,29 @@ def synthesize(config: dict, script: str) -> NarrationResult:
         "enableTimePointing": ["SSML_MARK"],
     }
 
-    resp = requests.post(TTS_ENDPOINT, params={"key": api_key}, json=payload, timeout=60)
-    if not resp.ok:
-        raise RuntimeError(f"Cloud TTS request failed ({resp.status_code}): {resp.text}")
-    data = resp.json()
+    def _call() -> dict:
+        resp = requests.post(TTS_ENDPOINT, params={"key": api_key}, json=payload, timeout=60)
+        raise_for_retryable_status(resp, "Cloud TTS request")
+        return resp.json()
+
+    data = retry_call(_call, description="Cloud TTS synthesis")
 
     audio_bytes = base64.b64decode(data["audioContent"])
     timepoints = {tp["markName"]: tp["timeSeconds"] for tp in data.get("timepoints", [])}
 
+    # Without timepoints every word would silently default to t=0, producing a
+    # video where all captions stack on the first frame and every shot window
+    # collapses to its minimum - a broken upload rather than a failed run.
+    missing = [i for i in range(len(words)) if f"w{i}" not in timepoints]
+    if missing:
+        raise RuntimeError(
+            f"Cloud TTS returned {len(timepoints)} timepoints for {len(words)} words "
+            f"({len(missing)} missing). Caption sync would be broken - refusing to continue. "
+            f"Check that voice '{providers['voice']}' supports SSML <mark> timepointing."
+        )
+
     word_timings = [
-        WordTiming(word=w, start_seconds=float(timepoints.get(f"w{i}", 0.0)))
+        WordTiming(word=w, start_seconds=float(timepoints[f"w{i}"]))
         for i, w in enumerate(words)
     ]
 

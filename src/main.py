@@ -8,6 +8,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -19,11 +20,27 @@ from . import config as cfg
 from . import budget, strategy, script_gen, tts, visuals, assemble, upload, analytics
 
 
+def _safe_slug(topic: str) -> str:
+    """Makes an LLM-supplied topic safe to use as a directory name."""
+    slug = re.sub(r"[^A-Za-z0-9_-]+", "_", topic).strip("_")
+    return (slug or "untitled")[:60]
+
+
 def run(dry_run: bool) -> None:
     cfg.ensure_dirs()
     config = cfg.load_config()
     ledger = budget.load_ledger()
+    # Spend is recorded into `ledger` as each paid API call happens, but only
+    # persisted here in `finally` - otherwise a crash in visuals/assembly/upload
+    # discards money already spent and the monthly cap never sees it.
+    try:
+        _run_pipeline(dry_run, config, ledger)
+    finally:
+        budget.save_ledger(ledger)
+        print(f"[budget] Month-to-date spend: ${budget.month_to_date_spend(ledger):.2f}")
 
+
+def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     status = budget.status(ledger, config)
     if status == "over":
         print(f"[budget] Monthly cap of ${config['budget']['monthly_cap_usd']} reached. Skipping run.")
@@ -47,7 +64,7 @@ def run(dry_run: bool) -> None:
     print(f"[script] Topic: {data['topic']} | Title: {data['title']}")
     budget.record_spend(ledger, "llm_script", config["providers"]["llm"]["est_cost_per_script_usd"])
 
-    run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + data["topic"]
+    run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + _safe_slug(data["topic"])
     run_dir = cfg.OUTPUT_DIR / run_folder_name
     tmp_dir = run_dir / "tmp"
     tmp_dir.mkdir(parents=True, exist_ok=True)
@@ -92,29 +109,30 @@ def run(dry_run: bool) -> None:
     print(f"[assemble] Final video: {final_path}")
 
     video_id = None
-    if not dry_run:
-        video_id = upload.upload_short(
-            video_path=final_path,
-            title=data["title"],
-            description=data["description"],
-            tags=data["tags"],
-            visibility=config["posting"]["visibility_on_launch"],
-        )
-        print(f"[upload] Published as video_id={video_id}")
-    else:
-        print("[upload] Skipped (--dry-run)")
-
-    strategy.append_content_history({
-        "topic": data["topic"],
-        "pillar_id": brief["pillar_id"],
-        "title": data["title"],
-        "video_id": video_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "dry_run": dry_run,
-    })
-
-    budget.save_ledger(ledger)
-    print(f"[budget] Month-to-date spend: ${budget.month_to_date_spend(ledger):.2f}")
+    try:
+        if not dry_run:
+            video_id = upload.upload_short(
+                video_path=final_path,
+                title=data["title"],
+                description=data["description"],
+                tags=data["tags"],
+                visibility=config["posting"]["visibility_on_launch"],
+            )
+            print(f"[upload] Published as video_id={video_id}")
+        else:
+            print("[upload] Skipped (--dry-run)")
+    finally:
+        # Recorded even if the upload throws: if the insert actually landed
+        # before erroring, tomorrow's run must still know this topic is used,
+        # or it regenerates the same one and double-posts it.
+        strategy.append_content_history({
+            "topic": data["topic"],
+            "pillar_id": brief["pillar_id"],
+            "title": data["title"],
+            "video_id": video_id,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "dry_run": dry_run,
+        })
 
 
 def main() -> None:
