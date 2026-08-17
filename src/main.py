@@ -67,6 +67,16 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         f"[script] Topic: {data['topic']} | Length: {data.get('length_variant', '?')} "
         f"| Title: {data['title']}"
     )
+    print(
+        f"[verify] {data.get('web_searches', 0)} web search(es), "
+        f"{len(data.get('sources') or [])} source(s) | claim: {data.get('central_claim', 'n/a')}"
+    )
+    if not data.get("web_searches"):
+        print(
+            "[verify] WARNING: script was written with no web search - claims are "
+            "unverified.",
+            file=sys.stderr,
+        )
     budget.record_spend(ledger, "llm_script", config["providers"]["llm"]["est_cost_per_script_usd"])
 
     run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + _safe_slug(data["topic"])
@@ -130,6 +140,10 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "video_id": video_id,
             "length_variant": data.get("length_variant"),
             "mood": data.get("mood"),
+            # Audit trail: if a viewer disputes a claim, this is what was checked.
+            "central_claim": data.get("central_claim"),
+            "sources": data.get("sources"),
+            "web_searches": data.get("web_searches"),
             "stock_shots": sum(1 for k in shot_kinds if k == "video"),
             "total_shots": len(shot_kinds),
             "created_at": datetime.now(timezone.utc).isoformat(),
