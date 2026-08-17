@@ -198,9 +198,38 @@ def _escape_filter_path(path: Path) -> str:
     return path.as_posix().replace("\\", "/").replace(":", r"\:")
 
 
-def pick_background_track(music_dir: Path) -> Path | None:
-    tracks = list(music_dir.glob("*.mp3")) + list(music_dir.glob("*.wav"))
-    return random.choice(tracks) if tracks else None
+AUDIO_GLOBS = ("*.mp3", "*.wav")
+
+
+def _audio_files(directory: Path, recursive: bool = False) -> list[Path]:
+    if not directory.is_dir():
+        return []
+    files: list[Path] = []
+    for pattern in AUDIO_GLOBS:
+        files.extend(directory.rglob(pattern) if recursive else directory.glob(pattern))
+    return sorted(files)
+
+
+def pick_background_track(music_dir: Path, mood: str | None = None) -> Path | None:
+    """Picks a music bed, preferring the folder matching this video's mood.
+
+    Degrades rather than fails: an empty mood folder falls back to any track
+    anywhere under music_dir, and no music at all returns None so the caller
+    renders narration-only.
+    """
+    if mood:
+        mood_tracks = _audio_files(music_dir / mood)
+        if mood_tracks:
+            return random.choice(mood_tracks)
+
+    fallback = _audio_files(music_dir, recursive=True)
+    return random.choice(fallback) if fallback else None
+
+
+def pick_sfx(sfx_dir: Path, kind: str) -> Path | None:
+    """Picks a sound effect of the given kind ("hook" or "transition")."""
+    options = _audio_files(sfx_dir / kind)
+    return random.choice(options) if options else None
 
 
 def mux_final(
@@ -211,7 +240,17 @@ def mux_final(
     music_volume_db: float,
     out_path: Path,
     audio_pad_seconds: float = 0.0,
+    hook_sfx: Path | None = None,
+    transition_sfx: list[tuple[Path, float]] | None = None,
+    assembly_cfg: dict | None = None,
 ) -> None:
+    """Burns captions and builds the final audio mix.
+
+    Audio layers, quietest to loudest: a music bed that ducks under speech, soft
+    whooshes at a few beat changes, an impact on the hook, and the narration on
+    top. All of it is normalized to -14 LUFS last.
+    """
+    assembly_cfg = assembly_cfg or {}
     # loudnorm targets -14 LUFS, the level YouTube normalizes toward, so playback
     # volume is consistent across videos instead of tracking whatever level the
     # TTS happened to return.
@@ -221,27 +260,77 @@ def mux_final(
     # -filter_complex, which is ambiguous about which stream it applies to).
     chains = [f"[0:v]ass={_escape_filter_path(captions_ass)}[v]"]
     inputs = ["-i", str(silent_video_path), "-i", str(narration_wav)]
+    next_input = 2
+
+    duck_cfg = assembly_cfg.get("ducking") or {}
+    ducking_on = bool(music_path) and duck_cfg.get("enabled", False)
 
     # The visual loop tail runs past the end of narration, so the audio is padded
     # with matching silence - otherwise -shortest would trim the tail back off.
+    narration_src = "[1:a]"
     if audio_pad_seconds > 0:
-        chains.append(f"[1:a]apad=pad_dur={audio_pad_seconds:.3f}[narr]")
+        chains.append(f"[1:a]apad=pad_dur={audio_pad_seconds:.3f}[narrpad]")
+        narration_src = "[narrpad]"
+
+    if ducking_on:
+        # sidechaincompress consumes its key input, so narration is split: one
+        # copy is heard, the other only drives the ducking.
+        chains.append(f"{narration_src}asplit=2[narr][narrkey]")
         narration_label = "[narr]"
     else:
-        narration_label = "[1:a]"
+        narration_label = narration_src
+
+    mix_labels = [narration_label]
 
     if music_path:
         inputs += ["-stream_loop", "-1", "-i", str(music_path)]
-        # normalize=0 is essential: amix's default rescales every input by
-        # weight/sum(weights), which would drop the narration ~4dB purely as a
-        # side effect of adding a music bed.
-        chains += [
-            f"[2:a]volume={music_volume_db}dB[music]",
-            f"{narration_label}[music]amix=inputs=2:duration=first:normalize=0[mixed]",
-            f"[mixed]{loudnorm}[aout]",
-        ]
+        music_idx = next_input
+        next_input += 1
+        chains.append(f"[{music_idx}:a]volume={music_volume_db}dB[musicraw]")
+        if ducking_on:
+            chains.append(
+                f"[musicraw][narrkey]sidechaincompress="
+                f"threshold={duck_cfg.get('threshold', 0.05)}:"
+                f"ratio={duck_cfg.get('ratio', 8)}:"
+                f"attack={duck_cfg.get('attack_ms', 20)}:"
+                f"release={duck_cfg.get('release_ms', 300)}[music]"
+            )
+        else:
+            chains.append("[musicraw]anull[music]")
+        mix_labels.append("[music]")
+
+    if hook_sfx:
+        inputs += ["-i", str(hook_sfx)]
+        idx = next_input
+        next_input += 1
+        chains.append(
+            f"[{idx}:a]volume={assembly_cfg.get('hook_volume_db', -8)}dB[hooksfx]"
+        )
+        mix_labels.append("[hooksfx]")
+
+    for n, (sfx_path, at_seconds) in enumerate(transition_sfx or []):
+        inputs += ["-i", str(sfx_path)]
+        idx = next_input
+        next_input += 1
+        delay_ms = max(int(at_seconds * 1000), 0)
+        # adelay needs a value per channel; `all=1` applies one value to every channel.
+        chains.append(
+            f"[{idx}:a]adelay={delay_ms}:all=1,"
+            f"volume={assembly_cfg.get('transition_volume_db', -16)}dB[tsfx{n}]"
+        )
+        mix_labels.append(f"[tsfx{n}]")
+
+    if len(mix_labels) == 1:
+        chains.append(f"{mix_labels[0]}{loudnorm}[aout]")
     else:
-        chains.append(f"{narration_label}{loudnorm}[aout]")
+        # normalize=0 is essential: amix's default rescales every input by
+        # weight/sum(weights), so each added layer would quietly attenuate the
+        # narration - which matters far more now there are up to five inputs.
+        chains.append(
+            f"{''.join(mix_labels)}amix=inputs={len(mix_labels)}:"
+            f"duration=first:normalize=0[mixed]"
+        )
+        chains.append(f"[mixed]{loudnorm}[aout]")
 
     _run([
         "ffmpeg", "-y", *inputs,
@@ -268,6 +357,7 @@ def assemble_video(
     tmp_dir: Path,
     out_path: Path,
     hook_overlay: str | None = None,
+    mood: str | None = None,
 ) -> Path:
     tmp_dir.mkdir(parents=True, exist_ok=True)
     total_duration = ffprobe_duration(narration_wav_path)
@@ -306,18 +396,64 @@ def assemble_video(
     captions_path = tmp_dir / "captions.ass"
     build_word_pop_captions(word_timings, total_duration, captions_path, hook_overlay=hook_overlay)
 
-    music_dir = cfg.REPO_ROOT / config["assembly"]["music_dir"]
-    music_path = pick_background_track(music_dir) if music_dir.exists() else None
-    if music_path:
-        print(f"[assemble] Background music: {music_path.name}")
+    assembly_cfg = config["assembly"]
+    music_dir = cfg.REPO_ROOT / assembly_cfg["music_dir"]
+    sfx_dir = cfg.REPO_ROOT / assembly_cfg.get("sfx_dir", "assets/sfx")
+
+    music_path = pick_background_track(music_dir, mood)
+    hook_sfx = pick_sfx(sfx_dir, "hook")
+    transition_sfx = _pick_transition_sfx(
+        sfx_dir, windows, total_duration, assembly_cfg.get("max_transitions", 3)
+    )
+
+    print(
+        f"[assemble] Audio - music: {music_path.name if music_path else 'none'}"
+        f" (mood={mood or 'n/a'}), hook sfx: {hook_sfx.name if hook_sfx else 'none'},"
+        f" transitions: {len(transition_sfx)}"
+    )
 
     mux_final(
         silent_video_path=silent_concat,
         narration_wav=narration_wav_path,
         captions_ass=captions_path,
         music_path=music_path,
-        music_volume_db=config["assembly"]["music_volume_db"],
+        music_volume_db=assembly_cfg["music_volume_db"],
         out_path=out_path,
         audio_pad_seconds=loop_tail_seconds,
+        hook_sfx=hook_sfx,
+        transition_sfx=transition_sfx,
+        assembly_cfg=assembly_cfg,
     )
     return out_path
+
+
+def _pick_transition_sfx(
+    sfx_dir: Path,
+    windows: list[tuple[float, float]],
+    total_duration: float,
+    max_transitions: int,
+) -> list[tuple[Path, float]]:
+    """Chooses a few shot boundaries to accent with a whoosh.
+
+    Boundaries are spread evenly through the middle of the video rather than
+    landing on every cut: the point is an occasional pattern interrupt, and a
+    whoosh on all 12-18 cuts would just be noise. The first boundary is skipped
+    because the hook SFX already covers t=0.
+    """
+    if max_transitions <= 0 or len(windows) < 3:
+        return []
+
+    candidates = [start for start, _ in windows[1:] if 0.5 < start < total_duration - 0.5]
+    if not candidates:
+        return []
+
+    count = min(max_transitions, len(candidates))
+    step = len(candidates) / (count + 1)
+    chosen_times = [candidates[min(int(step * (i + 1)), len(candidates) - 1)] for i in range(count)]
+
+    picks = []
+    for t in sorted(set(chosen_times)):
+        sfx = pick_sfx(sfx_dir, "transition")
+        if sfx:
+            picks.append((sfx, t))
+    return picks

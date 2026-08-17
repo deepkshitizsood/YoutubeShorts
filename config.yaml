@@ -33,6 +33,15 @@ content:
   hook_style: "Question or shocking claim in the first 1.5 seconds. No slow intros."
   cta: "Follow for more."
 
+  # The LLM tags each video with one of these, and the pipeline picks a music bed
+  # from the matching assets/music/<mood>/ folder. Adding a mood here means adding
+  # the folder too - an unmatched mood falls back to any available track.
+  moods:
+    - energetic     # surprising / impressive facts
+    - mysterious    # unexplained / counter-intuitive
+    - dramatic      # scale, danger, extremes
+    - uplifting     # wholesome / positive payoffs
+
   # Length is deliberately varied so the analytics loop can learn which performs
   # better on THIS channel. Published benchmarks disagree: sub-30s Shorts get
   # 70-85% completion vs 50-65% for 30-60s, but longer Shorts have been shown to
@@ -80,4 +89,21 @@ providers:
 
 assembly:
   music_dir: "assets/music"
-  music_volume_db: -18
+  # Music sits well under the voice; ducking (below) dips it further while the
+  # narrator is actually speaking. Unverified until the first render with music -
+  # no video has ever had a bed, so expect one tuning pass.
+  music_volume_db: -20
+
+  sfx_dir: "assets/sfx"
+  hook_volume_db: -8          # should be clearly audible - it carries the hook
+  transition_volume_db: -16   # should be felt more than heard
+  max_transitions: 3          # a whoosh on every cut is noise, not a pattern interrupt
+
+  # Sidechain ducking: the music dips automatically whenever the narrator speaks,
+  # instead of being pinned at one compromise level for the whole video.
+  ducking:
+    enabled: true
+    threshold: 0.05
+    ratio: 8
+    attack_ms: 20
+    release_ms: 300

@@ -1,0 +1,32 @@
+name: Test - Audio Mix
+
+# The audio filtergraph (sidechain ducking, delayed SFX layers, loudnorm) is the
+# most intricate ffmpeg in the project and ffmpeg only exists on the runner, so
+# this validates it with synthetic tones instead of finding out on a real upload.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "src/assemble.py"
+      - "scripts/test_audio_mix.py"
+      - "config.yaml"
+
+jobs:
+  test-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ffmpeg and caption font
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run audio mix test
+        run: python -m scripts.test_audio_mix

@@ -45,6 +45,8 @@ Write one new YouTube Short. Return JSON with exactly this schema:
   "hook": "the first spoken sentence, <=8 words, a punchy standalone claim or question",
   "hook_overlay": "3-6 words in ALL CAPS shown on screen from the very first frame,
     capturing the hook visually for viewers who watch muted",
+  "mood": "exactly one of: {moods} - the emotional register of this fact, used to
+    pick a matching background music bed",
   "script": "the FULL narration script (hook included), {word_target} words, spoken conversationally",
   "shot_list": [
     {{"index": 0,
@@ -101,6 +103,7 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
         word_target=variant["words"],
         target_seconds=variant["seconds"],
         shot_count=variant["shots"],
+        moods=", ".join(content_cfg["moods"]),
     )
 
     def _call() -> str:
@@ -129,7 +132,23 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
 
     _fixup_shot_word_counts(data)
     data["length_variant"] = variant["name"]
+    data["mood"] = _validate_mood(data.get("mood"), content_cfg["moods"])
     return data
+
+
+def _validate_mood(raw: str | None, allowed: list[str]) -> str:
+    """Coerces the LLM's mood to one of the configured values.
+
+    The mood selects a music folder, so an invented value would silently fall
+    back to random music - better to normalize it and be explicit when it's off.
+    """
+    candidate = (raw or "").strip().lower()
+    if candidate in allowed:
+        return candidate
+    fallback = allowed[0]
+    if candidate:
+        print(f"[script] Unrecognized mood {raw!r}; using {fallback!r}.", file=sys.stderr)
+    return fallback
 
 
 def generate_unique_script(config: dict, strategy_brief: dict, used_topics: set[str]) -> dict:

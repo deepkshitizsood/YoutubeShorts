@@ -102,6 +102,7 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         tmp_dir=tmp_dir,
         out_path=final_path,
         hook_overlay=data.get("hook_overlay"),
+        mood=data.get("mood"),
     )
     print(f"[assemble] Final video: {final_path}")
 
@@ -128,6 +129,7 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "title": data["title"],
             "video_id": video_id,
             "length_variant": data.get("length_variant"),
+            "mood": data.get("mood"),
             "stock_shots": sum(1 for k in shot_kinds if k == "video"),
             "total_shots": len(shot_kinds),
             "created_at": datetime.now(timezone.utc).isoformat(),
