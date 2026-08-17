@@ -12,17 +12,35 @@ from . import config as cfg
 from .http_util import RetryableError, retry_call
 
 SYSTEM_PROMPT = """You write scripts for a daily YouTube Shorts channel about surprising facts.
-You must return ONLY valid JSON matching the schema given in the user message - no prose,
-no markdown fences.
 
-What matters, in order:
+ACCURACY IS THE HARD CONSTRAINT. Viewers have publicly called out this channel for
+stating things that are false, which damages its credibility and its standing with
+YouTube. A slightly less amazing fact that is true always beats a spectacular one
+that is shaky.
+
+Before writing, use the web_search tool to verify the video's central claim and any
+specific number, date, superlative, or "first/only/most" statement you intend to say
+out loud. Rules:
+- If a claim does not hold up, do not soften it - pick a different fact entirely.
+- Prefer facts with clear scientific or historical consensus over contested,
+  fringe, or "widely repeated online" claims. Many popular "amazing facts" are
+  myths; assume a fact you recall from training may be one of them.
+- Do not state precise figures you have not verified. If sources disagree or give
+  ranges, either say the range naturally ("about", "roughly", "up to") or drop the
+  number.
+- Never invent studies, researchers, institutions, dates, or quotes.
+
+After accuracy, what matters, in order:
 1. The viewer decides whether to swipe away within the first second. The opening
    line must land a concrete, surprising claim immediately - never a preamble,
    never "have you ever wondered".
 2. Watch-through rate decides how far the video spreads. Every sentence must earn
    the next one. No filler, no restating, no wind-down before the payoff.
 3. Rewatches are a powerful ranking signal, so the last line should loop back to
-   the opening idea, making the video feel seamless if it replays."""
+   the opening idea, making the video feel seamless if it replays.
+
+Your FINAL message must be ONLY valid JSON matching the schema in the user message -
+no prose, no markdown fences. Searching and reasoning happen before that."""
 
 USER_PROMPT_TEMPLATE = """Content pillar: {pillar_description}
 Hook style required: {hook_style}
@@ -47,6 +65,10 @@ Write one new YouTube Short. Return JSON with exactly this schema:
     capturing the hook visually for viewers who watch muted",
   "mood": "exactly one of: {moods} - the emotional register of this fact, used to
     pick a matching background music bed",
+  "central_claim": "the single factual claim this video rests on, stated plainly in
+    one sentence, as you verified it",
+  "sources": ["2-4 URLs you actually consulted that support central_claim - real URLs
+    returned by web_search, never invented or remembered"],
   "script": "the FULL narration script (hook included), {word_target} words, spoken conversationally",
   "shot_list": [
     {{"index": 0,
@@ -78,6 +100,61 @@ abstract, nature, object, or generic-figure imagery instead.
 """
 
 
+MAX_SEARCH_CONTINUATIONS = 4
+
+
+def _run_with_search(client: Anthropic, llm_cfg: dict, system: str, prompt: str):
+    """Runs the request with the server-side web_search tool, resuming if it pauses.
+
+    Server-side tools run their own sampling loop; when it hits the per-request
+    iteration limit the API returns stop_reason "pause_turn" with partial content.
+    Resuming means re-sending the conversation with the paused assistant turn
+    appended - not adding a "continue" message, which would derail the turn.
+    """
+    tools = [{
+        "type": llm_cfg.get("search_tool_type", "web_search_20260209"),
+        "name": "web_search",
+        "max_uses": llm_cfg.get("max_searches_per_script", 6),
+    }]
+    messages = [{"role": "user", "content": prompt}]
+
+    for _ in range(MAX_SEARCH_CONTINUATIONS):
+        response = client.messages.create(
+            model=llm_cfg["model"],
+            max_tokens=llm_cfg.get("max_tokens", 8000),
+            system=system,
+            tools=tools,
+            messages=messages,
+        )
+        if response.stop_reason != "pause_turn":
+            return response
+        messages = messages[:1] + [{"role": "assistant", "content": response.content}]
+
+    raise RetryableError(
+        f"Search loop still paused after {MAX_SEARCH_CONTINUATIONS} continuations"
+    )
+
+
+def _final_text(response) -> str:
+    """Extracts the model's answer text from a response that may contain tool blocks.
+
+    With web search enabled the response interleaves server_tool_use and
+    web_search_tool_result blocks with text, so content[0] is usually NOT the
+    answer. The JSON is whatever text the model wrote last.
+    """
+    texts = [b.text for b in response.content if b.type == "text" and b.text.strip()]
+    if not texts:
+        raise RetryableError("Response contained no text block (only tool activity)")
+    return texts[-1].strip()
+
+
+def _count_searches(response) -> int:
+    return sum(
+        1 for b in response.content
+        if b.type == "server_tool_use" and getattr(b, "name", "") == "web_search"
+    )
+
+
 def _pick_length_variant(config: dict) -> dict:
     """Chooses this run's target length from the configured variants.
 
@@ -106,23 +183,24 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
         moods=", ".join(content_cfg["moods"]),
     )
 
-    def _call() -> str:
-        response = client.messages.create(
-            model=config["providers"]["llm"]["model"],
-            max_tokens=4000,  # a 9-shot list with verbose visual_prompts runs close to 2k
-            system=SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": prompt}],
-        )
+    llm_cfg = config["providers"]["llm"]
+
+    def _call() -> tuple[str, int]:
+        response = _run_with_search(client, llm_cfg, SYSTEM_PROMPT, prompt)
         # A truncated response yields unparseable JSON; retrying is worth a shot
         # since the model may produce a more compact shot list next time.
         if response.stop_reason == "max_tokens":
             raise RetryableError("Claude response hit max_tokens and was truncated")
-        return response.content[0].text.strip()
+        return _final_text(response), _count_searches(response)
 
-    raw_text = retry_call(_call, description="Claude script generation")
+    raw_text, searches = retry_call(_call, description="Claude script generation")
     data = _parse_json_response(raw_text)
+    data["web_searches"] = searches
 
-    required_keys = {"topic", "title", "description", "tags", "hook", "script", "shot_list"}
+    required_keys = {
+        "topic", "title", "description", "tags", "hook", "script", "shot_list",
+        "central_claim", "sources",
+    }
     missing = required_keys - data.keys()
     if missing:
         raise ValueError(f"LLM output missing keys: {missing}")

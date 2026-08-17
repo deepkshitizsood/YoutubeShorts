@@ -66,8 +66,15 @@ budget:
 providers:
   llm:
     provider: anthropic
-    model: claude-haiku-4-5-20251001
-    est_cost_per_script_usd: 0.03
+    # Sonnet 5 rather than Haiku: viewers reported factually wrong claims, and the
+    # web_search_20260209 tool used to verify them requires Sonnet 5 / Opus 4.6+.
+    # Haiku can only use the older basic search variant.
+    model: claude-sonnet-5
+    max_tokens: 8000          # adaptive thinking is on by default and shares this budget
+    search_tool_type: web_search_20260209
+    max_searches_per_script: 6
+    # Sonnet 5 tokens + up to 6 searches at ~$0.01 each.
+    est_cost_per_script_usd: 0.09
   tts:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"
