@@ -195,5 +195,23 @@
     "total_shots": 18,
     "created_at": "2026-08-17T06:15:47.508173+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "koala_human_fingerprints",
+    "pillar_id": "this_or_that_facts",
+    "title": "The Animal With Your Exact Fingerprints \ud83d\udc28\ud83d\udd0d",
+    "video_id": "S8mIbufAZuI",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "central_claim": "Koalas are the only non-primate mammals known to have fingerprints, and research from the University of Adelaide found koala fingerprint ridge patterns are so similar to human ones that even microscopic analysis struggles to tell them apart.",
+    "sources": [
+      "https://www.pbs.org/wgbh/nova/article/koala-fingerprints/",
+      "https://www.snopes.com/fact-check/koala-fingerprints-crime-scene/"
+    ],
+    "web_searches": 2,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-08-17T07:46:10.623030+00:00",
+    "dry_run": false
   }
 ]
