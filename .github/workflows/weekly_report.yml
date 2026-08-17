@@ -1,0 +1,44 @@
+name: Weekly Performance Report
+
+# Files the report as a GitHub issue, which GitHub emails to the repo owner -
+# reusing the same notification path as the failure alerts, so no extra
+# credentials are needed.
+
+on:
+  schedule:
+    - cron: "30 3 * * 1"   # Mondays ~09:00 IST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build report
+        run: python -m scripts.weekly_report > report.md
+
+      - name: File report as an issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('report.md', 'utf8');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Weekly report - ${new Date().toISOString().slice(0, 10)}`,
+              body,
+              labels: ['weekly-report'],
+            });
