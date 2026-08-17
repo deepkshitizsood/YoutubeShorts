@@ -154,5 +154,24 @@
     "total_shots": 11,
     "created_at": "2026-08-17T03:57:55.463986+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "sharks_older_than_trees",
+    "pillar_id": "mind_blowing_facts",
+    "title": "Sharks Are Older Than Trees \ud83e\udd88\ud83c\udf33 (Fact Check)",
+    "video_id": null,
+    "length_variant": "short",
+    "mood": "mysterious",
+    "central_claim": "Sharks first appeared in Earth's oceans roughly 400+ million years ago, tens of millions of years before the first trees evolved on land.",
+    "sources": [
+      "https://a-z-animals.com/blog/sharks-are-older-than-trees-discover-the-worlds-longest-living-animals/",
+      "https://spacedaily.com/d-sharks-have-been-swimming-in-earths-oceans-for-roughly-450-million-years-which-means-they-predate-the-first-tree-by-about-65-million-years-and-when-sharks-first-appeared-the-only-plants-o/",
+      "https://acs.studentorg.berkeley.edu/blog/shark-evolution-timeline-how-ancient-ocean-predators-predate-earths-first-forests-by-65-million-years"
+    ],
+    "web_searches": 1,
+    "stock_shots": 5,
+    "total_shots": 11,
+    "created_at": "2026-08-17T05:43:59.853300+00:00",
+    "dry_run": true
   }
 ]
