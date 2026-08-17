@@ -2,61 +2,61 @@
   {
     "video_id": "FvWv-G5qNrU",
     "published_at": "2026-08-14T17:02:43Z",
-    "pulled_at": "2026-08-17T15:27:05.194600+00:00",
-    "hours_since_publish": 70.4,
-    "views": 352,
-    "likes": 4,
+    "pulled_at": "2026-08-17T23:15:31.896675+00:00",
+    "hours_since_publish": 78.2,
+    "views": 793,
+    "likes": 13,
     "comments": 0,
     "shares": 0,
     "average_view_duration_seconds": 20.0,
-    "average_view_percentage": 53.72
+    "average_view_percentage": 54.74
   },
   {
     "video_id": "J7K1zfED5ho",
     "published_at": "2026-08-14T17:22:55Z",
-    "pulled_at": "2026-08-17T15:27:05.194600+00:00",
-    "hours_since_publish": 70.1,
-    "views": 326,
-    "likes": 8,
+    "pulled_at": "2026-08-17T23:15:31.896675+00:00",
+    "hours_since_publish": 77.9,
+    "views": 522,
+    "likes": 14,
     "comments": 0,
     "shares": 0,
-    "average_view_duration_seconds": 14.0,
-    "average_view_percentage": 37.2
+    "average_view_duration_seconds": 13.0,
+    "average_view_percentage": 36.07
   },
   {
     "video_id": "LqYE_mSdaLA",
     "published_at": "2026-08-14T17:23:06Z",
-    "pulled_at": "2026-08-17T15:27:05.194600+00:00",
-    "hours_since_publish": 70.1,
-    "views": 1215,
-    "likes": 12,
+    "pulled_at": "2026-08-17T23:15:31.896675+00:00",
+    "hours_since_publish": 77.9,
+    "views": 1223,
+    "likes": 13,
     "comments": 0,
     "shares": 0,
     "average_view_duration_seconds": 18.0,
-    "average_view_percentage": 45.0
+    "average_view_percentage": 44.94
   },
   {
     "video_id": "Mv-01bJHnHw",
     "published_at": "2026-08-14T17:23:11Z",
-    "pulled_at": "2026-08-17T15:27:05.194600+00:00",
-    "hours_since_publish": 70.1,
-    "views": 2,
-    "likes": 0,
+    "pulled_at": "2026-08-17T23:15:31.896675+00:00",
+    "hours_since_publish": 77.9,
+    "views": 4,
+    "likes": 1,
     "comments": 0,
     "shares": 0,
-    "average_view_duration_seconds": 13.0,
-    "average_view_percentage": 26.08
+    "average_view_duration_seconds": 8.0,
+    "average_view_percentage": 17.25
   },
   {
     "video_id": "lxvVp0y1r0E",
     "published_at": "2026-08-14T23:17:00Z",
-    "pulled_at": "2026-08-17T15:27:05.194600+00:00",
-    "hours_since_publish": 64.2,
-    "views": 1,
-    "likes": 0,
+    "pulled_at": "2026-08-17T23:15:31.896675+00:00",
+    "hours_since_publish": 72.0,
+    "views": 18,
+    "likes": 1,
     "comments": 0,
     "shares": 0,
     "average_view_duration_seconds": 24.0,
-    "average_view_percentage": 61.0
+    "average_view_percentage": 61.56
   }
 ]
