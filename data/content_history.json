@@ -289,5 +289,24 @@
     "total_shots": 18,
     "created_at": "2026-08-18T15:38:57.201989+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "bulls_dont_see_red",
+    "pillar_id": "myth_busting",
+    "title": "Bulls Can't Even See the Color Red \ud83d\udc02",
+    "video_id": "gLhdDTODfP4",
+    "length_variant": "long",
+    "mood": "energetic",
+    "central_claim": "Bulls (like most cattle) are colorblind to red and green, so they charge a matador's cape because of its movement, not its red color.",
+    "sources": [
+      "https://www.snopes.com/fact-check/red-triggers-bulls/",
+      "https://www.livescience.com/33700-bulls-charge-red.html",
+      "https://a-z-animals.com/articles/why-the-red-cape-belief-about-bulls-is-actually-false/"
+    ],
+    "web_searches": 2,
+    "stock_shots": 8,
+    "total_shots": 18,
+    "created_at": "2026-08-18T23:23:17.123579+00:00",
+    "dry_run": false
   }
 ]
