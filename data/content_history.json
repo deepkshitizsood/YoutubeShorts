@@ -269,5 +269,25 @@
     "total_shots": 18,
     "created_at": "2026-08-18T07:32:53.420059+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "mercury_vs_venus_temperature",
+    "pillar_id": "this_or_that_facts",
+    "title": "Closest to the Sun... But NOT the Hottest? \ud83d\udd25",
+    "video_id": "PZwoNjrR4Q8",
+    "length_variant": "long",
+    "mood": "energetic",
+    "central_claim": "Venus, not Mercury, is the hottest planet in the solar system because its thick carbon dioxide atmosphere traps heat, even though Mercury orbits closer to the sun.",
+    "sources": [
+      "https://science.nasa.gov/venus/venus-facts/",
+      "https://www.nhm.ac.uk/discover/planet-venus.html",
+      "https://science.nasa.gov/resource/solar-system-temperatures/",
+      "https://www.dlr.de/en/latest/news/2025/small-and-full-of-extremes-how-heat-and-cold-influence-mercury"
+    ],
+    "web_searches": 4,
+    "stock_shots": 0,
+    "total_shots": 18,
+    "created_at": "2026-08-18T15:38:57.201989+00:00",
+    "dry_run": false
   }
 ]
