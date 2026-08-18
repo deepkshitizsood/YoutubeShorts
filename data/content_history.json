@@ -250,5 +250,24 @@
     "total_shots": 18,
     "created_at": "2026-08-17T23:20:00.470649+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "cleopatra_closer_to_moon_landing",
+    "pillar_id": "this_or_that_facts",
+    "title": "Cleopatra Is Closer to Us Than the Pyramids \ud83d\udc2a\ud83d\ude80",
+    "video_id": "ixN853M-EUE",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "central_claim": "Cleopatra lived closer in time to the 1969 Moon landing than to the construction of the Great Pyramid of Giza.",
+    "sources": [
+      "https://www.britannica.com/biography/Khufu",
+      "https://www.britannica.com/summary/Cleopatra-queen-of-Egypt",
+      "https://www.worldatlas.com/articles/so-cleopatra-lived-closer-in-time-to-the-first-lunar-landing-than-the-great-pyramids.html"
+    ],
+    "web_searches": 4,
+    "stock_shots": 5,
+    "total_shots": 18,
+    "created_at": "2026-08-18T07:32:53.420059+00:00",
+    "dry_run": false
   }
 ]
