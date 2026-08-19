@@ -327,5 +327,24 @@
     "total_shots": 11,
     "created_at": "2026-08-19T07:34:26.977506+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "immortal_jellyfish_aging_reversal",
+    "pillar_id": "mind_blowing_facts",
+    "title": "This Jellyfish Can Reverse Its Own Aging \ud83e\udebc",
+    "video_id": "7qVvOfb6Zj0",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "central_claim": "The species Turritopsis dohrnii can respond to damage, illness, or old age by using a process called transdifferentiation to revert its cells back into a juvenile polyp stage and restart its life cycle, a trait that has led scientists to call it biologically immortal.",
+    "sources": [
+      "https://www.amnh.org/explore/news-blogs/immortal-jellyfish",
+      "https://www.nhm.ac.uk/discover/immortal-jellyfish-secret-to-cheating-death.html",
+      "https://www.ebsco.com/research-starters/biology/turritopsis-dohrnii-immortal-jellyfish"
+    ],
+    "web_searches": 3,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-08-19T23:19:25.279727+00:00",
+    "dry_run": false
   }
 ]
