@@ -366,5 +366,25 @@
     "total_shots": 11,
     "created_at": "2026-08-20T07:35:50.581230+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "chameleon_color_change_myth",
+    "pillar_id": "myth_busting",
+    "title": "Chameleons Don't Change Color to Hide \ud83e\udd8e",
+    "video_id": "nXdjdxOK8lA",
+    "length_variant": "short",
+    "mood": "energetic",
+    "central_claim": "Chameleons primarily change color for social signaling (communication, mating, aggression) and thermoregulation, not to camouflage against predators \u2014 most species already resemble their surroundings before any color shift.",
+    "sources": [
+      "https://www.nationalgeographic.com/animals/article/chameleon-camouflage-color-change-myth-news",
+      "https://www.nationalgeographic.com/animals/reptiles/facts/veiled-chameleon",
+      "https://www.thenakedscientists.com/articles/questions/how-and-why-do-chameleons-change-colour",
+      "https://www.nationalgeographic.com/animals/article/color-change-camouflage-animals-explained"
+    ],
+    "web_searches": 3,
+    "stock_shots": 6,
+    "total_shots": 11,
+    "created_at": "2026-08-20T15:39:00.316311+00:00",
+    "dry_run": false
   }
 ]
