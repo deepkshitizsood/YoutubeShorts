@@ -386,5 +386,24 @@
     "total_shots": 11,
     "created_at": "2026-08-20T15:39:00.316311+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "moon_drifting_away_from_earth",
+    "pillar_id": "mind_blowing_facts",
+    "title": "The Moon Is Slowly Leaving Earth Forever \ud83c\udf19",
+    "video_id": "VM8dt9wW8E4",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "central_claim": "The Moon is receding from Earth at roughly 3.8 centimeters (about 1.5 inches) per year, a rate measured using laser reflectors left by Apollo astronauts, and at this rate total solar eclipses will eventually stop happening in roughly 600 million years.",
+    "sources": [
+      "https://www.jpl.nasa.gov/news/the-apollo-experiment-that-keeps-on-giving/",
+      "https://eclipse.gsfc.nasa.gov/SEhelp/ApolloLaser.html",
+      "https://www.space.com/37627-total-solar-eclipse-earth-moon-alignment-future.html"
+    ],
+    "web_searches": 6,
+    "stock_shots": 3,
+    "total_shots": 18,
+    "created_at": "2026-08-20T23:23:00.013184+00:00",
+    "dry_run": false
   }
 ]
