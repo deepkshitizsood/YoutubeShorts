@@ -442,5 +442,24 @@
     "total_shots": 11,
     "created_at": "2026-08-21T15:39:37.107018+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "sahara_vs_antarctica_desert",
+    "pillar_id": "this_or_that_facts",
+    "title": "The World's Biggest Desert Isn't Sand \u2744\ufe0f\ud83c\udfdc\ufe0f",
+    "video_id": "MBk6RBgsjeE",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "central_claim": "Because deserts are defined by low precipitation rather than sand or heat, Antarctica (about 5.5 million square miles) is actually the largest desert on Earth, significantly bigger than the Sahara (about 3.6 million square miles).",
+    "sources": [
+      "https://www.livescience.com/largest-desert-on-earth",
+      "https://www.worldatlas.com/geography/the-10-largest-deserts-in-the-world.html",
+      "https://spacedaily.com/d-the-sahara-is-usually-depicted-as-the-worlds-largest-desert-but-because-a-desert-is-defined-by-rainfall-rather-than-temperature-the-entire-continent-of-antarctica-is-technically-the-largest-desert/"
+    ],
+    "web_searches": 4,
+    "stock_shots": 10,
+    "total_shots": 18,
+    "created_at": "2026-08-21T23:20:53.316203+00:00",
+    "dry_run": false
   }
 ]
