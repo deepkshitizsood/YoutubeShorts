@@ -423,5 +423,24 @@
     "total_shots": 11,
     "created_at": "2026-08-21T07:36:40.637566+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "viking_horned_helmets_myth",
+    "pillar_id": "myth_busting",
+    "title": "Vikings Never Wore Horned Helmets \ud83e\udd2f",
+    "video_id": "cq09oilzJAY",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "central_claim": "Real Vikings did not wear horned helmets; the only confirmed Viking-era helmet found by archaeologists has no horns, and the horned-helmet image originated from an 1876 opera costume design for Wagner's Ring cycle.",
+    "sources": [
+      "https://www.history.com/articles/did-vikings-really-wear-horned-helmets",
+      "https://www.smithsonianmag.com/smart-news/iconic-viking-horned-helmets-actually-3000-years-old-180979339/",
+      "https://www.historyskills.com/classroom/year-8/viking-helmets/"
+    ],
+    "web_searches": 3,
+    "stock_shots": 1,
+    "total_shots": 11,
+    "created_at": "2026-08-21T15:39:37.107018+00:00",
+    "dry_run": false
   }
 ]
