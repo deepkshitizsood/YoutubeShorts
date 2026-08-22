@@ -461,5 +461,25 @@
     "total_shots": 18,
     "created_at": "2026-08-21T23:20:53.316203+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "everest_vs_challenger_deep",
+    "pillar_id": "this_or_that_facts",
+    "title": "The Ocean Could Swallow Everest Whole \ud83c\udf0a\ud83c\udfd4\ufe0f",
+    "video_id": "IiMGC5QmAGI",
+    "length_variant": "long",
+    "mood": "dramatic",
+    "central_claim": "The Challenger Deep in the Mariana Trench is deeper than Mount Everest is tall, so if Everest were placed at its bottom, the peak would still be covered by over a mile of water.",
+    "sources": [
+      "https://www.dailysabah.com/life/environment/growth-spurt-mount-everests-height-revised-to-8849-meters-china-and-nepal-announce",
+      "https://www.britannica.com/place/Challenger-Deep",
+      "https://media.fisheries.noaa.gov/dam-migration/marianas-trench-lesson-plan-poster-with-key.pdf",
+      "https://haexpeditions.com/advice/list-of-mount-everest-climbers/"
+    ],
+    "web_searches": 6,
+    "stock_shots": 6,
+    "total_shots": 18,
+    "created_at": "2026-08-22T07:27:25.166828+00:00",
+    "dry_run": false
   }
 ]
