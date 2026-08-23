@@ -520,5 +520,24 @@
     "total_shots": 18,
     "created_at": "2026-08-22T23:18:45.767744+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "great_pyramid_vs_woolly_mammoths",
+    "pillar_id": "this_or_that_facts",
+    "title": "Pyramids Are Older Than Some Mammoths \ud83d\udc18\ud83d\udd3a",
+    "video_id": "upbQWBnV3QI",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "central_claim": "A small population of woolly mammoths survived on Wrangel Island in the Arctic Ocean until roughly 4,000 years ago, about a thousand years after the Great Pyramid of Giza was completed around 2560 BC.",
+    "sources": [
+      "https://www.sciencedirect.com/science/article/pii/S0277379119301398",
+      "https://www.sciencedaily.com/releases/2019/10/191007081750.htm",
+      "https://www.britannica.com/place/Great-Pyramid-of-Giza"
+    ],
+    "web_searches": 5,
+    "stock_shots": 5,
+    "total_shots": 18,
+    "created_at": "2026-08-23T07:29:18.552840+00:00",
+    "dry_run": false
   }
 ]
