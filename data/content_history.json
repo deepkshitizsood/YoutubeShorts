@@ -559,5 +559,24 @@
     "total_shots": 11,
     "created_at": "2026-08-23T15:28:12.318313+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "blue_whale_heart_extreme_rate",
+    "pillar_id": "this_or_that_facts",
+    "title": "The Heart Too Big to Work? \ud83d\udc0b\u2764\ufe0f",
+    "video_id": "gO_ExFaBCcc",
+    "length_variant": "long",
+    "mood": "dramatic",
+    "central_claim": "A blue whale's heart weighs roughly 400 pounds and is about the size of a small car, and its heart rate swings from as low as 2 beats per minute while diving to about 37 beats per minute at the surface.",
+    "sources": [
+      "https://www.fisheries.noaa.gov/feature-story/big-hearted-blue-whale",
+      "https://news.stanford.edu/stories/2019/11/first-ever-recording-blue-whales-heart-rate",
+      "https://scripps.ucsd.edu/news/scientists-report-first-recording-blue-whales-heart-rate"
+    ],
+    "web_searches": 5,
+    "stock_shots": 6,
+    "total_shots": 18,
+    "created_at": "2026-08-23T23:18:43.947349+00:00",
+    "dry_run": false
   }
 ]
