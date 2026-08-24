@@ -618,5 +618,25 @@
     "total_shots": 18,
     "created_at": "2026-08-24T15:45:59.303295+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "lightning_hotter_than_sun",
+    "pillar_id": "this_or_that_facts",
+    "title": "Something on Earth Is Hotter Than the Sun \u26a1\u2600\ufe0f",
+    "video_id": "zQl4k6uH3ZE",
+    "length_variant": "long",
+    "mood": "dramatic",
+    "central_claim": "A lightning bolt heats the surrounding air to roughly 50,000\u00b0F, about five times hotter than the sun's surface (~10,000\u00b0F), but that heat lasts only a few thousandths of a second.",
+    "sources": [
+      "https://www.weather.gov/ffc/ltg",
+      "https://www.nssl.noaa.gov/education/svrwx101/lightning/faq/",
+      "https://www.britannica.com/science/How-Hot-Can-Lightning-Get",
+      "https://www.weather.gov/fgz/Lightning"
+    ],
+    "web_searches": 6,
+    "stock_shots": 7,
+    "total_shots": 18,
+    "created_at": "2026-08-24T23:21:26.752393+00:00",
+    "dry_run": false
   }
 ]
