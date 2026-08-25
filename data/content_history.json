@@ -678,5 +678,23 @@
     "total_shots": 18,
     "created_at": "2026-08-25T15:49:45.761303+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "trex_closer_to_humans_than_stegosaurus",
+    "pillar_id": "this_or_that_facts",
+    "title": "T-Rex Never Met a Stegosaurus \ud83e\udd96",
+    "video_id": "VZn1x8cwBwc",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "central_claim": "Tyrannosaurus rex lived closer in time to modern humans (about 66 million years ago to now) than to Stegosaurus, which went extinct roughly 80-plus million years before T. rex existed.",
+    "sources": [
+      "https://www.smithsonianmag.com/science-nature/on-dinosaur-time-65556840/",
+      "https://www.discovery.com/nature/Stegosaurus-Was-An-Ancient-Relic-TRex"
+    ],
+    "web_searches": 3,
+    "stock_shots": 2,
+    "total_shots": 11,
+    "created_at": "2026-08-25T23:22:51.187805+00:00",
+    "dry_run": false
   }
 ]
