@@ -658,5 +658,25 @@
     "total_shots": 18,
     "created_at": "2026-08-25T07:40:15.561102+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "polar_bear_penguin_never_meet",
+    "pillar_id": "this_or_that_facts",
+    "title": "Polar Bears & Penguins Have Never Met \ud83d\udc27\ud83d\udc3b\u200d\u2744\ufe0f",
+    "video_id": "letNb3aBlZk",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "central_claim": "Polar bears live only in the Arctic and penguins live almost entirely in the Southern Hemisphere around Antarctica, so the two species have never encountered each other in the wild.",
+    "sources": [
+      "https://cimi.org/blog/polar-bears-penguins-are-polar-opposites/",
+      "https://www.britannica.com/science/Why-Are-There-No-Penguins-at-the-North-Pole",
+      "https://oceanconservancy.org/blog/2016/06/30/poles-apart-the-differences-between-antarctica-and-the-arctic/",
+      "https://kids.nationalgeographic.com/nature/habitats/article/polar"
+    ],
+    "web_searches": 6,
+    "stock_shots": 8,
+    "total_shots": 18,
+    "created_at": "2026-08-25T15:49:45.761303+00:00",
+    "dry_run": false
   }
 ]
