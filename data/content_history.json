@@ -638,5 +638,25 @@
     "total_shots": 18,
     "created_at": "2026-08-24T23:21:26.752393+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "hundred_years_war_vs_thirty_years_war",
+    "pillar_id": "this_or_that_facts",
+    "title": "The War That Lied About Its Own Name \u2694\ufe0f",
+    "video_id": "Y3ZOAwqbR_M",
+    "length_variant": "long",
+    "mood": "dramatic",
+    "central_claim": "The Hundred Years' War actually lasted 116 years (1337\u20131453), while the Thirty Years' War lasted exactly 30 years (1618\u20131648).",
+    "sources": [
+      "https://www.britannica.com/summary/Hundred-Years-War",
+      "https://www.worldhistory.org/Hundred_Years'_War/",
+      "https://www.britannica.com/event/Thirty-Years-War",
+      "https://www.worldhistory.org/Thirty_Years'_War/"
+    ],
+    "web_searches": 3,
+    "stock_shots": 3,
+    "total_shots": 18,
+    "created_at": "2026-08-25T07:40:15.561102+00:00",
+    "dry_run": false
   }
 ]
