@@ -716,5 +716,24 @@
     "total_shots": 11,
     "created_at": "2026-08-26T08:25:12.031366+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "ten_percent_brain_myth",
+    "pillar_id": "myth_busting",
+    "title": "You Use 100% of Your Brain, Not 10% \ud83e\udde0",
+    "video_id": "5hh8CZeoYyk",
+    "length_variant": "short",
+    "mood": "energetic",
+    "central_claim": "The claim that humans only use 10 percent of their brains is a myth; brain imaging shows nearly all brain regions are active throughout the day, and damage to almost any area produces measurable effects.",
+    "sources": [
+      "https://www.scientificamerican.com/article/do-people-only-use-10-percent-of-their-brains/",
+      "https://www.brainfacts.org/thinking-sensing-and-behaving/thinking-and-awareness/2019/debunked-the-10-percent-brain-myth-061719",
+      "https://www.psychologicalscience.org/uncategorized/myth-we-only-use-10-of-our-brains.html"
+    ],
+    "web_searches": 3,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-08-26T16:23:17.143301+00:00",
+    "dry_run": false
   }
 ]
