@@ -735,5 +735,27 @@
     "total_shots": 11,
     "created_at": "2026-08-26T16:23:17.143301+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "asteroid_belt_mostly_empty",
+    "pillar_id": "space_myths",
+    "series_id": "how_big",
+    "title": "Asteroid Belt Isn't Crowded Like Movies Show \ud83d\ude80",
+    "video_id": null,
+    "length_variant": "short",
+    "mood": "mysterious",
+    "closing_question": "What other space myth do movies get wrong?",
+    "central_claim": "The asteroids in the main asteroid belt are so widely spaced, roughly 600,000 miles apart on average, that the belt is mostly empty space rather than the crowded rock field shown in movies, which is why spacecraft can fly through it without needing to dodge anything.",
+    "sources": [
+      "https://www.astronomy.com/science/how-do-spacecraft-avoid-collisions-in-the-asteroid-belt/",
+      "https://lucy.swri.edu/MainBeltDensity.html",
+      "https://earthsky.org/space/what-is-the-asteroid-belt/",
+      "https://www.universetoday.com/articles/far-asteroid-belt-earth"
+    ],
+    "web_searches": 1,
+    "stock_shots": 0,
+    "total_shots": 11,
+    "created_at": "2026-08-27T04:53:12.143514+00:00",
+    "dry_run": true
   }
 ]
