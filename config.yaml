@@ -155,7 +155,18 @@ providers:
     # retries and search-loop continuations). Real cost crossing this aborts the
     # script immediately instead of retrying into a multi-dollar single video -
     # see script_gen.py's LLMUsage / ScriptGenerationFailed.
-    max_cost_per_script_usd: 0.30
+    #
+    # Was set to 0.30 as an analytical guess on 2026-08-27, before any real
+    # response.usage data existed. The very first real dry-run under that
+    # ceiling showed a single normal, non-retried, non-continued script
+    # actually costs ~$0.89 (dominant cost is tokens, not the $0.01/search
+    # tool fee) - the guess undershot real cost by ~3x. Raised to give a small
+    # buffer over the observed number rather than fail every run outright.
+    # At 1 video/day this puts LLM cost alone at ~$27/month (~$35/month incl.
+    # TTS+images) - under the $50 cap, but with little room for a bad day.
+    # If real cost drifts further, the daily spend report will show it before
+    # the account runs dry again.
+    max_cost_per_script_usd: 1.10
   tts:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"
