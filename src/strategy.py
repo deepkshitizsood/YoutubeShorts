@@ -181,13 +181,34 @@ def print_learning_report() -> None:
     )
 
 
+def pick_series(config: dict, history: list[dict]) -> dict:
+    """Picks a recurring format for this video.
+
+    Deliberately just even rotation, not scored like pillars - there isn't yet
+    enough per-series data to bandit over, and the point of a series is
+    consistency (viewers and the algorithm both learning to recognise the
+    channel), not optimizing which one wins first.
+    """
+    series_list = config["content"]["series"]
+    counts = {s["id"]: 0 for s in series_list}
+    for h in history[-30:]:
+        sid = h.get("series_id")
+        if sid in counts:
+            counts[sid] += 1
+    least_used = min(series_list, key=lambda s: counts[s["id"]])
+    return least_used
+
+
 def build_strategy_brief(config: dict) -> dict:
     log = load_performance_log()
     history = load_content_history()
     pillar, is_exploration = pick_pillar(config, log, history)
+    series = pick_series(config, history)
     return {
         "pillar_id": pillar["id"],
         "pillar_description": pillar["description"],
+        "series_id": series["id"],
+        "series_description": series["description"],
         "is_exploration": is_exploration,
         "recent_topics_to_avoid": recent_topics(history),
         "picked_at": datetime.now(timezone.utc).isoformat(),

@@ -58,7 +58,10 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         print(f"[analytics] Skipped (not fatal): {e}", file=sys.stderr)
 
     brief = strategy.build_strategy_brief(config)
-    print(f"[strategy] Pillar: {brief['pillar_id']} (exploration={brief['is_exploration']})")
+    print(
+        f"[strategy] Pillar: {brief['pillar_id']} | Series: {brief['series_id']} "
+        f"(exploration={brief['is_exploration']})"
+    )
     strategy.print_learning_report()
 
     used_topics = strategy.used_topics()
@@ -136,10 +139,12 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         strategy.append_content_history({
             "topic": data["topic"],
             "pillar_id": brief["pillar_id"],
+            "series_id": brief.get("series_id"),
             "title": data["title"],
             "video_id": video_id,
             "length_variant": data.get("length_variant"),
             "mood": data.get("mood"),
+            "closing_question": data.get("closing_question"),
             # Audit trail: if a viewer disputes a claim, this is what was checked.
             "central_claim": data.get("central_claim"),
             "sources": data.get("sources"),

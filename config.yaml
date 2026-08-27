@@ -13,25 +13,80 @@ posting:
   visibility_on_launch: "public"
 
 content:
-  # Pillars the strategy step picks from. Weights are adjusted over time by the
-  # analytics feedback loop (see data/performance_log.json) - these are starting points only.
+  # THE NICHE. Every video must sit inside it.
+  #
+  # Videos used to be "any surprising fact", and reach flat-lined: 25 videos, max
+  # 1373 views, median 906, none above 2000 - despite good retention (65% mean,
+  # several above 95%). Retention that good with reach that capped means YouTube
+  # never escalated past the seed audience. Its 2026 clustering routes new videos
+  # to viewers who liked your PREVIOUS ones, so unrelated topics never compound -
+  # each upload restarts cold. Space was chosen on this channel's own numbers:
+  # 3 of the top 5 by views are space.
+  niche: "space and astronomy"
+
+  # Who the videos are for. Nothing in the pipeline defined this before, which is
+  # why scripts had no consistent voice or assumed knowledge level.
+  audience:
+    persona: >
+      Curious adults who like space but are not astronomers. They have seen the
+      famous images and know the planet names; they have not read a paper. They
+      watch Shorts in bed and while commuting.
+    already_knows: >
+      Planet names and order, that the Sun is a star, that space is big, that the
+      Moon causes tides. Do not spend a shot explaining these.
+    keeps_them_watching: >
+      Scale that breaks intuition, things that sound false but are true, and being
+      told that something they were taught is wrong. They will rewatch a number
+      that shocked them.
+
+  # Sub-niches, not separate topics: all four are space, so the audience cluster
+  # still compounds, while the bandit in strategy.py retains something to learn
+  # from. Each carries the FORMAT that already performed well in the old data.
   pillars:
-    - id: mind_blowing_facts
-      description: "Surprising / counter-intuitive facts (science, history, psychology, nature) told with a punchy, entertaining voice."
-      weight: 0.6
-    - id: this_or_that_facts
-      description: "Rapid-fire comparison facts (e.g. 'X vs Y') with a twist ending."
-      weight: 0.2
-    - id: myth_busting
-      description: "Common misconceptions debunked in one fast beat."
-      weight: 0.2
+    - id: planets_and_moons
+      description: >
+        Strange, concrete facts about specific bodies in our solar system - Venus,
+        Saturn, Titan, Io, the Moon. Anchored to one named object per video.
+      weight: 0.3
+    - id: cosmic_scale
+      description: >
+        Distance, size and time comparisons that break intuition ('X could fit
+        inside Y', 'light from Z left before W existed'). This format produced the
+        channel's best retention - 101% and 95% - so lean on the comparison beat.
+      weight: 0.3
+    - id: space_myths
+      description: >
+        Widely believed space claims that are wrong, corrected in one fast beat
+        (Great Wall from space, sound in space, the 'dark' side of the Moon).
+        Disagreement drives comments, which is this channel's weakest signal.
+      weight: 0.25
+    - id: space_history
+      description: >
+        Missions, discoveries and near-disasters - Apollo, Voyager, Hubble, the
+        probes still flying. Concrete human stories with a surprising detail.
+      weight: 0.15
+
+  # Recurring formats. Repetition is the point: viewers and the algorithm both
+  # learn to recognise the channel. Recorded per video so the loop can score them.
+  series:
+    - id: how_big
+      description: "Scale comparison - one object measured against a familiar one."
+    - id: you_were_taught_wrong
+      description: "A common belief stated, then corrected with the real answer."
+    - id: out_there_right_now
+      description: "Something happening in space at this moment, framed as present tense."
+
   avoid_topics:
     - medical advice
     - graphic violence
     - politics / elections
     - anything requiring on-screen real people/likenesses
+    - astrology, UFO conspiracy, or anything not supported by mainstream astronomy
   hook_style: "Question or shocking claim in the first 1.5 seconds. No slow intros."
-  cta: "Follow for more."
+  # Comments are the weakest signal on the channel: 14 comments across 19,120
+  # views (0.073%). A flat "follow for more" earns none, so every video now ends
+  # on a real question the viewer can answer.
+  cta: "End on a specific question the viewer can answer in one line."
 
   # The LLM tags each video with one of these, and the pipeline picks a music bed
   # from the matching assets/music/<mood>/ folder. Adding a mood here means adding

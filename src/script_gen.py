@@ -9,9 +9,13 @@ import sys
 from anthropic import Anthropic
 
 from . import config as cfg
+from . import keywords
 from .http_util import RetryableError, retry_call
 
-SYSTEM_PROMPT = """You write scripts for a daily YouTube Shorts channel about surprising facts.
+SYSTEM_PROMPT = """You write scripts for a daily YouTube Shorts channel. The user message
+states the channel's niche, audience and pillar for this video - stay inside that niche even
+when a great idea falls outside it. Consistency is what lets YouTube route the channel to a
+settled audience instead of every video restarting cold with a fresh seed audience.
 
 ACCURACY IS THE HARD CONSTRAINT. Viewers have publicly called out this channel for
 stating things that are false, which damages its credibility and its standing with
@@ -43,8 +47,14 @@ After accuracy, what matters, in order:
    never "have you ever wondered".
 2. Watch-through rate decides how far the video spreads. Every sentence must earn
    the next one. No filler, no restating, no wind-down before the payoff.
-3. Rewatches are a powerful ranking signal, so the last line should loop back to
-   the opening idea, making the video feel seamless if it replays.
+3. Rewatches are a powerful ranking signal, so let the closing question echo or
+   call back to the opening claim where it fits naturally, so the video feels
+   seamless if it replays - but the question itself always comes first; never
+   sacrifice it for a cleaner loop.
+4. Comments and shares are this channel's weakest metric (0.07% and 0.03% of
+   views). The script must end on `closing_question` exactly as specified in the
+   schema below - a real, opinion-inviting question, never a rhetorical one, and
+   never answered by the script itself.
 
 Verification is your process, not the video's subject. Nothing the viewer sees -
 title, description, hook, script - may reference checking, verifying, sources or
@@ -55,24 +65,43 @@ myth-busting video, where debunking IS the subject.
 Your FINAL message must be ONLY valid JSON matching the schema in the user message -
 no prose, no markdown fences. Searching and reasoning happen before that."""
 
-USER_PROMPT_TEMPLATE = """Content pillar: {pillar_description}
+USER_PROMPT_TEMPLATE = """CHANNEL NICHE: {niche}. Every video must sit inside it. A topic
+outside this niche is wrong even if it would make a great video - consistency is what lets
+YouTube route this channel to a settled audience.
+
+WHO IS WATCHING
+{audience_persona}
+They already know: {audience_knows}
+What keeps them watching: {audience_hooks}
+
+Content pillar for THIS video: {pillar_description}
+Series format to follow: {series_description}
 Hook style required: {hook_style}
-Call to action: {cta}
+Ending required: {cta}
 Topics already covered recently (do NOT repeat these, pick something clearly distinct
 in subject matter, not just a different slug): {recent_topics}
 Avoid entirely: {avoid_topics}
 
 Target narration length for THIS video: {word_target} words (~{target_seconds} seconds).
 
+SEARCH DEMAND
+{keyword_recon}
+
 Write one new YouTube Short. Return JSON with exactly this schema:
 {{
-  "topic": "short slug describing the topic, e.g. 'octopus_three_hearts'",
-  "title": "YouTube title, <=60 chars, curiosity-driven, include relevant emoji sparingly",
-  "description": "1-3 sentences summarizing the hook/payoff, then a blank line, then
-    7-10 hashtags for reach: always include #Shorts and #facts, plus a mix of broad
-    discovery tags (e.g. #didyouknow, #mindblowing, #factsdaily, #wow) and 3-5 tags
-    specific to this video's exact topic/subject",
-  "tags": ["array", "of", "8-12", "seo", "tags", "mixing", "broad", "and", "topic-specific", "terms"],
+  "topic": "short slug describing the topic, e.g. 'saturn_density_floats'",
+  "title": "40-60 characters. LEAD with the searchable subject, not with intrigue - a
+    viewer scanning search results must see the topic in the first few words. Keep the
+    curiosity, but after the keyword: 'Saturn Would Float in Water' beats 'You Won't
+    Believe What Floats'. At most one emoji, at the end. Never a '(Fact Check)'-style tag.",
+  "description": "FIRST LINE (under 100 chars, shown before the fold): the topic in plain
+    searchable words, then the closing question from the script so viewers see it without
+    expanding. Then 1-2 sentences of context. Then a blank line, then 7-10 hashtags:
+    always #Shorts and #space, plus broad discovery tags (#astronomy, #didyouknow,
+    #universe) and 3-5 specific to this video's subject",
+  "tags": ["8-12 lowercase tags, each 1-4 words, no duplicates, no '#'. Mix broad terms
+    people search ('space facts', 'astronomy') with the specific subject of this video
+    ('saturn density', 'gas giant'). Prefer real search phrases over single vague words."],
   "hook": "the first spoken sentence, <=8 words, a punchy standalone claim or question",
   "hook_overlay": "3-6 words in ALL CAPS shown on screen from the very first frame,
     capturing the hook visually for viewers who watch muted",
@@ -82,7 +111,12 @@ Write one new YouTube Short. Return JSON with exactly this schema:
     one sentence, as you verified it",
   "sources": ["2-4 URLs you actually consulted that support central_claim - real URLs
     returned by web_search, never invented or remembered"],
-  "script": "the FULL narration script (hook included), {word_target} words, spoken conversationally",
+  "closing_question": "the specific question the script ends on, <=12 words. It must be
+    answerable in one line by someone who just watched, and must invite an opinion or a
+    guess rather than a fact lookup - 'Which planet still surprises you?' not 'Did you
+    know this?'. Yes/no questions get no replies.",
+  "script": "the FULL narration script (hook included), {word_target} words, spoken
+    conversationally, ENDING on closing_question as the final spoken line",
   "shot_list": [
     {{"index": 0,
       "narration_segment": "the exact words from `script` that this shot covers, verbatim",
@@ -183,9 +217,23 @@ def _pick_length_variant(config: dict) -> dict:
 def generate_script(config: dict, strategy_brief: dict) -> dict:
     client = Anthropic(api_key=cfg.env("ANTHROPIC_API_KEY"))
     content_cfg = config["content"]
+    audience = content_cfg["audience"]
     variant = _pick_length_variant(config)
+
+    # The final topic doesn't exist yet - the LLM invents it below - so recon runs
+    # at the pillar level (e.g. "space and astronomy cosmic scale facts") to see
+    # what vocabulary and format is already ranking for this corner of the niche,
+    # rather than for a specific title we can't know in advance.
+    recon_query = f"{content_cfg['niche']} {strategy_brief['pillar_id'].replace('_', ' ')} facts"
+    keyword_recon = keywords.recon_block(recon_query)
+
     prompt = USER_PROMPT_TEMPLATE.format(
+        niche=content_cfg["niche"],
+        audience_persona=audience["persona"].strip(),
+        audience_knows=audience["already_knows"].strip(),
+        audience_hooks=audience["keeps_them_watching"].strip(),
         pillar_description=strategy_brief["pillar_description"],
+        series_description=strategy_brief["series_description"],
         hook_style=content_cfg["hook_style"],
         cta=content_cfg["cta"],
         recent_topics=", ".join(strategy_brief["recent_topics_to_avoid"]) or "none yet",
@@ -194,6 +242,7 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
         target_seconds=variant["seconds"],
         shot_count=variant["shots"],
         moods=", ".join(content_cfg["moods"]),
+        keyword_recon=keyword_recon,
     )
 
     llm_cfg = config["providers"]["llm"]
@@ -212,7 +261,7 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
 
     required_keys = {
         "topic", "title", "description", "tags", "hook", "script", "shot_list",
-        "central_claim", "sources",
+        "central_claim", "sources", "closing_question",
     }
     missing = required_keys - data.keys()
     if missing:
@@ -224,7 +273,27 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
     _fixup_shot_word_counts(data)
     data["length_variant"] = variant["name"]
     data["mood"] = _validate_mood(data.get("mood"), content_cfg["moods"])
+    data["title"] = _enforce_title_length(data["title"])
+    # Enforced in code, not just asked for in the prompt: the tag schema was
+    # previously passed to the API verbatim, with no dedup and no check against
+    # YouTube's 500-char total tag limit.
+    data["tags"] = keywords.normalize_tags(data.get("tags") or [])
     return data
+
+
+def _enforce_title_length(title: str, max_chars: int = 70) -> str:
+    """Trims an over-long title at a word boundary rather than trusting the prompt.
+
+    60 chars was previously only a prompt request, enforced nowhere - the only
+    code-level limit was upload.py's title[:100], which can cut a title mid-word.
+    max_chars is a little above the requested 60 so a slightly-over title from the
+    model isn't punished harshly; this only catches real overruns.
+    """
+    title = title.strip()
+    if len(title) <= max_chars:
+        return title
+    truncated = title[:max_chars].rsplit(" ", 1)[0].rstrip(" -:,")
+    return truncated or title[:max_chars]
 
 
 def _validate_mood(raw: str | None, allowed: list[str]) -> str:

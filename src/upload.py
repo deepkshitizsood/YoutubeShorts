@@ -64,12 +64,18 @@ def verify_channel(expected_handle: str) -> None:
         )
 
 
+# 28 = Science & Technology. Was 24 (Entertainment), which mis-signalled a space
+# channel to YouTube's classifier and to the audience clusters we want to land in.
+CATEGORY_SCIENCE_AND_TECH = "28"
+
+
 def upload_short(
     video_path: Path,
     title: str,
     description: str,
     tags: list[str],
     visibility: str = "unlisted",
+    category_id: str = CATEGORY_SCIENCE_AND_TECH,
 ) -> str:
     """Uploads video_path and returns the resulting videoId."""
     if "#shorts" not in description.lower() and "#shorts" not in title.lower():
@@ -81,11 +87,20 @@ def upload_short(
             "title": title[:100],
             "description": description[:5000],
             "tags": tags,
-            "categoryId": "24",  # Entertainment
+            "categoryId": category_id,
+            # Declaring the language helps YouTube route the video to the right
+            # audience and enables auto-caption/translation paths.
+            "defaultLanguage": "en-US",
+            "defaultAudioLanguage": "en-US",
         },
         "status": {
             "privacyStatus": visibility,
             "selfDeclaredMadeForKids": False,
+            # Compliance, not optimization: every video is AI-generated imagery
+            # plus synthetic narration, and YouTube requires that be disclosed.
+            # Undisclosed synthetic media puts monetization standing at risk -
+            # the exact thing this channel is working toward.
+            "containsSyntheticMedia": True,
         },
     }
     media = MediaFileUpload(str(video_path), chunksize=-1, resumable=True, mimetype="video/mp4")

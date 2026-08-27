@@ -21,6 +21,13 @@ MIN_SAMPLE = 4
 STRONG_RETENTION = 70.0
 # Expanded-tier monetization bar.
 TIER_VIEWS, TIER_SUBS, TIER_DAYS = 3_000_000, 500, 90
+# 25 videos of generic "any surprising fact" content topped out at 1,373 views,
+# with 65% mean retention - good content, capped reach. The whole point of the
+# niche pivot is whether videos ever clear this again.
+CEILING_VIEWS = 1_400
+# When the space-niche pivot shipped - videos published before this are the old
+# unbounded-topic baseline; on/after are the pivot.
+NICHE_PIVOT_DATE = "2026-08-27"
 
 
 def _load(path):
@@ -94,6 +101,8 @@ def main() -> None:
     best = max(rows, key=lambda r: r.get("views", 0))
     worst = min(rows, key=lambda r: r.get("views", 0))
     best_ret = max(rows, key=lambda r: r.get("average_view_percentage", 0))
+    max_views = best.get("views", 0)
+    over_ceiling = [r for r in rows if r.get("views", 0) > CEILING_VIEWS]
 
     # --- headline -------------------------------------------------------
     L += [
@@ -107,6 +116,12 @@ def main() -> None:
         f"- Best retention: **{best_ret.get('title', best_ret['video_id'])}** - "
         f"{best_ret.get('average_view_percentage', 0):.0f}%, {best_ret.get('views', 0):,} views",
         f"- Fewest views: **{worst.get('title', worst['video_id'])}** - {worst.get('views', 0):,} views",
+        "",
+        f"**Ceiling check: {'BROKEN' if over_ceiling else 'still capped'}** - "
+        f"max views is {max_views:,}, {len(over_ceiling)}/{len(rows)} video(s) above "
+        f"{CEILING_VIEWS:,}. Every prior video topped out under that line despite good "
+        f"retention, which is why the niche pivot happened - this is the number that "
+        f"says whether it worked, not retention.",
         "",
     ]
 
@@ -130,8 +145,43 @@ def main() -> None:
     # --- breakdowns -----------------------------------------------------
     L.append("## Breakdowns")
     L.append("")
-    for key, label in (("pillar_id", "Pillar"), ("length_variant", "Length"), ("mood", "Mood")):
+    for key, label in (
+        ("pillar_id", "Pillar"), ("series_id", "Series"),
+        ("length_variant", "Length"), ("mood", "Mood"),
+    ):
         _compare(rows, key, label, L)
+
+    # --- before/after the niche pivot ------------------------------------
+    before = [r for r in rows if r.get("created_at", "") < NICHE_PIVOT_DATE]
+    after = [r for r in rows if r.get("created_at", "") >= NICHE_PIVOT_DATE]
+    L.append(f"**Before vs after the {NICHE_PIVOT_DATE} niche pivot**\n")
+    if not after:
+        L.append(
+            "> No post-pivot videos have cleared the ~72h analytics lag yet - "
+            "too early to compare.\n"
+        )
+    else:
+        L.append("| | videos | mean views | max views | mean retention | comment rate |")
+        L.append("|---|---:|---:|---:|---:|---:|")
+        for name, items in (("Before (unbounded topics)", before), ("After (space niche)", after)):
+            if not items:
+                L.append(f"| {name} | 0 | - | - | - | - |")
+                continue
+            v = [i.get("views", 0) for i in items]
+            comments = sum(i.get("comments", 0) for i in items)
+            views_sum = sum(v) or 1
+            L.append(
+                f"| {name} | {len(items)} | {sum(v) / len(items):.0f} | {max(v)} | "
+                f"{_mean(items, 'average_view_percentage'):.0f}% | "
+                f"{100 * comments / views_sum:.2f}% |"
+            )
+        if len(after) < MIN_SAMPLE:
+            L.append(
+                f"\n> Only {len(after)} post-pivot video(s) so far, below the "
+                f"{MIN_SAMPLE} needed to draw a conclusion - directional only.\n"
+            )
+        else:
+            L.append("")
 
     # --- spend ----------------------------------------------------------
     ledger = _load(cfg.SPEND_LEDGER_PATH)
