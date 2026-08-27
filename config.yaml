@@ -2,8 +2,12 @@
 # Prices are read from here (not hardcoded) so they can be updated as providers change.
 
 channel:
-  name: "Factodixs"
-  handle: "@Factodixs"
+  # Rebranded 2026-08-27 for the space-niche pivot - same channel/videos/OAuth,
+  # only the display name and handle changed. verify_channel() checks handle
+  # against the live channel before every paid API call, so this must exactly
+  # match what was set in YouTube Studio or every posting slot will refuse to run.
+  name: "Cosmic Bytes"
+  handle: "@CosmicByttes"
 
 posting:
   # 3/day is the practical ceiling: 1->2 nearly triples subscriber growth and
