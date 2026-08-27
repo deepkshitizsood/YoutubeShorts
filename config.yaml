@@ -10,10 +10,14 @@ channel:
   handle: "@CosmicByttes"
 
 posting:
-  # 3/day is the practical ceiling: 1->2 nearly triples subscriber growth and
-  # 2->3 still helps, but 4+ adds only ~8% while raising the risk of same-day
-  # videos cannibalising each other. Slots live in the workflow cron.
-  videos_per_day: 3
+  # Growth research said 1->2/day nearly triples subscriber growth and 2->3
+  # still helps - but that assumed the old flat $0.09/script cost. Real cost
+  # with Sonnet 5 + web search made 3/day too tight against the $50/month cap
+  # (see 2026-08-27 spend investigation), so this is pulled back to 1/day
+  # deliberately for budget headroom, not because the growth case changed.
+  # Revisit raising it once a month of real per-video cost data confirms
+  # there's room under the cap. Slots live in the workflow cron.
+  videos_per_day: 1
   visibility_on_launch: "public"
 
 content:
@@ -118,6 +122,10 @@ content:
       weight: 0.5
 
 budget:
+  # Hard ceiling for ALL providers combined (LLM + TTS + images). main.py checks
+  # this before spending anything each run and skips the run entirely once
+  # month-to-date spend reaches it - so a run is refused for the rest of the
+  # month if this is hit, rather than the pipeline silently overspending.
   monthly_cap_usd: 50.0
   # Soft warning threshold - below this the pipeline runs normally.
   warn_threshold_usd: 35.0
@@ -131,9 +139,23 @@ providers:
     model: claude-sonnet-5
     max_tokens: 8000          # adaptive thinking is on by default and shares this budget
     search_tool_type: web_search_20260209
-    max_searches_per_script: 6
-    # Sonnet 5 tokens + up to 6 searches at ~$0.01 each.
-    est_cost_per_script_usd: 0.09
+    # Lowered from 6 - each search adds both a tool-use fee and the tokens to
+    # ingest its results, and this is the single biggest real-cost lever.
+    max_searches_per_script: 4
+    # Real per-token Anthropic rates (USD per million tokens), used to compute
+    # ACTUAL cost from response.usage on every call - not a flat guess. Verify
+    # against https://www.anthropic.com/pricing if the model or its price changes;
+    # these were wrong (as a flat $0.09/script estimate) for 10 days before anyone
+    # noticed, which is what drained the account on 2026-08-27.
+    pricing_usd_per_million_tokens:
+      input: 3.0
+      output: 15.0
+    web_search_cost_per_use_usd: 0.01
+    # Hard per-script ceiling checked after every single API call (including
+    # retries and search-loop continuations). Real cost crossing this aborts the
+    # script immediately instead of retrying into a multi-dollar single video -
+    # see script_gen.py's LLMUsage / ScriptGenerationFailed.
+    max_cost_per_script_usd: 0.30
   tts:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"

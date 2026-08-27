@@ -147,10 +147,64 @@ abstract, nature, object, or generic-figure imagery instead.
 """
 
 
-MAX_SEARCH_CONTINUATIONS = 4
+# Each continuation resends the whole (large, post-niche-pivot) prompt plus
+# every prior assistant turn, so this is a real cost multiplier, not just a
+# retry count - kept low deliberately. Paired with retry_call's own attempts,
+# the LLMUsage cost ceiling below is the actual backstop against runaway spend.
+MAX_SEARCH_CONTINUATIONS = 2
 
 
-def _run_with_search(client: Anthropic, llm_cfg: dict, system: str, prompt: str):
+class LLMUsage:
+    """Accumulates real token/search usage across every API call made while
+    generating one script - including calls from search-loop continuations and
+    from retry_call attempts that ultimately get discarded, since Anthropic
+    bills those regardless of whether the pipeline ends up using the result.
+
+    This replaces a flat est_cost_per_script_usd guess that stayed at $0.09
+    for 10 days after the model/search/prompt changes that made real cost
+    diverge from it - the ledger never saw the difference until the account
+    ran out of credits.
+    """
+
+    def __init__(self) -> None:
+        self.input_tokens = 0
+        self.output_tokens = 0
+        self.searches = 0
+        self.calls = 0
+
+    def add_response(self, response) -> None:
+        usage = response.usage
+        self.input_tokens += getattr(usage, "input_tokens", 0) or 0
+        self.output_tokens += getattr(usage, "output_tokens", 0) or 0
+        self.searches += _count_searches(response)
+        self.calls += 1
+
+    def cost_usd(self, llm_cfg: dict) -> float:
+        pricing = llm_cfg.get("pricing_usd_per_million_tokens", {})
+        token_cost = (
+            self.input_tokens * pricing.get("input", 0) / 1_000_000
+            + self.output_tokens * pricing.get("output", 0) / 1_000_000
+        )
+        search_cost = self.searches * llm_cfg.get("web_search_cost_per_use_usd", 0)
+        return token_cost + search_cost
+
+
+class ScriptGenerationFailed(RuntimeError):
+    """Wraps a script-generation failure with the real cost already incurred.
+
+    Tokens and searches Anthropic already billed don't refund just because the
+    pipeline gave up after retries - the caller must still record this as spend,
+    which a bare exception would lose entirely.
+    """
+
+    def __init__(self, cause: BaseException, cost_usd: float) -> None:
+        super().__init__(str(cause))
+        self.cost_usd = cost_usd
+
+
+def _run_with_search(
+    client: Anthropic, llm_cfg: dict, system: str, prompt: str, usage: "LLMUsage"
+):
     """Runs the request with the server-side web_search tool, resuming if it pauses.
 
     Server-side tools run their own sampling loop; when it hits the per-request
@@ -164,6 +218,7 @@ def _run_with_search(client: Anthropic, llm_cfg: dict, system: str, prompt: str)
         "max_uses": llm_cfg.get("max_searches_per_script", 6),
     }]
     messages = [{"role": "user", "content": prompt}]
+    ceiling = llm_cfg.get("max_cost_per_script_usd")
 
     for _ in range(MAX_SEARCH_CONTINUATIONS):
         response = client.messages.create(
@@ -173,6 +228,16 @@ def _run_with_search(client: Anthropic, llm_cfg: dict, system: str, prompt: str)
             tools=tools,
             messages=messages,
         )
+        usage.add_response(response)
+        # Checked after every real call, not just at the end - a request that
+        # comes back absurdly expensive (e.g. a runaway thinking budget) must
+        # not get to burn through more continuations or retries first.
+        if ceiling and usage.cost_usd(llm_cfg) > ceiling:
+            raise RuntimeError(
+                f"Script generation hit the ${ceiling:.2f} per-script cost ceiling "
+                f"(${usage.cost_usd(llm_cfg):.3f} across {usage.calls} call(s)); "
+                f"aborting rather than retrying or continuing further."
+            )
         if response.stop_reason != "pause_turn":
             return response
         messages = messages[:1] + [{"role": "assistant", "content": response.content}]
@@ -246,18 +311,27 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
     )
 
     llm_cfg = config["providers"]["llm"]
+    usage = LLMUsage()
 
     def _call() -> tuple[str, int]:
-        response = _run_with_search(client, llm_cfg, SYSTEM_PROMPT, prompt)
+        response = _run_with_search(client, llm_cfg, SYSTEM_PROMPT, prompt, usage)
         # A truncated response yields unparseable JSON; retrying is worth a shot
         # since the model may produce a more compact shot list next time.
         if response.stop_reason == "max_tokens":
             raise RetryableError("Claude response hit max_tokens and was truncated")
         return _final_text(response), _count_searches(response)
 
-    raw_text, searches = retry_call(_call, description="Claude script generation")
+    try:
+        # attempts=2 (down from the http_util default of 4): each attempt can
+        # itself burn up to MAX_SEARCH_CONTINUATIONS calls, and the per-script
+        # cost ceiling above is the real backstop, not this count.
+        raw_text, searches = retry_call(_call, description="Claude script generation", attempts=2)
+    except Exception as e:
+        raise ScriptGenerationFailed(e, usage.cost_usd(llm_cfg)) from e
+
     data = _parse_json_response(raw_text)
     data["web_searches"] = searches
+    data["llm_cost_usd"] = usage.cost_usd(llm_cfg)
 
     required_keys = {
         "topic", "title", "description", "tags", "hook", "script", "shot_list",
@@ -319,15 +393,25 @@ def generate_unique_script(config: dict, strategy_brief: dict, used_topics: set[
     collisions are checked explicitly and regenerated.
     """
     attempts = 3
+    total_cost = 0.0
     for attempt in range(1, attempts + 1):
-        data = generate_script(config, strategy_brief)
+        try:
+            data = generate_script(config, strategy_brief)
+        except ScriptGenerationFailed as e:
+            # A regeneration attempt after a topic collision still spends real
+            # money even if it then fails outright - fold in what came before.
+            e.cost_usd += total_cost
+            raise
+        total_cost += data["llm_cost_usd"]
         topic = data["topic"].strip().lower()
         if topic not in used_topics:
+            data["llm_cost_usd"] = total_cost
             return data
         print(
             f"[script] Topic {topic!r} already used (attempt {attempt}/{attempts}); regenerating.",
             file=sys.stderr,
         )
+    data["llm_cost_usd"] = total_cost
     print(f"[script] Proceeding with repeated topic {data['topic']!r} after {attempts} attempts.", file=sys.stderr)
     return data
 

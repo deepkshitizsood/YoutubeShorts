@@ -65,7 +65,15 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     strategy.print_learning_report()
 
     used_topics = strategy.used_topics()
-    data = script_gen.generate_unique_script(config, brief, used_topics)
+    try:
+        data = script_gen.generate_unique_script(config, brief, used_topics)
+    except script_gen.ScriptGenerationFailed as e:
+        # Tokens/searches were already billed by Anthropic even though this run
+        # produced no video - record it so next run's pre-flight budget check
+        # (and the daily spend report) sees the real number, not zero.
+        budget.record_spend(ledger, "llm_script", e.cost_usd)
+        raise
+    budget.record_spend(ledger, "llm_script", data["llm_cost_usd"])
     print(
         f"[script] Topic: {data['topic']} | Length: {data.get('length_variant', '?')} "
         f"| Title: {data['title']}"
@@ -80,7 +88,7 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "unverified.",
             file=sys.stderr,
         )
-    budget.record_spend(ledger, "llm_script", config["providers"]["llm"]["est_cost_per_script_usd"])
+    print(f"[script] Real LLM cost this run: ${data['llm_cost_usd']:.3f}")
 
     run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + _safe_slug(data["topic"])
     run_dir = cfg.OUTPUT_DIR / run_folder_name
