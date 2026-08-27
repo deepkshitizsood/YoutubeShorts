@@ -197,9 +197,13 @@ class ScriptGenerationFailed(RuntimeError):
     which a bare exception would lose entirely.
     """
 
-    def __init__(self, cause: BaseException, cost_usd: float) -> None:
+    def __init__(self, cause: BaseException, usage: "LLMUsage", llm_cfg: dict) -> None:
         super().__init__(str(cause))
-        self.cost_usd = cost_usd
+        self.cost_usd = usage.cost_usd(llm_cfg)
+        self.input_tokens = usage.input_tokens
+        self.output_tokens = usage.output_tokens
+        self.searches = usage.searches
+        self.calls = usage.calls
 
 
 def _run_with_search(
@@ -284,6 +288,10 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
     content_cfg = config["content"]
     audience = content_cfg["audience"]
     variant = _pick_length_variant(config)
+    # Printed before the paid call, not after - so a failure still tells us
+    # which variant was in flight, since "long" (140 words/18 shots) is the
+    # leading suspect for the cost variance seen between real script-gen calls.
+    print(f"[script] length_variant={variant['name']} ({variant['words']} words, {variant['shots']} shots)", file=sys.stderr)
 
     # The final topic doesn't exist yet - the LLM invents it below - so recon runs
     # at the pillar level (e.g. "space and astronomy cosmic scale facts") to see
@@ -327,7 +335,7 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
         # cost ceiling above is the real backstop, not this count.
         raw_text, searches = retry_call(_call, description="Claude script generation", attempts=2)
     except Exception as e:
-        raise ScriptGenerationFailed(e, usage.cost_usd(llm_cfg)) from e
+        raise ScriptGenerationFailed(e, usage, llm_cfg) from e
 
     data = _parse_json_response(raw_text)
     data["web_searches"] = searches

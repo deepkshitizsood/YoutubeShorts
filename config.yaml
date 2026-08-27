@@ -156,17 +156,24 @@ providers:
     # script immediately instead of retrying into a multi-dollar single video -
     # see script_gen.py's LLMUsage / ScriptGenerationFailed.
     #
-    # Was set to 0.30 as an analytical guess on 2026-08-27, before any real
-    # response.usage data existed. The very first real dry-run under that
-    # ceiling showed a single normal, non-retried, non-continued script
-    # actually costs ~$0.89 (dominant cost is tokens, not the $0.01/search
-    # tool fee) - the guess undershot real cost by ~3x. Raised to give a small
-    # buffer over the observed number rather than fail every run outright.
-    # At 1 video/day this puts LLM cost alone at ~$27/month (~$35/month incl.
-    # TTS+images) - under the $50 cap, but with little room for a bad day.
-    # If real cost drifts further, the daily spend report will show it before
-    # the account runs dry again.
-    max_cost_per_script_usd: 1.10
+    # History: started at 0.30 (an analytical guess, 2026-08-27) - the first
+    # real dry-run under it hit $0.89 on one normal call and got killed. Raised
+    # to 1.10 - the very next dry-run hit $1.58 on another normal call (likely
+    # driven by which length_variant got picked: "long" is 140 words/18 shots
+    # vs "short" at 85/11, and shot-list JSON dominates output tokens) and got
+    # killed too. Two samples already span nearly 2x, so guessing a third tight
+    # number and re-testing at $1+ a guess isn't a good use of real spend.
+    #
+    # Set generously to 2.00 instead: this stops blocking normal runs while we
+    # gather real numbers from the daily spend report over the next several
+    # days, then right-size this (and possibly max_tokens or the length
+    # variants) once actual variance is known rather than guessed. Worst case
+    # at 1 video/day this is ~$60/month on LLM alone if every day hits the
+    # ceiling - above the $50 cap - but budget.status() still refuses further
+    # runs once month-to-date spend actually reaches $50, so the cap itself
+    # cannot be exceeded; this ceiling is only about not wasting a whole
+    # script's spend on a single runaway call.
+    max_cost_per_script_usd: 2.00
   tts:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"

@@ -72,6 +72,12 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         # produced no video - record it so next run's pre-flight budget check
         # (and the daily spend report) sees the real number, not zero.
         budget.record_spend(ledger, "llm_script", e.cost_usd)
+        print(
+            f"[script] Failed after ${e.cost_usd:.3f} real spend "
+            f"({e.input_tokens} in / {e.output_tokens} out tokens, "
+            f"{e.searches} search(es), {e.calls} call(s)) - see traceback below.",
+            file=sys.stderr,
+        )
         raise
     budget.record_spend(ledger, "llm_script", data["llm_cost_usd"])
     print(
