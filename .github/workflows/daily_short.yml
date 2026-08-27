@@ -11,8 +11,12 @@ on:
   # $50/month cap (see config.yaml's posting.videos_per_day comment) - real
   # Sonnet 5 + web search cost made 3/day too tight. Time is UTC and drifts 1h
   # relative to Pacific across DST.
+  # Offset 7 minutes past the hour deliberately: GitHub's own docs flag the
+  # exact top of the hour as the most congested/delay-prone slot for schedule
+  # triggers, which is the leading suspect for the 2026-08-27 15:00 UTC slot
+  # never firing at all.
   schedule:
-    - cron: "0 15 * * *"   # ~8 AM Pacific
+    - cron: "7 15 * * *"   # ~8 AM Pacific
 
 permissions:
   contents: write   # workflow commits updated data/*.json back to the repo
