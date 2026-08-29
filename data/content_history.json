@@ -801,5 +801,26 @@
     "total_shots": 11,
     "created_at": "2026-08-28T00:00:07.487145+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "saturn_v_vs_statue_of_liberty",
+    "pillar_id": "space_history",
+    "series_id": "how_big",
+    "title": "Saturn V Rocket Was Taller Than Statue of Liberty \ud83d\ude80",
+    "video_id": "5cdt7MQEEVI",
+    "length_variant": "long",
+    "mood": "energetic",
+    "closing_question": "Which part of that scale surprises you most?",
+    "central_claim": "NASA's Saturn V rocket, which launched the Apollo missions, stood 363 feet tall \u2014 about 60 feet taller than the Statue of Liberty measured to her torch \u2014 and its five first-stage engines produced more power than 85 Hoover Dams combined.",
+    "sources": [
+      "https://www.nasa.gov/learning-resources/for-kids-and-students/what-was-the-saturn-v-grades-5-8/",
+      "https://www.space.com/saturn-v-rocket-guide-apollo",
+      "https://www.cradleofaviation.org/history/history/saturn-v-rocket.html"
+    ],
+    "web_searches": 4,
+    "stock_shots": 12,
+    "total_shots": 18,
+    "created_at": "2026-08-29T00:05:58.144422+00:00",
+    "dry_run": false
   }
 ]
