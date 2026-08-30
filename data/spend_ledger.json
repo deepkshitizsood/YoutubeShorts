@@ -953,6 +953,24 @@
       "item": "images",
       "usd": 0.273,
       "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:13Z",
+      "item": "llm_script",
+      "usd": 0.9835,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:14Z",
+      "item": "tts",
+      "usd": 0.0048,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:46Z",
+      "item": "images",
+      "usd": 0.195,
+      "video_id": null
     }
   ]
 }
