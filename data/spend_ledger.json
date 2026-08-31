@@ -899,6 +899,78 @@
       "item": "llm_script",
       "usd": 1.5773,
       "video_id": null
+    },
+    {
+      "date": "2026-08-27T23:58:31Z",
+      "item": "llm_script",
+      "usd": 0.768,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-27T23:58:32Z",
+      "item": "tts",
+      "usd": 0.0048,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-27T23:59:13Z",
+      "item": "images",
+      "usd": 0.273,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T00:03:10Z",
+      "item": "llm_script",
+      "usd": 1.132,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T00:03:12Z",
+      "item": "tts",
+      "usd": 0.008,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T00:03:57Z",
+      "item": "images",
+      "usd": 0.234,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T18:22:31Z",
+      "item": "llm_script",
+      "usd": 0.8594,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T18:22:33Z",
+      "item": "tts",
+      "usd": 0.0053,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-29T18:23:17Z",
+      "item": "images",
+      "usd": 0.273,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:13Z",
+      "item": "llm_script",
+      "usd": 0.9835,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:14Z",
+      "item": "tts",
+      "usd": 0.0048,
+      "video_id": null
+    },
+    {
+      "date": "2026-08-30T18:38:46Z",
+      "item": "images",
+      "usd": 0.195,
+      "video_id": null
     }
   ]
 }
