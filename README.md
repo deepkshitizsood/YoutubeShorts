@@ -7,12 +7,14 @@ this was built from for the full design rationale.
 
 ## Pipeline
 
-`analytics pull -> strategy pick -> script (Claude Haiku) -> voiceover (Google Cloud TTS)
+`analytics pull -> strategy pick -> script (Claude Sonnet 5) -> voiceover (Google Cloud TTS)
 -> AI images (Gemini 2.5 Flash Image, aka "Nano Banana") [+ optional AI hero clip (Runway)]
 -> ffmpeg assembly -> YouTube upload -> spend ledger update`
 
 Runs once/day via GitHub Actions (free tier — see `.github/workflows/daily_short.yml`).
-Estimated real cost: **~$20–30/month**, under the $50 cap configured in `config.yaml`.
+Actual cost varies day to day — see `data/spend_ledger.json` for real recent spend against
+the $50/month cap configured in `config.yaml`, rather than a fixed estimate (an earlier flat
+estimate here was wrong by 10-20x).
 
 ## One-time setup
 
@@ -53,7 +55,8 @@ refresh token; save it, you'll need it below.
   to the Gemini API (Google's older "Generative Language API" Cloud Console entry is being phased
   out of discoverability in favor of this flow). Pick the same Cloud project you made in step 1
   if it offers a choice, so everything lives in one place.
-- **Runway** (optional AI hero clip): [dev.runwayml.com](https://dev.runwayml.com) → API keys.
+- **Runway** (optional AI hero clip) — **currently disabled**, not present in `config.yaml`'s
+  `providers` section: [dev.runwayml.com](https://dev.runwayml.com) → API keys, if re-enabled.
 
 ### 4. Configure secrets
 
@@ -84,10 +87,8 @@ python -m src.main             # full run including upload (as "unlisted" by def
 
 ## Posting schedule
 
-Live and fully automated: **3 posts/day** at 07:00, 15:00 and 23:00 UTC
-(`.github/workflows/daily_short.yml`). The ~8h spacing is deliberate — same-day Shorts
-posted close together compete for the same audience and split their algorithmic
-evaluation windows.
+Live and fully automated: **1 post/day** at 15:07 UTC, ~8 AM Pacific
+(`.github/workflows/daily_short.yml`).
 
 Runs are serialized by a `concurrency` group, so a manual dispatch during a scheduled
 run queues rather than racing on the data commit.
@@ -103,9 +104,8 @@ run queues rather than racing on the data commit.
 - **GitHub disables scheduled workflows after 60 days without repository activity**, and
   the bot's own commits do *not* count. Push any human commit occasionally, or the cron
   silently stops.
-- **Costs** are bounded to ~$28/month worst case at 3/day by
-  `providers.image.max_per_video`; `data/spend_ledger.json` tracks actual spend and the
-  run halts at `budget.monthly_cap_usd`.
+- **Costs** are bounded per-video by `providers.image.max_per_video`; `data/spend_ledger.json`
+  tracks actual spend and the run halts at `budget.monthly_cap_usd`.
 
 ## Monitoring cost & performance
 
