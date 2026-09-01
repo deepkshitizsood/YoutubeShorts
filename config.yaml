@@ -143,13 +143,14 @@ providers:
     # ingest its results, and this is the single biggest real-cost lever.
     max_searches_per_script: 4
     # Real per-token Anthropic rates (USD per million tokens), used to compute
-    # ACTUAL cost from response.usage on every call - not a flat guess. Verify
-    # against https://www.anthropic.com/pricing if the model or its price changes;
-    # these were wrong (as a flat $0.09/script estimate) for 10 days before anyone
-    # noticed, which is what drained the account on 2026-08-27.
+    # ACTUAL cost from response.usage on every call - not a flat guess. Verified
+    # 2026-09-01: Anthropic cancelled the scheduled Sept 1 2026 price increase for
+    # Sonnet 5, so the $2/$10 introductory rate is now permanent, not $3/$15 as
+    # configured before this fix. Re-verify against https://www.anthropic.com/pricing
+    # if the model or its price changes again.
     pricing_usd_per_million_tokens:
-      input: 3.0
-      output: 15.0
+      input: 2.0
+      output: 10.0
     web_search_cost_per_use_usd: 0.01
     # Hard per-script ceiling checked after every single API call (including
     # retries and search-loop continuations). Real cost crossing this aborts the
