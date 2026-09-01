@@ -989,6 +989,39 @@
       "item": "images",
       "usd": 0.273,
       "video_id": null
+    },
+    {
+      "date": "2026-09-01T18:24:21Z",
+      "item": "llm_script",
+      "usd": 0.4662,
+      "video_id": null,
+      "input_tokens": 176033,
+      "output_tokens": 7418,
+      "searches": 4,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-01T18:24:22Z",
+      "item": "tts",
+      "usd": 0.0043,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-01T18:25:00Z",
+      "item": "images",
+      "usd": 0.273,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
     }
   ]
 }

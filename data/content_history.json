@@ -888,5 +888,26 @@
     "total_shots": 11,
     "created_at": "2026-08-31T20:55:15.869857+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "black_hole_gravity_myth",
+    "pillar_id": "space_myths",
+    "series_id": "you_were_taught_wrong",
+    "title": "Black Holes Don't Actually Suck Things In \ud83d\udd73\ufe0f",
+    "video_id": "P0zM9HPw0D4",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "closing_question": "What surprises you most about how black holes really behave?",
+    "central_claim": "A black hole exerts the same gravitational pull as a normal star of the same mass at the same distance, so if the Sun were replaced by a black hole of equal mass, Earth's orbit would remain unchanged.",
+    "sources": [
+      "https://imagine.gsfc.nasa.gov/science/objects/black_holes2.html",
+      "https://science.nasa.gov/solar-system/10-questions-you-might-have-about-black-holes/",
+      "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-a-black-hole-grades-k-4/"
+    ],
+    "web_searches": 4,
+    "stock_shots": 1,
+    "total_shots": 11,
+    "created_at": "2026-09-01T18:25:52.222086+00:00",
+    "dry_run": false
   }
 ]
