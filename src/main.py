@@ -71,7 +71,12 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         # Tokens/searches were already billed by Anthropic even though this run
         # produced no video - record it so next run's pre-flight budget check
         # (and the daily spend report) sees the real number, not zero.
-        budget.record_spend(ledger, "llm_script", e.cost_usd)
+        budget.record_spend(
+            ledger, "llm_script", e.cost_usd,
+            input_tokens=e.input_tokens, output_tokens=e.output_tokens,
+            searches=e.searches,
+            cache_creation_tokens=e.cache_creation_tokens, cache_read_tokens=e.cache_read_tokens,
+        )
         print(
             f"[script] Failed after ${e.cost_usd:.3f} real spend "
             f"({e.input_tokens} in / {e.output_tokens} out tokens, "
@@ -79,7 +84,13 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             file=sys.stderr,
         )
         raise
-    budget.record_spend(ledger, "llm_script", data["llm_cost_usd"])
+    budget.record_spend(
+        ledger, "llm_script", data["llm_cost_usd"],
+        input_tokens=data["llm_input_tokens"], output_tokens=data["llm_output_tokens"],
+        searches=data.get("web_searches", 0),
+        cache_creation_tokens=data["llm_cache_creation_tokens"],
+        cache_read_tokens=data["llm_cache_read_tokens"],
+    )
     print(
         f"[script] Topic: {data['topic']} | Length: {data.get('length_variant', '?')} "
         f"| Title: {data['title']}"

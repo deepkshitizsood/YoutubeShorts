@@ -169,6 +169,8 @@ class LLMUsage:
     def __init__(self) -> None:
         self.input_tokens = 0
         self.output_tokens = 0
+        self.cache_creation_tokens = 0
+        self.cache_read_tokens = 0
         self.searches = 0
         self.calls = 0
 
@@ -176,6 +178,11 @@ class LLMUsage:
         usage = response.usage
         self.input_tokens += getattr(usage, "input_tokens", 0) or 0
         self.output_tokens += getattr(usage, "output_tokens", 0) or 0
+        # Unused today (no prompt caching in play yet) but captured now so the
+        # ledger already has a place for it once a cached system prompt (e.g.
+        # a future scripting-only call) starts reporting real cache hits.
+        self.cache_creation_tokens += getattr(usage, "cache_creation_input_tokens", 0) or 0
+        self.cache_read_tokens += getattr(usage, "cache_read_input_tokens", 0) or 0
         self.searches += _count_searches(response)
         self.calls += 1
 
@@ -202,6 +209,8 @@ class ScriptGenerationFailed(RuntimeError):
         self.cost_usd = usage.cost_usd(llm_cfg)
         self.input_tokens = usage.input_tokens
         self.output_tokens = usage.output_tokens
+        self.cache_creation_tokens = usage.cache_creation_tokens
+        self.cache_read_tokens = usage.cache_read_tokens
         self.searches = usage.searches
         self.calls = usage.calls
 
@@ -340,6 +349,10 @@ def generate_script(config: dict, strategy_brief: dict) -> dict:
     data = _parse_json_response(raw_text)
     data["web_searches"] = searches
     data["llm_cost_usd"] = usage.cost_usd(llm_cfg)
+    data["llm_input_tokens"] = usage.input_tokens
+    data["llm_output_tokens"] = usage.output_tokens
+    data["llm_cache_creation_tokens"] = usage.cache_creation_tokens
+    data["llm_cache_read_tokens"] = usage.cache_read_tokens
 
     required_keys = {
         "topic", "title", "description", "tags", "hook", "script", "shot_list",
@@ -402,6 +415,10 @@ def generate_unique_script(config: dict, strategy_brief: dict, used_topics: set[
     """
     attempts = 3
     total_cost = 0.0
+    total_input_tokens = 0
+    total_output_tokens = 0
+    total_cache_creation_tokens = 0
+    total_cache_read_tokens = 0
     for attempt in range(1, attempts + 1):
         try:
             data = generate_script(config, strategy_brief)
@@ -409,17 +426,33 @@ def generate_unique_script(config: dict, strategy_brief: dict, used_topics: set[
             # A regeneration attempt after a topic collision still spends real
             # money even if it then fails outright - fold in what came before.
             e.cost_usd += total_cost
+            e.input_tokens += total_input_tokens
+            e.output_tokens += total_output_tokens
+            e.cache_creation_tokens += total_cache_creation_tokens
+            e.cache_read_tokens += total_cache_read_tokens
             raise
         total_cost += data["llm_cost_usd"]
+        total_input_tokens += data["llm_input_tokens"]
+        total_output_tokens += data["llm_output_tokens"]
+        total_cache_creation_tokens += data["llm_cache_creation_tokens"]
+        total_cache_read_tokens += data["llm_cache_read_tokens"]
         topic = data["topic"].strip().lower()
         if topic not in used_topics:
             data["llm_cost_usd"] = total_cost
+            data["llm_input_tokens"] = total_input_tokens
+            data["llm_output_tokens"] = total_output_tokens
+            data["llm_cache_creation_tokens"] = total_cache_creation_tokens
+            data["llm_cache_read_tokens"] = total_cache_read_tokens
             return data
         print(
             f"[script] Topic {topic!r} already used (attempt {attempt}/{attempts}); regenerating.",
             file=sys.stderr,
         )
     data["llm_cost_usd"] = total_cost
+    data["llm_input_tokens"] = total_input_tokens
+    data["llm_output_tokens"] = total_output_tokens
+    data["llm_cache_creation_tokens"] = total_cache_creation_tokens
+    data["llm_cache_read_tokens"] = total_cache_read_tokens
     print(f"[script] Proceeding with repeated topic {data['topic']!r} after {attempts} attempts.", file=sys.stderr)
     return data
 

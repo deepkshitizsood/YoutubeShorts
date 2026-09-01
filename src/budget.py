@@ -27,13 +27,33 @@ def save_ledger(ledger: dict) -> None:
         json.dump(ledger, f, indent=2)
 
 
-def record_spend(ledger: dict, item: str, usd: float, video_id: str | None = None) -> None:
+def record_spend(
+    ledger: dict,
+    item: str,
+    usd: float,
+    video_id: str | None = None,
+    *,
+    input_tokens: int = 0,
+    output_tokens: int = 0,
+    searches: int = 0,
+    cache_creation_tokens: int = 0,
+    cache_read_tokens: int = 0,
+) -> None:
+    # Token fields default to 0 for every non-LLM item (tts, images) and were
+    # unused entirely before 2026-09-01 - this is the real per-video baseline
+    # that a flat $0.09/script estimate never gave us, needed before comparing
+    # against the ideation/scripting redesign's real cost.
     ledger["entries"].append(
         {
             "date": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
             "item": item,
             "usd": round(usd, 4),
             "video_id": video_id,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "searches": searches,
+            "cache_creation_tokens": cache_creation_tokens,
+            "cache_read_tokens": cache_read_tokens,
         }
     )
 
