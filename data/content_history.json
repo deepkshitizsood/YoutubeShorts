@@ -909,5 +909,27 @@
     "total_shots": 11,
     "created_at": "2026-09-01T18:25:52.222086+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "black_hole_sound_perseus",
+    "pillar_id": "space_myths",
+    "series_id": "out_there_right_now",
+    "title": "Space Is Silent, But NASA Recorded This Sound \ud83c\udfa7",
+    "video_id": "38dp2K1WhdM",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "closing_question": "What other sound do you think space might be hiding?",
+    "central_claim": "Sound cannot travel through the vacuum of space, but NASA's Chandra X-ray Observatory detected real pressure/sound waves rippling through the hot gas of the Perseus galaxy cluster around a supermassive black hole, and raised their pitch so humans could hear them.",
+    "sources": [
+      "https://www.nasa.gov/universe/new-nasa-black-hole-sonifications-with-a-remix/",
+      "https://science.nasa.gov/science-research/astrophysics/data-sonifications/",
+      "https://www.astronomy.com/science/is-there-any-sound-in-space-an-astronomer-explains/",
+      "https://science.nasa.gov/science-research/planetary-science/01nov_ismsounds/"
+    ],
+    "web_searches": 4,
+    "stock_shots": 7,
+    "total_shots": 18,
+    "created_at": "2026-09-02T18:39:45.225523+00:00",
+    "dry_run": false
   }
 ]
