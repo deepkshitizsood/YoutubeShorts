@@ -1055,6 +1055,39 @@
       "searches": 0,
       "cache_creation_tokens": 0,
       "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-03T18:33:41Z",
+      "item": "llm_script",
+      "usd": 0.7023,
+      "video_id": null,
+      "input_tokens": 280621,
+      "output_tokens": 10103,
+      "searches": 4,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-03T18:33:43Z",
+      "item": "tts",
+      "usd": 0.0048,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-03T18:34:26Z",
+      "item": "images",
+      "usd": 0.273,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
     }
   ]
 }

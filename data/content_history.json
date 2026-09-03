@@ -931,5 +931,26 @@
     "total_shots": 18,
     "created_at": "2026-09-02T18:39:45.225523+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "ganymede_bigger_than_mercury",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "title": "Ganymede: This Moon Is Bigger Than Mercury \ud83c\udf15",
+    "video_id": "znUhs7nTCCg",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "closing_question": "Which surprises you more, the giant moon or the tiny planet?",
+    "central_claim": "Jupiter's moon Ganymede has a larger diameter than the planet Mercury, but Mercury is roughly twice as massive because it is made of dense rock and metal while Ganymede is mostly ice.",
+    "sources": [
+      "https://science.nasa.gov/jupiter/jupiter-moons/ganymede/facts/",
+      "https://www2.jpl.nasa.gov/galileo/ganymede/fact.html",
+      "https://www.space.com/16440-ganymede-facts-about-jupiters-largest-moon.html"
+    ],
+    "web_searches": 4,
+    "stock_shots": 1,
+    "total_shots": 11,
+    "created_at": "2026-09-03T18:35:29.599285+00:00",
+    "dry_run": false
   }
 ]
