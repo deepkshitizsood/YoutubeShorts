@@ -974,5 +974,26 @@
     "total_shots": 11,
     "created_at": "2026-09-04T18:21:34.361048+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "moon_dark_side_myth",
+    "pillar_id": "space_myths",
+    "series_id": "out_there_right_now",
+    "title": "The Moon's 'Dark Side' Isn't Actually Dark \ud83c\udf17",
+    "video_id": "MqAvliHxcUI",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "closing_question": "So which moon myth did you actually believe?",
+    "central_claim": "The Moon has no permanently dark side \u2014 due to tidal locking, the far side (the hemisphere always facing away from Earth) receives sunlight on the same roughly two-week cycle as the near side we always see.",
+    "sources": [
+      "https://www.nhm.ac.uk/discover/news/2025/april/dark-side-of-the-moon-surprisingly-dry.html",
+      "https://www.skyatnightmagazine.com/space-science/dark-side-of-the-moon",
+      "https://science.nasa.gov/moon/tidal-locking/"
+    ],
+    "web_searches": 4,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-09-05T17:19:25.752121+00:00",
+    "dry_run": false
   }
 ]
