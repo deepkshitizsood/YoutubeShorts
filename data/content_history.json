@@ -1016,5 +1016,24 @@
     "total_shots": 11,
     "created_at": "2026-09-06T17:40:02.175106+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "mars_moon_phobos_spiraling_inward",
+    "pillar_id": "planets_and_moons",
+    "series_id": "you_were_taught_wrong",
+    "title": "Mars' Moon Phobos Is Spiraling Toward It \ud83e\ude90",
+    "video_id": "LblB86EjIUI",
+    "length_variant": "long",
+    "mood": "dramatic",
+    "closing_question": "Would you want to see Mars with its own ring?",
+    "central_claim": "Phobos, the largest moon of Mars, orbits closer to its planet than any other moon in the solar system and its orbit is decaying, meaning it is gradually spiraling inward and will eventually crash into Mars or break apart into a ring of debris.",
+    "sources": [
+      "https://www.skyatnightmagazine.com/news/martian-moon-to-form-red-planet-rings"
+    ],
+    "web_searches": 4,
+    "stock_shots": 5,
+    "total_shots": 18,
+    "created_at": "2026-09-07T19:11:36.722535+00:00",
+    "dry_run": false
   }
 ]
