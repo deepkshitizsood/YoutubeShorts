@@ -1056,5 +1056,26 @@
     "total_shots": 11,
     "created_at": "2026-09-08T18:34:48.856584+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "zero_gravity_myth_iss",
+    "pillar_id": "space_myths",
+    "series_id": "how_big",
+    "title": "Zero Gravity Doesn't Exist on the Space Station \ud83c\udf0c",
+    "video_id": "GOrd9juy8os",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "closing_question": "What do you think really causes that floating feeling?",
+    "central_claim": "Astronauts on the International Space Station are not experiencing zero gravity - Earth's gravity there is still roughly 90% as strong as on the surface, and objects float because the station and everything in it are in continuous free fall, not because gravity has disappeared.",
+    "sources": [
+      "https://www.open.edu/openlearn/mod/oucontent/view.php?id=77544&section=6",
+      "https://www.smithsonianmag.com/smithsonian-institution/why-do-astronauts-space-station-float-180956965/",
+      "https://www.bgr.com/2005601/is-there-zero-gravity-iss-microgravity-explained/"
+    ],
+    "web_searches": 3,
+    "stock_shots": 8,
+    "total_shots": 18,
+    "created_at": "2026-09-09T18:34:36.049168+00:00",
+    "dry_run": false
   }
 ]
