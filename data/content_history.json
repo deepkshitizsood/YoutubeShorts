@@ -1077,5 +1077,27 @@
     "total_shots": 18,
     "created_at": "2026-09-09T18:34:36.049168+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "uranus_sideways_rotation",
+    "pillar_id": "planets_and_moons",
+    "series_id": "you_were_taught_wrong",
+    "title": "Uranus Spins Completely Sideways, Not Upright",
+    "video_id": "1WRlcbEFW-k",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "closing_question": "Which sounds stranger to you: 42 years of daylight, or 42 years of night?",
+    "central_claim": "Uranus's axis is tilted roughly 98 degrees, so it essentially rolls around the Sun on its side, giving each pole about 42 years of continuous sunlight followed by about 42 years of continuous darkness during its 84-year orbit.",
+    "sources": [
+      "https://www.ssec.wisc.edu/planetary/uranus/science/",
+      "https://www.ebsco.com/research-starters/astronomy-and-astrophysics/uranuss-tilt",
+      "https://stardate.org/astro-guide/topic/uranus",
+      "https://x.com/NASAWebb/status/1643979296590168070?lang=en"
+    ],
+    "web_searches": 2,
+    "stock_shots": 0,
+    "total_shots": 18,
+    "created_at": "2026-09-10T18:23:16.452707+00:00",
+    "dry_run": false
   }
 ]
