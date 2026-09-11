@@ -55,13 +55,15 @@ Return ONLY the JSON array - no prose, no markdown fences."""
 
 CLAUDE_LLM_CFG = {
     "model": "claude-sonnet-5",
-    "max_tokens": 4000,
+    "max_tokens": 12000,
     "search_tool_type": "web_search_20260209",
     "max_searches_per_script": 8,
     "pricing_usd_per_million_tokens": {"input": 2.0, "output": 10.0},
     "web_search_cost_per_use_usd": 0.01,
-    # Safety net for this small test, not a real per-script ceiling.
-    "max_cost_per_script_usd": 1.00,
+    # Safety net for this small test, not a real per-script ceiling. Raised
+    # alongside max_tokens - the first attempt at 4000/$1.00 hit max_tokens
+    # before finishing, so both were sized too tight for 8 claims + sources.
+    "max_cost_per_script_usd": 2.00,
 }
 
 GEMINI_MODEL = "gemini-2.5-flash"
