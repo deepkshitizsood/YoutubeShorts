@@ -1,0 +1,34 @@
+name: Prototype - Fact-check Provider Comparison
+
+# Temporary, manual-only workflow for the ideation/scripting redesign's Step 0
+# (see the plan: lets-build-an-agent-resilient-clock.md, Section 0) - compares
+# Claude Sonnet 5 + web_search against Gemini 2.5 Flash + Google Search
+# grounding on a fixed set of test claims, using the repo's existing secrets
+# so no local .env is needed. Writes nothing back to the repo - output is the
+# run log only. Delete this file once the comparison has been read and a
+# provider decision made; it isn't part of the production pipeline.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run fact-check provider comparison
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_IMAGE_API_KEY: ${{ secrets.GOOGLE_IMAGE_API_KEY }}
+        run: python -m scripts.prototype_factcheck_compare
