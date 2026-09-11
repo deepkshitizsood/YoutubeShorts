@@ -1099,5 +1099,26 @@
     "total_shots": 18,
     "created_at": "2026-09-10T18:23:16.452707+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "europa_ocean_more_water_than_earth",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "title": "Europa's Hidden Ocean Beats All of Earth's Oceans",
+    "video_id": "jkV-gihO7yY",
+    "length_variant": "short",
+    "mood": "mysterious",
+    "closing_question": "What do you think is swimming down there?",
+    "central_claim": "Jupiter's moon Europa, though smaller than Earth's Moon, likely hides a subsurface ocean containing more than twice the liquid water of all of Earth's oceans combined, kept from freezing by tidal heating from Jupiter's gravity.",
+    "sources": [
+      "https://science.nasa.gov/missions/europa-clipper/europa-clipper-resources/europa-water-world-infographic/",
+      "https://science.nasa.gov/mission/europa-clipper/why-europa-evidence-for-an-ocean/",
+      "https://skyandtelescope.org/astronomy-news/europa-clipper-successfully-passed-by-mars-en-route-to-jupiter/"
+    ],
+    "web_searches": 3,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-09-11T18:26:05.150403+00:00",
+    "dry_run": false
   }
 ]
