@@ -1,5 +1,5 @@
 """One-off decision tool: compares Claude Sonnet 5 + web_search against Gemini
-2.5 Flash + Google Search grounding on a fixed set of test claims, to decide
+3.6 Flash + Google Search grounding on a fixed set of test claims, to decide
 which provider gen_ideas.py's search-verification step should call.
 
 Not part of the production pipeline - run once, manually:
@@ -66,12 +66,15 @@ CLAUDE_LLM_CFG = {
     "max_cost_per_script_usd": 2.00,
 }
 
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-3.6-flash"
 GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-# Verified 2026-09-11 against https://ai.google.dev/gemini-api/docs/pricing.
-# Grounding tool fee (1,500 free requests/day, then $35/1000) is assumed $0
-# here - this prototype's volume is nowhere near the free-tier limit.
-GEMINI_PRICING = {"input": 0.30, "output": 2.50}
+# gemini-2.5-flash returned a 404 on the first real attempt (2026-09-11):
+# "no longer available to new users... use models/gemini-3.6-flash". Re-verified
+# pricing for 3.6 Flash the same day against ai.google.dev/gemini-api/docs/pricing:
+# $0.75/$3.75 per million in/out through 2026-12-31, rising to $1.50/$7.50 in 2027.
+# Grounding: 5,000 free requests/MONTH (shared across Gemini 3.x models), then
+# $14/1000 - still far above this prototype's volume, so $0 fee assumed here.
+GEMINI_PRICING = {"input": 0.75, "output": 3.75}
 
 
 def _prompt() -> str:
@@ -167,28 +170,38 @@ def main() -> None:
     # Gemini API surface, not just the image model this key was created for.
     google_key = cfg.env("GOOGLE_IMAGE_API_KEY")
 
+    # Each side is printed the moment it's available, and a failure on one
+    # side never hides already-obtained (already-paid-for) results from the
+    # other - a real run already lost a successful Claude result this way
+    # when the Gemini call crashed afterward with an unhandled exception.
     print(f"Testing {len(TEST_CLAIMS)} claims against Claude Sonnet 5 + web_search...")
     claude_results, claude_usage = verify_with_claude()
     claude_cost = claude_usage.cost_usd(CLAUDE_LLM_CFG)
-
-    print(f"Testing {len(TEST_CLAIMS)} claims against Gemini 2.5 Flash + Google Search grounding...")
-    gemini_results, gemini_usage = verify_with_gemini(google_key)
-    gcost = gemini_cost_usd(gemini_usage)
-
     _print_side("Claude Sonnet 5 + web_search", claude_results)
-    _print_side("Gemini 2.5 Flash + Google Search grounding", gemini_results)
-
-    print("\n=== Cost comparison ===")
     print(
-        f"Claude: ${claude_cost:.4f}  "
+        f"\nClaude cost: ${claude_cost:.4f}  "
         f"({claude_usage.input_tokens} in / {claude_usage.output_tokens} out tokens, "
         f"{claude_usage.searches} search(es))"
     )
+
+    print(f"\nTesting {len(TEST_CLAIMS)} claims against Gemini + Google Search grounding...")
+    try:
+        gemini_results, gemini_usage = verify_with_gemini(google_key)
+    except Exception as e:
+        print(f"\nGemini side failed: {e}", file=sys.stderr)
+        print("\nClaude-only results are above and were already paid for; Gemini side did not complete.")
+        raise
+
+    gcost = gemini_cost_usd(gemini_usage)
+    _print_side("Gemini + Google Search grounding", gemini_results)
     print(
-        f"Gemini: ${gcost:.4f}  "
+        f"\nGemini cost: ${gcost:.4f}  "
         f"({gemini_usage['input_tokens']} in / {gemini_usage['output_tokens']} out tokens; "
         f"grounding fee assumed $0 at this volume - verify in AI Studio usage if unsure)"
     )
+
+    print("\n=== Cost comparison ===")
+    print(f"Claude: ${claude_cost:.4f}   Gemini: ${gcost:.4f}")
     if gcost > 0:
         print(f"Claude is {claude_cost / gcost:.1f}x the cost of Gemini for this test batch.")
     print(
