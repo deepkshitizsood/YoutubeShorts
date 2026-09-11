@@ -10,6 +10,11 @@ name: Prototype - Fact-check Provider Comparison
 
 on:
   workflow_dispatch:
+    inputs:
+      gemini_only:
+        description: "Skip Claude - reuse its already-known result and only spend on Gemini"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -31,4 +36,9 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_IMAGE_API_KEY: ${{ secrets.GOOGLE_IMAGE_API_KEY }}
-        run: python -m scripts.prototype_factcheck_compare
+        run: |
+          if [ "${{ inputs.gemini_only }}" = "true" ]; then
+            python -m scripts.prototype_factcheck_compare --gemini-only
+          else
+            python -m scripts.prototype_factcheck_compare
+          fi

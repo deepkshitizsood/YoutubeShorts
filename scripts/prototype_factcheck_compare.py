@@ -17,6 +17,7 @@ before trusting the cost number alone.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
@@ -142,9 +143,16 @@ def verify_with_gemini(api_key: str) -> tuple[list[dict], dict]:
 
     results = _extract_json_array(text)
     usage_meta = body.get("usageMetadata", {})
+    # groundingMetadata is the actual proof a real search happened - a small
+    # promptTokenCount alone doesn't distinguish "grounding is just billed
+    # differently" from "the model answered from memory and never searched".
+    grounding_meta = candidates[0].get("groundingMetadata", {})
     usage = {
         "input_tokens": usage_meta.get("promptTokenCount", 0),
         "output_tokens": usage_meta.get("candidatesTokenCount", 0),
+        "web_search_queries": grounding_meta.get("webSearchQueries", []),
+        "grounding_chunks_count": len(grounding_meta.get("groundingChunks", [])),
+        "grounding_metadata_present": bool(grounding_meta),
     }
     return results, usage
 
@@ -166,31 +174,37 @@ def _print_side(label: str, results: list[dict]) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--gemini-only", action="store_true",
+        help="Skip Claude entirely - Claude's result from a prior run is already known/paid for.",
+    )
+    args = parser.parse_args()
+
     # Tried first per the plan: AI Studio keys typically cover the whole
     # Gemini API surface, not just the image model this key was created for.
     google_key = cfg.env("GOOGLE_IMAGE_API_KEY")
 
-    # Each side is printed the moment it's available, and a failure on one
-    # side never hides already-obtained (already-paid-for) results from the
-    # other - a real run already lost a successful Claude result this way
-    # when the Gemini call crashed afterward with an unhandled exception.
-    print(f"Testing {len(TEST_CLAIMS)} claims against Claude Sonnet 5 + web_search...")
-    claude_results, claude_usage = verify_with_claude()
-    claude_cost = claude_usage.cost_usd(CLAUDE_LLM_CFG)
-    _print_side("Claude Sonnet 5 + web_search", claude_results)
-    print(
-        f"\nClaude cost: ${claude_cost:.4f}  "
-        f"({claude_usage.input_tokens} in / {claude_usage.output_tokens} out tokens, "
-        f"{claude_usage.searches} search(es))"
-    )
+    claude_results, claude_usage, claude_cost = None, None, None
+    if not args.gemini_only:
+        # Each side is printed the moment it's available, and a failure on one
+        # side never hides already-obtained (already-paid-for) results from
+        # the other - a real run already lost a successful Claude result this
+        # way when the Gemini call crashed afterward with an unhandled exception.
+        print(f"Testing {len(TEST_CLAIMS)} claims against Claude Sonnet 5 + web_search...")
+        claude_results, claude_usage = verify_with_claude()
+        claude_cost = claude_usage.cost_usd(CLAUDE_LLM_CFG)
+        _print_side("Claude Sonnet 5 + web_search", claude_results)
+        print(
+            f"\nClaude cost: ${claude_cost:.4f}  "
+            f"({claude_usage.input_tokens} in / {claude_usage.output_tokens} out tokens, "
+            f"{claude_usage.searches} search(es))"
+        )
+    else:
+        print("Skipping Claude (--gemini-only) - prior run: $0.5647, 204039 in / 7659 out tokens, 8 searches.")
 
     print(f"\nTesting {len(TEST_CLAIMS)} claims against Gemini + Google Search grounding...")
-    try:
-        gemini_results, gemini_usage = verify_with_gemini(google_key)
-    except Exception as e:
-        print(f"\nGemini side failed: {e}", file=sys.stderr)
-        print("\nClaude-only results are above and were already paid for; Gemini side did not complete.")
-        raise
+    gemini_results, gemini_usage = verify_with_gemini(google_key)
 
     gcost = gemini_cost_usd(gemini_usage)
     _print_side("Gemini + Google Search grounding", gemini_results)
@@ -199,13 +213,25 @@ def main() -> None:
         f"({gemini_usage['input_tokens']} in / {gemini_usage['output_tokens']} out tokens; "
         f"grounding fee assumed $0 at this volume - verify in AI Studio usage if unsure)"
     )
-
-    print("\n=== Cost comparison ===")
-    print(f"Claude: ${claude_cost:.4f}   Gemini: ${gcost:.4f}")
-    if gcost > 0:
-        print(f"Claude is {claude_cost / gcost:.1f}x the cost of Gemini for this test batch.")
     print(
-        "\nNow read both sides above and judge accuracy/source quality by hand - "
+        f"Grounding proof - groundingMetadata present: {gemini_usage['grounding_metadata_present']}, "
+        f"web search queries actually run: {gemini_usage['web_search_queries']!r}, "
+        f"grounding chunks returned: {gemini_usage['grounding_chunks_count']}"
+    )
+    if not gemini_usage["grounding_metadata_present"]:
+        print(
+            "WARNING: no groundingMetadata in the response at all - this answer may not be "
+            "grounded, and the cost/accuracy comparison so far should not be trusted.",
+            file=sys.stderr,
+        )
+
+    if claude_cost is not None:
+        print("\n=== Cost comparison ===")
+        print(f"Claude: ${claude_cost:.4f}   Gemini: ${gcost:.4f}")
+        if gcost > 0:
+            print(f"Claude is {claude_cost / gcost:.1f}x the cost of Gemini for this test batch.")
+    print(
+        "\nNow read the output above and judge accuracy/source quality by hand - "
         "the cheaper answer is not the better one if it's wrong or unsourced."
     )
 
