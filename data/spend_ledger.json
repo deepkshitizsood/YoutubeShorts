@@ -1385,6 +1385,17 @@
       "searches": 0,
       "cache_creation_tokens": 0,
       "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-13T18:04:57Z",
+      "item": "llm_script",
+      "usd": 0.0,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
     }
   ]
 }
