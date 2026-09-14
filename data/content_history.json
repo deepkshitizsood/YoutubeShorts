@@ -1162,5 +1162,28 @@
     "total_shots": 18,
     "created_at": "2026-09-14T05:44:33.250712+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "saturn_hexagon_storm",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": null,
+    "title": "Saturn's North Pole Is a Perfect Hexagon Storm",
+    "video_id": "t8rTIczVx2c",
+    "length_variant": "long",
+    "mood": "mysterious",
+    "closing_question": "What shape do you think hides on an unexplored planet?",
+    "central_claim": "Saturn has a persistent six-sided jet stream storm at its north pole, roughly fifteen thousand miles across and about two hundred miles deep, with winds near two hundred miles per hour, first observed by Voyager in the early 1980s and still present today.",
+    "sources": [
+      "https://www.jpl.nasa.gov/news/cassini-images-bizarre-hexagon-on-saturn/",
+      "https://en.wikipedia.org/wiki/Saturn's_hexagon",
+      "https://www.sciencedaily.com/releases/2020/10/201006165740.htm",
+      "https://solarsystem.nasa.gov/resources/15927/saturns-streaming-hexagon-storm/"
+    ],
+    "web_searches": 4,
+    "stock_shots": 4,
+    "total_shots": 18,
+    "created_at": "2026-09-14T19:54:18.734229+00:00",
+    "dry_run": false
   }
 ]
