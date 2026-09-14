@@ -21,6 +21,16 @@ posting:
   visibility_on_launch: "public"
 
 content:
+  # "live" = today's path: script_gen.py calls Claude fresh, once per run
+  # (the only mode that has ever run in production). "queue" = pop a
+  # pre-generated, pre-approved script off data/script_queue.json instead
+  # (see src/queue.py, src/gen_ideas.py, src/gen_scripts.py) - built but not
+  # yet exercised in production. Do not flip to "queue" until one real
+  # ideation + scripting batch has been run and inspected by hand (see the
+  # plan's cutover sequence) - this default keeps the live channel completely
+  # unaffected while that path is built and tested.
+  script_source: "live"
+
   # THE NICHE. Every video must sit inside it.
   #
   # Videos used to be "any surprising fact", and reach flat-lined: 25 videos, max
@@ -121,6 +131,47 @@ content:
       shots: 18
       weight: 0.5
 
+  # Call A (src/gen_ideas.py) - infrequent, search-heavy ideation. Produces
+  # a batch of concepts into data/idea_bank.jsonl for human review.
+  ideation:
+    batch_size: 40
+    # Whole-BATCH search cap (web_search tool's max_uses), not per-concept -
+    # this is what actually prevents 40 individual verification passes from
+    # reproducing today's per-video search cost 40x over in one call. See
+    # docs/prompt_ideation.md's search-budget instructions.
+    search_budget_per_batch: 8
+    clusters:
+      - stellar_lifecycle
+      - solar_system_oddities
+      - deep_time
+      - physics_limits
+      - observation_and_instruments
+      - exoplanets
+      - galactic_structure
+      - human_spaceflight
+      - cosmology_and_origins
+      - things_we_got_wrong
+    # Maps ideation's cluster taxonomy onto the existing pillars above, so
+    # src/queue.py can pop a queued item matching whatever pillar strategy.py's
+    # bandit picks for the day - the bandit itself is untouched.
+    cluster_pillar_map:
+      stellar_lifecycle: cosmic_scale
+      solar_system_oddities: planets_and_moons
+      deep_time: cosmic_scale
+      physics_limits: cosmic_scale
+      observation_and_instruments: space_history
+      exoplanets: planets_and_moons
+      galactic_structure: cosmic_scale
+      human_spaceflight: space_history
+      cosmology_and_origins: cosmic_scale
+      things_we_got_wrong: space_myths
+
+  # Call B (src/gen_scripts.py) - frequent, cheap, non-agentic scripting of
+  # already-approved concepts. Produces data/script_queue.json.
+  scripting:
+    batch_size: 20   # ~2 weeks at 1/day plus slack for retries/pillar mismatch
+    per_item_retry_attempts: 2
+
 budget:
   # Hard ceiling for ALL providers combined (LLM + TTS + images). main.py checks
   # this before spending anything each run and skips the run entirely once
@@ -175,6 +226,38 @@ providers:
     # cannot be exceeded; this ceiling is only about not wasting a whole
     # script's spend on a single runaway call.
     max_cost_per_script_usd: 2.00
+
+  # Call A (src/gen_ideas.py). Same model/pricing as providers.llm above -
+  # duplicated rather than shared because this call's cost ceiling is
+  # whole-batch, not per-script, and the two must not accidentally drift
+  # together if one is tuned later.
+  llm_ideation:
+    provider: anthropic
+    model: claude-sonnet-5
+    max_tokens: 12000
+    search_tool_type: web_search_20260209
+    pricing_usd_per_million_tokens:
+      input: 2.0
+      output: 10.0
+    web_search_cost_per_use_usd: 0.01
+    # Whole-batch ceiling (all concepts, all searches, all retries combined) -
+    # a guess sized against a rough $1.50-$3.00/batch estimate, itself
+    # unverified until the first real run. Same "measure, don't assume"
+    # discipline as providers.llm.max_cost_per_script_usd's own history above.
+    max_cost_per_ideation_batch_usd: 6.00
+
+  # Call B (src/gen_scripts.py). Haiku 4.5, not Sonnet: no web search, no
+  # thinking (off by default on this model), purely mechanical prose from an
+  # already-verified concept - the cheapest tier fits, per the design that
+  # moved ALL judgment into Call A and the human gate between them.
+  llm_scripting:
+    provider: anthropic
+    model: claude-haiku-4-5
+    max_tokens: 6000
+    pricing_usd_per_million_tokens:
+      input: 1.0
+      output: 5.0
+    max_cost_per_scripting_batch_usd: 1.00
   tts:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"

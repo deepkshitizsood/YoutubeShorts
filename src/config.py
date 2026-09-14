@@ -15,6 +15,8 @@ OUTPUT_DIR = REPO_ROOT / "output"
 PERFORMANCE_LOG_PATH = DATA_DIR / "performance_log.json"
 SPEND_LEDGER_PATH = DATA_DIR / "spend_ledger.json"
 CONTENT_HISTORY_PATH = DATA_DIR / "content_history.json"
+IDEA_BANK_PATH = DATA_DIR / "idea_bank.jsonl"
+SCRIPT_QUEUE_PATH = DATA_DIR / "script_queue.json"
 
 
 @lru_cache(maxsize=1)
@@ -46,6 +48,8 @@ def ensure_dirs() -> None:
         (PERFORMANCE_LOG_PATH, "[]\n"),
         (CONTENT_HISTORY_PATH, "[]\n"),
         (SPEND_LEDGER_PATH, '{\n  "entries": []\n}\n'),
+        (IDEA_BANK_PATH, ""),  # JSONL - empty file is a valid zero-line bank
+        (SCRIPT_QUEUE_PATH, '{\n  "entries": []\n}\n'),
     ):
         if not path.exists():
             path.write_text(initial, encoding="utf-8")

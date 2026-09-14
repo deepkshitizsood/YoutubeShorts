@@ -135,6 +135,14 @@ def recent_topics(history: list[dict], limit: int = 60) -> list[str]:
     return [h["topic"] for h in history[-limit:] if h.get("topic")]
 
 
+def recent_titles(history: list[dict], limit: int = 60) -> list[str]:
+    """Same window as recent_topics(), but human-readable titles rather than
+    topic slugs - gen_ideas.py's exclusion list needs titles, and reusing this
+    window (instead of a parallel used_titles.txt) means it can't drift out of
+    sync with what recent_topics() already shows the live scripting path."""
+    return [h["title"] for h in history[-limit:] if h.get("title")]
+
+
 def used_topics() -> set[str]:
     """Every topic ever produced, for the hard uniqueness check.
 

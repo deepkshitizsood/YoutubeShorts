@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from . import config as cfg
-from . import budget, strategy, script_gen, tts, visuals, assemble, upload, analytics
+from . import budget, strategy, script_gen, queue, tts, visuals, assemble, upload, analytics
 
 
 def _safe_slug(topic: str) -> str:
@@ -64,33 +64,57 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     )
     strategy.print_learning_report()
 
-    used_topics = strategy.used_topics()
-    try:
-        data = script_gen.generate_unique_script(config, brief, used_topics)
-    except script_gen.ScriptGenerationFailed as e:
-        # Tokens/searches were already billed by Anthropic even though this run
-        # produced no video - record it so next run's pre-flight budget check
-        # (and the daily spend report) sees the real number, not zero.
+    queue_item_id = None
+    queue_item_cluster = None
+    if config["content"].get("script_source", "live") == "queue":
+        item = queue.pop_for_pillar(config, brief["pillar_id"])
+        if item is None:
+            item = queue.pop_any_queued(config)
+            if item is not None:
+                print(
+                    f"[queue] No queued item for pillar {brief['pillar_id']!r} - "
+                    f"popped {item['id']} ({item['cluster']}) instead.",
+                    file=sys.stderr,
+                )
+        if item is None:
+            raise RuntimeError(
+                "script_source is 'queue' but data/script_queue.json has no queued items - "
+                "run `python -m src.gen_ideas` then `python -m src.gen_scripts` first."
+            )
+        queue_item_id = item["id"]
+        queue_item_cluster = item.get("cluster")
+        data = queue.item_to_pipeline_data(item)
+        print(f"[queue] Popped {queue_item_id} ({item['cluster']}) - real cost: $0.000 (already paid at scripting time)")
+    else:
+        used_topics = strategy.used_topics()
+        try:
+            data = script_gen.generate_unique_script(config, brief, used_topics)
+        except script_gen.ScriptGenerationFailed as e:
+            # Tokens/searches were already billed by Anthropic even though this run
+            # produced no video - record it so next run's pre-flight budget check
+            # (and the daily spend report) sees the real number, not zero.
+            budget.record_spend(
+                ledger, "llm_script", e.cost_usd,
+                input_tokens=e.input_tokens, output_tokens=e.output_tokens,
+                searches=e.searches,
+                cache_creation_tokens=e.cache_creation_tokens, cache_read_tokens=e.cache_read_tokens,
+            )
+            print(
+                f"[script] Failed after ${e.cost_usd:.3f} real spend "
+                f"({e.input_tokens} in / {e.output_tokens} out tokens, "
+                f"{e.searches} search(es), {e.calls} call(s)) - see traceback below.",
+                file=sys.stderr,
+            )
+            raise
         budget.record_spend(
-            ledger, "llm_script", e.cost_usd,
-            input_tokens=e.input_tokens, output_tokens=e.output_tokens,
-            searches=e.searches,
-            cache_creation_tokens=e.cache_creation_tokens, cache_read_tokens=e.cache_read_tokens,
+            ledger, "llm_script", data["llm_cost_usd"],
+            input_tokens=data["llm_input_tokens"], output_tokens=data["llm_output_tokens"],
+            searches=data.get("web_searches", 0),
+            cache_creation_tokens=data["llm_cache_creation_tokens"],
+            cache_read_tokens=data["llm_cache_read_tokens"],
         )
-        print(
-            f"[script] Failed after ${e.cost_usd:.3f} real spend "
-            f"({e.input_tokens} in / {e.output_tokens} out tokens, "
-            f"{e.searches} search(es), {e.calls} call(s)) - see traceback below.",
-            file=sys.stderr,
-        )
-        raise
-    budget.record_spend(
-        ledger, "llm_script", data["llm_cost_usd"],
-        input_tokens=data["llm_input_tokens"], output_tokens=data["llm_output_tokens"],
-        searches=data.get("web_searches", 0),
-        cache_creation_tokens=data["llm_cache_creation_tokens"],
-        cache_read_tokens=data["llm_cache_read_tokens"],
-    )
+        print(f"[script] Real LLM cost this run: ${data['llm_cost_usd']:.3f}")
+
     print(
         f"[script] Topic: {data['topic']} | Length: {data.get('length_variant', '?')} "
         f"| Title: {data['title']}"
@@ -105,7 +129,6 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "unverified.",
             file=sys.stderr,
         )
-    print(f"[script] Real LLM cost this run: ${data['llm_cost_usd']:.3f}")
 
     run_folder_name = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_") + _safe_slug(data["topic"])
     run_dir = cfg.OUTPUT_DIR / run_folder_name
@@ -161,10 +184,17 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
         # Recorded even if the upload throws: if the insert actually landed
         # before erroring, tomorrow's run must still know this topic is used,
         # or it regenerates the same one and double-posts it.
+        if queue_item_id is not None:
+            # Finalizes the queue entry's status in the same finally block that
+            # already handles "upload succeeded but something after it threw" -
+            # a crash here still leaves the item correctly marked published.
+            queue.mark_published(queue_item_id, video_id)
         strategy.append_content_history({
             "topic": data["topic"],
             "pillar_id": brief["pillar_id"],
             "series_id": brief.get("series_id"),
+            "cluster": queue_item_cluster,  # None on the live path; gen_ideas.py's
+                                             # auto_filter reads this for recent-cluster exclusion
             "title": data["title"],
             "video_id": video_id,
             "length_variant": data.get("length_variant"),
