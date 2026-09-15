@@ -1185,5 +1185,28 @@
     "total_shots": 18,
     "created_at": "2026-09-14T19:54:18.734229+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "neptune_supersonic_winds",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": null,
+    "title": "Neptune's Winds Are Faster Than the Speed of Sound",
+    "video_id": "pmGiRolEpSY",
+    "length_variant": "short",
+    "mood": "dramatic",
+    "closing_question": "What do you think powers Neptune's winds?",
+    "central_claim": "Neptune has the fastest winds of any planet in the solar system, reaching roughly 2,000 km/h (about 1,200 mph) \u2014 faster than the speed of sound \u2014 as measured by NASA's Voyager 2 spacecraft.",
+    "sources": [
+      "https://www.guinnessworldrecords.com/world-records/76155-fastest-winds-in-the-solar-system",
+      "https://x.com/NASASolarSystem/status/1525154879756374016",
+      "https://www.worldatlas.com/space/the-fastest-winds-in-the-solar-system-47903.html"
+    ],
+    "web_searches": 4,
+    "script_hi": null,
+    "stock_shots": 2,
+    "total_shots": 11,
+    "created_at": "2026-09-15T18:57:47.278966+00:00",
+    "dry_run": false
   }
 ]
