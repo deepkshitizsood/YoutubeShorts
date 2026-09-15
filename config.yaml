@@ -262,6 +262,22 @@ providers:
     provider: google_cloud_tts
     voice: "en-US-Neural2-D"
     est_cost_per_1k_chars_usd: 0.012
+
+  # Second audio track for Indian viewers, added manually in YouTube Studio
+  # (YouTube's API has no endpoint for audio tracks). Same provider and rate
+  # as above. Male, to match the English narrator's apparent gender.
+  # If this voice name is wrong, `python -m scripts.make_hindi_audio
+  # --list-voices` prints what Google actually offers for hi-IN.
+  tts_hindi:
+    voice: "hi-IN-Neural2-D"
+    language_code: "hi-IN"
+    # The Hindi audio plays over a video timed to the English narration, so it
+    # must fit. Speech is sped up or slowed to match, but only within these
+    # bounds - past them it sounds wrong, and the script should be rewritten
+    # shorter instead.
+    min_speaking_rate: 0.85
+    max_speaking_rate: 1.15
+    duration_tolerance_seconds: 0.35
   # Free stock footage (no key = silently skipped, AI images used instead).
   # Real motion beats a panning still for retention, and costs nothing.
   stock_video:

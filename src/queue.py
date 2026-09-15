@@ -95,6 +95,7 @@ def item_to_pipeline_data(item: dict) -> dict:
         "mood": item.get("mood"),
         "central_claim": item.get("central_claim"),
         "sources": item.get("sources"),
+        "script_hi": item.get("script_hi"),
         "web_searches": 1,
         "length_variant": None,
         "closing_question": None,

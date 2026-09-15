@@ -265,6 +265,9 @@ def templatize(concept: dict, item: dict, config: dict) -> dict:
         "topic": _safe_slug(title), "title": title, "description": description,
         "tags": tags, "hook_overlay": hook_overlay, "mood": mood,
         "script": item["script"], "shot_list": item["shot_list"],
+        # Optional: written during the monthly session for videos we may want
+        # a Hindi audio track on later (see scripts/make_hindi_audio.py).
+        "script_hi": item.get("script_hi"),
         "central_claim": concept["mechanism"], "sources": [concept["source"]],
         "anchor": concept["anchor"], "anchor_spoken": concept["anchor_spoken"],
         "batch_id": datetime.now(timezone.utc).date().isoformat(),

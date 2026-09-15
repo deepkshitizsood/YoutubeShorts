@@ -1,0 +1,47 @@
+name: Make Hindi Audio Track
+
+# Generates the Hindi audio file for one already-published video, so you can
+# add it as a second audio track in YouTube Studio. That last step is manual
+# because YouTube's API has no endpoint for audio tracks.
+#
+# The audio is length-matched to the published video, since it plays over
+# visuals that were timed to the English narration.
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "Published video id to make a Hindi track for"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  make-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate Hindi audio
+        env:
+          GOOGLE_TTS_API_KEY: ${{ secrets.GOOGLE_TTS_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: python -m scripts.make_hindi_audio --video-id "${{ inputs.video_id }}"
+
+      - name: Upload the audio file
+        uses: actions/upload-artifact@v4
+        with:
+          name: hindi-audio-${{ inputs.video_id }}
+          path: output/hindi_audio/*.wav
+          retention-days: 30

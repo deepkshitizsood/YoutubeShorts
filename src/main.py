@@ -204,6 +204,10 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "central_claim": data.get("central_claim"),
             "sources": data.get("sources"),
             "web_searches": data.get("web_searches"),
+            # Hindi narration, if one was written. Recorded here because this
+            # is the only durable record keyed by video_id, and the Hindi
+            # audio track is generated on demand after publishing.
+            "script_hi": data.get("script_hi"),
             "stock_shots": sum(1 for k in shot_kinds if k == "video"),
             "total_shots": len(shot_kinds),
             "created_at": datetime.now(timezone.utc).isoformat(),
