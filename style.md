@@ -46,6 +46,43 @@ Four beats. Do not label them in the output.
 - No question-mark opener unless the question is answerable in the first 3 seconds.
 - The hook must be true. No bait that the payload doesn't pay off.
 
+## The opening frame IS the thumbnail
+
+This channel never uploads a separate thumbnail. On Shorts, the image people
+see while scrolling is a frame of the video itself. So two things decide
+whether anyone stops: **the first shot's image, and the on-screen text burned
+over the first second.** Treat both as thumbnail design, not as afterthoughts.
+
+### On-screen text (`hook_overlay`)
+
+- **Write it deliberately. Never slice it from the script.** Taking the first
+  few words of the narration produces fragments like "phone" or "A STRANGE
+  NUMBER" — disconnected, unclickable. This was a real failure mode; don't
+  repeat it.
+- **Three to six words.** Name the subject AND open a curiosity gap.
+- Good: `THE T-REX TIME ILLUSION` · `SATURN WOULD FLOAT` · `THE MOON IS LEAVING`
+- Bad: `PHONE` · `A STRANGE NUMBER` · `DID YOU KNOW` · any bare noun.
+- It should be searchable-adjacent: the subject word a viewer would type
+  ("Saturn", "T-Rex", "Voyager") belongs in it wherever possible.
+
+### The first shot's image
+
+- It must show **the most dramatic image in the story** — the thing that makes
+  the fact feel strange — not a minor prop the opening sentence happens to
+  mention.
+- Worked example: for "the gap between Stegosaurus and T-Rex is bigger than
+  the gap between T-Rex and mobile phones", the right opening image is the two
+  dinosaurs facing each other across an impossible gulf. The wrong one is a
+  phone on a table. The phone is *in* the script; it is not *the idea*.
+- Ask: if a viewer saw only this frame and the overlay text, would they
+  understand what's strange and want the answer? If not, pick a different
+  image.
+
+### Titles
+
+- Lead with the real subject, then the curiosity — keep it searchable.
+- 40-60 characters, as specified above.
+
 ## Banned openers and phrases
 
 Never use any of these, in any position:

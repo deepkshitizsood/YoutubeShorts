@@ -103,8 +103,13 @@ Write one new YouTube Short. Return JSON with exactly this schema:
     people search ('space facts', 'astronomy') with the specific subject of this video
     ('saturn density', 'gas giant'). Prefer real search phrases over single vague words."],
   "hook": "the first spoken sentence, <=8 words, a punchy standalone claim or question",
-  "hook_overlay": "3-6 words in ALL CAPS shown on screen from the very first frame,
-    capturing the hook visually for viewers who watch muted",
+  "hook_overlay": "2-6 words in ALL CAPS burned on screen from the very first frame.
+    This IS the thumbnail text - on Shorts there is no separate thumbnail, so this plus
+    the first shot is what decides whether anyone stops scrolling. It must NAME THE
+    SUBJECT and open a curiosity gap: 'SATURN WOULD FLOAT', 'THE MOON IS LEAVING',
+    'THE T-REX TIME ILLUSION'. Never a bare noun ('PHONE'), never a disconnected
+    fragment sliced from the script ('A STRANGE NUMBER'), never 'DID YOU KNOW'.
+    Put the searchable subject word in it wherever possible.",
   "mood": "exactly one of: {moods} - the emotional register of this fact, used to
     pick a matching background music bed",
   "central_claim": "the single factual claim this video rests on, stated plainly in
@@ -128,6 +133,14 @@ Write one new YouTube Short. Return JSON with exactly this schema:
     ...
   ]
 }}
+
+SHOT 0 IS THE THUMBNAIL. On Shorts the image people see while scrolling is the opening
+frame of the video, so shot 0's visual_prompt must depict the most dramatic image in the
+story - the thing that makes the fact feel strange - NOT a minor prop the first sentence
+happens to mention. If the fact is "the gap between Stegosaurus and T-Rex is bigger than
+the gap between T-Rex and mobile phones", shot 0 is the two dinosaurs facing each other
+across an impossible gulf, not a phone on a table. Test it: seeing only that frame and
+the hook_overlay text, would a stranger understand what is strange and want the answer?
 
 Shot pacing: produce {shot_count} shots, each covering only ~2-3 seconds of narration.
 Fast cuts hold attention; long static shots lose it. The narration_segment fields,

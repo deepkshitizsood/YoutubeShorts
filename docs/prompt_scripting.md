@@ -68,10 +68,15 @@ Concepts:
 Output a JSON array. No commentary, no markdown fences, no preamble:
 
 ```json
-[{"id":"cb-0001","script":"","word_count":0,"pattern_used":"","mood":"",
+[{"id":"cb-0001","script":"","word_count":0,"pattern_used":"","mood":"","hook_overlay":"",
   "shot_list":[{"index":0,"narration_segment":"","media_type":"stock|ai",
                 "stock_query":"","visual_prompt":""}]}]
 ```
+
+`hook_overlay` is the text burned over the opening frame — which on Shorts *is* the
+thumbnail. 2-6 words, names the subject, opens a curiosity gap ("SATURN WOULD FLOAT").
+Never a bare noun; never sliced from the script. Shot 0's `visual_prompt` must show the
+most dramatic image in the story, not a minor prop. Full rules in `style.md`.
 
 `mood` is exactly one of the channel's configured moods (see `config.yaml`'s
 `content.moods`) — the emotional register of this fact, used to pick a matching music bed.

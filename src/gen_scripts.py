@@ -11,10 +11,12 @@ docs/shot_list_contract.md for the exact fields visuals.py/assemble.py need.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 from anthropic import Anthropic
 
@@ -89,8 +91,14 @@ Concepts:
 {concepts_json}
 ```
 
+THE FIRST SHOT IS THE THUMBNAIL. On Shorts there is no separate thumbnail - the frame
+people see while scrolling is the opening frame of the video. So shot 0's visual_prompt
+must show the most dramatic image in the story, not a minor prop the first sentence
+happens to mention. And `hook_overlay` is the text burned over it: 2-6 words that name
+the subject and open a curiosity gap ("SATURN WOULD FLOAT"), never a bare noun.
+
 Output a JSON array. No commentary, no markdown fences, no preamble:
-[{{"id":"cb-0001","script":"","word_count":0,"pattern_used":"","mood":"",
+[{{"id":"cb-0001","script":"","word_count":0,"pattern_used":"","mood":"","hook_overlay":"",
   "shot_list":[{{"index":0,"narration_segment":"","media_type":"stock|ai",
                 "stock_query":"","visual_prompt":""}}]}}]
 
@@ -110,7 +118,7 @@ Concept:
 ```
 
 Output a single JSON object, no commentary, no markdown fences:
-{{"id":"{concept_id}","script":"","word_count":0,"pattern_used":"","mood":"",
+{{"id":"{concept_id}","script":"","word_count":0,"pattern_used":"","mood":"","hook_overlay":"",
   "shot_list":[{{"index":0,"narration_segment":"","media_type":"stock|ai",
                 "stock_query":"","visual_prompt":""}}]}}"""
 
@@ -158,6 +166,18 @@ def validate_script(concept: dict, item: dict) -> None:
             raise ValueError(f"banned phrase found: {phrase!r}")
     if concept["anchor_spoken"].lower() not in low:
         raise ValueError(f"anchor_spoken {concept['anchor_spoken']!r} not found verbatim")
+    # The overlay is half the "thumbnail" on a Short, so it gets checked like
+    # one: a single word (the old "phone" failure) can never be a hook.
+    overlay = (item.get("hook_overlay") or "").strip()
+    if not overlay:
+        raise ValueError("missing hook_overlay (the on-screen thumbnail text)")
+    overlay_words = overlay.split()
+    if not (2 <= len(overlay_words) <= 6):
+        raise ValueError(
+            f"hook_overlay is {len(overlay_words)} word(s) ({overlay!r}); must be 2-6 "
+            f"words that name the subject and open a curiosity gap"
+        )
+
     shot_list = item.get("shot_list") or []
     if not shot_list:
         raise ValueError("empty shot_list")
@@ -234,7 +254,10 @@ def templatize(concept: dict, item: dict, config: dict) -> dict:
     tags = keywords.normalize_tags(CLUSTER_TAGS.get(concept["cluster"], []) + BASE_TAGS)
     hashtags = " ".join(f"#{t.replace(' ', '')}" for t in dict.fromkeys(["Shorts"] + tags))
     description = f"{title}. {concept['consequence']}\n\n{hashtags}"
-    hook_overlay = " ".join((concept.get("hook") or "").split()[:4]).upper()
+    # Deliberately written per script, NOT sliced from the hook. Slicing the
+    # first four words produced fragments like "PHONE" - see style.md, "The
+    # opening frame IS the thumbnail". validate_script() enforces the shape.
+    hook_overlay = item["hook_overlay"].strip().upper()
     mood = _validate_mood(item.get("mood"), config["content"]["moods"])
 
     return {
@@ -345,9 +368,64 @@ def generate_for_approved(config: dict, ledger: dict, max_items: int | None = No
     return queued
 
 
+def ingest_file(config: dict, path: str) -> list[dict]:
+    """Loads hand-written scripts (a JSON array) into the ready-to-publish queue.
+
+    No Anthropic client is constructed anywhere in this path - free by
+    construction, not by estimate. Every item still goes through the exact
+    same validate_script() the API path uses, so hand-written work cannot skip
+    a check the generated work had to pass. Anything that fails is reported
+    and skipped rather than silently queued; fix it and re-run.
+    """
+    cfg.ensure_dirs()
+    idea_bank = load_idea_bank()
+    by_id = {c["id"]: c for c in idea_bank}
+
+    items = _extract_json(Path(path).read_text(encoding="utf-8"))
+    if isinstance(items, dict):
+        items = [items]
+    print(f"[gen_scripts] Parsed {len(items)} script(s) from {path}.")
+
+    queued, failed = [], []
+    for item in items:
+        concept = by_id.get(item.get("id"))
+        if concept is None:
+            failed.append((item.get("id"), "no matching concept in the idea bank"))
+            continue
+        try:
+            validate_script(concept, item)
+        except ValueError as e:
+            failed.append((item.get("id"), str(e)))
+            continue
+        queued.append(templatize(concept, item, config))
+        concept["status"] = "scripted"
+        concept["scripted_at"] = datetime.now(timezone.utc).isoformat()
+
+    if queued:
+        append_script_queue(queued)
+        save_idea_bank(idea_bank)
+
+    print(f"[gen_scripts] {len(queued)} script(s) queued, {len(failed)} rejected.")
+    for item_id, reason in failed:
+        print(f"  rejected: {item_id} - {reason}", file=sys.stderr)
+    return queued
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--ingest", metavar="PATH",
+        help="Load hand-written scripts (JSON array) instead of calling the API. Free.",
+    )
+    args = parser.parse_args()
+
     config = cfg.load_config()
     cfg.ensure_dirs()
+
+    if args.ingest:
+        ingest_file(config, args.ingest)
+        return
+
     ledger = budget.load_ledger()
     try:
         generate_for_approved(config, ledger)

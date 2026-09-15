@@ -21,6 +21,7 @@ import argparse
 import json
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 from anthropic import Anthropic
 
@@ -311,26 +312,79 @@ def run_batch(config: dict, ledger: dict, n: int | None = None) -> list[dict]:
         f"({usage.input_tokens} in / {usage.output_tokens} out tokens, {usage.searches} search(es))."
     )
 
+    return finalize_and_save(concepts, history)
+
+
+def finalize_and_save(
+    concepts: list[dict], history: list[dict] | None = None, pre_approved: bool = False
+) -> list[dict]:
+    """Filters, stamps and saves concepts to the idea bank.
+
+    Shared by both routes into the bank - the automated API call above and the
+    hand-written `--ingest` path below - so hand-written concepts face exactly
+    the same checks (real anchor, real source, not a saturated or
+    just-used cluster) as generated ones. `pre_approved` marks survivors
+    'approved' rather than 'pending_review': the manual flow reviews concepts
+    in chat before they are ever written to disk, so a second gate would just
+    ask the same question twice.
+    """
+    history = strategy.load_content_history() if history is None else history
     recent_clusters = {h.get("cluster") for h in history[-6:] if h.get("cluster")}
     filtered = auto_filter(concepts, recent_clusters)
+
+    now = datetime.now(timezone.utc)
     for c in filtered:
         c.setdefault("hook", None)
-        c["batch_id"] = datetime.now(timezone.utc).date().isoformat()
-        c["created_at"] = datetime.now(timezone.utc).isoformat()
-        c["reviewed_at"] = None
+        c["batch_id"] = now.date().isoformat()
+        c["created_at"] = now.isoformat()
+        c["reviewed_at"] = now.isoformat() if pre_approved else None
         c["scripted_at"] = None
+        if pre_approved and c["status"] == "pending_review":
+            c["status"] = "approved"
 
     saved = append_idea_bank(filtered)
-    kept = sum(1 for c in saved if c["status"] == "pending_review")
-    print(f"[gen_ideas] {kept}/{len(saved)} concepts passed the auto-filter and await review "
-          f"(python -m scripts.approve_ideas).")
+    kept = [c for c in saved if c["status"] in ("pending_review", "approved")]
+    rejected = [c for c in saved if c["status"] == "rejected"]
+    print(f"[gen_ideas] Saved {len(saved)} concept(s): {len(kept)} kept, {len(rejected)} auto-rejected.")
+    for c in rejected:
+        print(f"  rejected: {c['id']} {c.get('title', '?')!r} "
+              f"(saturation={c.get('saturation')}, anchor={bool(c.get('anchor'))}, "
+              f"source={bool(c.get('source'))}, cluster={c.get('cluster')})")
+    if not pre_approved and kept:
+        print("[gen_ideas] Run `python -m scripts.approve_ideas` to review them.")
     return saved
+
+
+def ingest_file(path: str, pre_approved: bool = True) -> list[dict]:
+    """Loads hand-written concepts (one JSON object per line) into the idea bank.
+
+    No Anthropic client is constructed anywhere in this path - it is free, by
+    construction rather than by estimate. This is how concepts written during
+    a manual session get into the project.
+    """
+    cfg.ensure_dirs()
+    raw_text = Path(path).read_text(encoding="utf-8")
+    concepts = _parse_jsonl_response(raw_text, expected_n=0)
+    print(f"[gen_ideas] Parsed {len(concepts)} concept(s) from {path}.")
+    return finalize_and_save(concepts, pre_approved=pre_approved)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--n", type=int, default=None, help="Number of concepts to generate")
+    parser.add_argument(
+        "--ingest", metavar="PATH",
+        help="Load hand-written concepts (JSONL) instead of calling the API. Free.",
+    )
+    parser.add_argument(
+        "--needs-review", action="store_true",
+        help="With --ingest: mark concepts 'pending_review' instead of 'approved'.",
+    )
     args = parser.parse_args()
+
+    if args.ingest:
+        ingest_file(args.ingest, pre_approved=not args.needs_review)
+        return
 
     config = cfg.load_config()
     ledger = budget.load_ledger()

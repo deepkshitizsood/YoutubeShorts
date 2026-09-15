@@ -1,0 +1,84 @@
+name: Idea Stock Check
+
+# Emails you (via a GitHub issue) when the ready-to-publish list is running
+# low, so a monthly writing session gets scheduled before the channel runs
+# out of videos. Read-only and free - it just counts entries in a file.
+
+on:
+  schedule:
+    - cron: "17 8 * * 1"   # Mondays, ~8:17am UTC (off the hour on purpose)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Count remaining videos and alert if low
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const THRESHOLD = 5;
+
+            let queued = 0;
+            try {
+              const queue = JSON.parse(fs.readFileSync('data/script_queue.json', 'utf8'));
+              queued = (queue.entries || []).filter(e => e.status === 'queued').length;
+            } catch (e) {
+              console.log(`Could not read script_queue.json (${e.message}) - treating as empty.`);
+            }
+
+            let approved = 0;
+            try {
+              approved = fs.readFileSync('data/idea_bank.jsonl', 'utf8')
+                .split('\n').filter(Boolean).map(JSON.parse)
+                .filter(c => c.status === 'approved').length;
+            } catch (e) {
+              console.log(`Could not read idea_bank.jsonl (${e.message}) - treating as empty.`);
+            }
+
+            console.log(`Ready to publish: ${queued}. Approved but not yet written: ${approved}.`);
+            if (queued > THRESHOLD) {
+              console.log('Stock is fine - no issue filed.');
+              return;
+            }
+
+            // Reuse one issue rather than filing a new one every week.
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'idea-restock',
+            });
+
+            const body = [
+              `**${queued} video(s) left ready to publish.** ${approved} idea(s) are approved but not yet written up.`,
+              '',
+              `At one video a day, that is about ${queued} day(s) of runway.`,
+              '',
+              'Time for a writing session. Open Claude Code in the project and say:',
+              '',
+              '> Let us do the monthly content batch.',
+              '',
+              'It will pull the current numbers, read `docs/learnings.md` and `style.md`,',
+              'suggest ideas for you to approve in chat, then write and check the scripts.',
+            ].join('\n');
+
+            if (existing.data.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body,
+              });
+              console.log(`Updated existing issue #${existing.data[0].number}.`);
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: `Video stock low - ${queued} left`,
+                body, labels: ['idea-restock'],
+              });
+              console.log('Filed a new restock issue.');
+            }
