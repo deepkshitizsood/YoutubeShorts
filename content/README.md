@@ -16,6 +16,11 @@ For each video, one `add(...)` block holding:
 - the **visual plan** — two to four visuals per beat, each with a real
   direction, not a placeholder
 
+`overlay` is not decoration: the opening frame is extracted after rendering and
+uploaded as the video's YouTube thumbnail, so that line of text and the first
+beat's visual are what a stranger sees before they have watched anything. Write
+them as a pair.
+
 The shot list is *built*, never typed. `build_shots()` splits each beat's exact
 words across that beat's planned visuals, so the shot narration always
 reconstructs the script word-for-word. That removes the one failure mode that

@@ -301,6 +301,13 @@ assembly:
   # no video has ever had a bed, so expect one tuning pass.
   music_volume_db: -20
 
+  # Captions are grouped into short phrases, with the word being spoken tinted.
+  # One word per line (the old behaviour) was hard to read, and meant any frame
+  # YouTube grabbed for a thumbnail showed a single stray word.
+  caption_max_words: 4
+  caption_max_chars: 24
+  caption_highlight_colour: "&H00E5FF&"   # ASS inline colour, &HBBGGRR& - amber
+
   sfx_dir: "assets/sfx"
   hook_volume_db: -8          # should be clearly audible - it carries the hook
   transition_volume_db: -16   # should be felt more than heard

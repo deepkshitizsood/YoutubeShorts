@@ -178,6 +178,21 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
                 visibility=config["posting"]["visibility_on_launch"],
             )
             print(f"[upload] Published as video_id={video_id}")
+            # Without this YouTube picks its own frame for the clickable
+            # thumbnail. Isolated because a thumbnail failure (an unverified
+            # channel returns 403) must not undo a successful upload.
+            try:
+                thumb = assemble.extract_thumbnail(
+                    final_path, final_path.with_name("thumbnail.jpg")
+                )
+                upload.set_thumbnail(video_id, thumb)
+                print(f"[upload] Thumbnail set from the opening frame ({thumb.name})")
+            except Exception as e:
+                print(
+                    f"[upload] Thumbnail not set ({e}). The video is published and fine; "
+                    f"custom thumbnails need a phone-verified channel.",
+                    file=sys.stderr,
+                )
         else:
             print("[upload] Skipped (--dry-run)")
     finally:

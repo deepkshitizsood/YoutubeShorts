@@ -1,5 +1,5 @@
 """Composites shots (stock clips, or images with Ken Burns motion) + narration
-+ background music + word-pop captions into the final MP4, entirely via ffmpeg
++ background music + phrase captions into the final MP4, entirely via ffmpeg
 subprocess calls (no moviepy dependency, keeps the GitHub Actions runner fast
 and light).
 """
@@ -152,20 +152,135 @@ def _ass_escape(text: str) -> str:
     return text.replace("\\", "").replace("{", "(").replace("}", ")")
 
 
-def build_word_pop_captions(
+CAPTION_MAX_WORDS = 4
+CAPTION_MAX_CHARS = 24
+# ASS inline colour override format is &HBBGGRR& - this is the same amber as
+# the Hook style's PrimaryColour (&H0000E5FF = AABBGGRR).
+CAPTION_HIGHLIGHT_COLOUR = "&H00E5FF&"
+CAPTION_BASE_COLOUR = "&HFFFFFF&"
+
+_SENTENCE_END = (".", "?", "!")
+_SOFT_BREAK = (",", ";", ":")
+# Ending a caption on one of these reads as a line cut mid-thought
+# ("VENUS TAKES LONGER TO"), so they get pushed to the next phrase.
+_TRAILING_FUNCTION_WORDS = {
+    "A", "AN", "THE", "TO", "OF", "IN", "ON", "AT", "BY", "FOR", "AND", "OR",
+    "BUT", "THAN", "WITH", "INTO", "FROM", "AS", "IS", "IT", "ITS", "THAT",
+    "THIS", "SO", "ARE", "WAS", "WERE", "HAS", "HAD",
+}
+
+
+def _caption_text(word: str) -> str:
+    return _ass_escape(word.upper().translate(_PUNCT_TO_STRIP)).strip()
+
+
+def group_into_phrases(
+    word_timings: list[WordTiming],
+    max_words: int = CAPTION_MAX_WORDS,
+    max_chars: int = CAPTION_MAX_CHARS,
+) -> list[list[tuple[WordTiming, str]]]:
+    """Groups timed words into short, readable caption phrases.
+
+    Breaks on sentence-ending punctuation first, then on commas once there is
+    enough to read, then on the word/character limits. Punctuation is read from
+    the ORIGINAL word, since the displayed text has had it stripped out.
+    """
+    phrases: list[list[tuple[WordTiming, str]]] = []
+    current: list[tuple[WordTiming, str]] = []
+    chars = 0
+
+    for wt in word_timings:
+        text = _caption_text(wt.word)
+        if not text:
+            continue
+        width = chars + len(text) + (1 if current else 0)
+        if current and (len(current) >= max_words or width > max_chars):
+            phrases.append(current)
+            current, width = [], len(text)
+        current.append((wt, text))
+        chars = width
+
+        raw = wt.word.strip().rstrip('"\'')
+        if raw.endswith(_SENTENCE_END) or (raw.endswith(_SOFT_BREAK) and len(current) >= 2):
+            phrases.append(current)
+            current, chars = [], 0
+
+    if current:
+        phrases.append(current)
+    return _rebalance(phrases, max_words, max_chars)
+
+
+def _phrase_width(phrase: list[tuple[WordTiming, str]]) -> int:
+    return sum(len(t) for _, t in phrase) + max(len(phrase) - 1, 0)
+
+
+def _rebalance(
+    phrases: list[list[tuple[WordTiming, str]]], max_words: int, max_chars: int
+) -> list[list[tuple[WordTiming, str]]]:
+    """Two cosmetic passes over the breaks, repeated until they settle.
+
+    First: never strand a single word on its own line - one word alone is the
+    original complaint about these captions. Second: don't end a line on a
+    function word.
+
+    Fixing an orphan by moving one word backwards can strand the word behind
+    it, so the orphan pass prefers absorbing the whole phrase and only steals a
+    word when the phrase it steals from keeps at least two. Absorbing is
+    allowed to run slightly over `max_chars`: a marginally wider line reads
+    better than a word sitting alone.
+    """
+    absorb_limit = int(max_chars * 1.25)
+
+    for _ in range(3):
+        changed = False
+
+        for i in range(1, len(phrases)):
+            prev, cur = phrases[i - 1], phrases[i]
+            if len(cur) != 1 or not prev:
+                continue
+            merged = prev + cur
+            if len(merged) <= max_words and _phrase_width(merged) <= absorb_limit:
+                phrases[i - 1], phrases[i] = merged, []
+                changed = True
+            elif len(prev) >= 3 and _phrase_width([prev[-1]] + cur) <= max_chars:
+                phrases[i - 1], phrases[i] = prev[:-1], [prev[-1]] + cur
+                changed = True
+        phrases = [p for p in phrases if p]
+
+        for i in range(len(phrases) - 1):
+            prev, nxt = phrases[i], phrases[i + 1]
+            # >= 3 so removing a word cannot create the orphan just fixed above.
+            if len(prev) >= 3 and prev[-1][1] in _TRAILING_FUNCTION_WORDS:
+                if len(nxt) < max_words and _phrase_width([prev[-1]] + nxt) <= max_chars:
+                    phrases[i], phrases[i + 1] = prev[:-1], [prev[-1]] + nxt
+                    changed = True
+
+        if not changed:
+            break
+
+    return phrases
+
+
+def build_phrase_captions(
     word_timings: list[WordTiming],
     total_duration: float,
     out_path: Path,
     hook_overlay: str | None = None,
+    max_words: int = CAPTION_MAX_WORDS,
+    max_chars: int = CAPTION_MAX_CHARS,
+    highlight_colour: str = CAPTION_HIGHLIGHT_COLOUR,
 ) -> None:
-    """Writes word-by-word captions with a scale-pop on each word.
+    """Writes readable phrase captions with the spoken word tinted.
 
-    The pop is a short \\t transform from 120% to 100%, which gives each word a
-    visible beat as it lands instead of the previous hard on/off cut.
+    One subtitle line is emitted per word, but each line carries the WHOLE
+    phrase with only the current word coloured. The phrase therefore sits
+    still and legible while the tint travels along it. Captions used to be one
+    word per line, which was hard to read and meant any frame YouTube grabbed
+    for a thumbnail showed a single stray word.
 
-    `hook_overlay` is burned centre-screen for the first ~1.2s. The swipe-away
-    decision happens in well under a second and a large share of Shorts viewing
-    starts muted, so the hook has to be readable before any narration is heard.
+    `hook_overlay` is burned centre-screen for the first ~1.2s with no fade-IN,
+    so frame zero already carries it: that frame is the thumbnail, and a large
+    share of Shorts viewing starts muted.
     """
     lines = [ASS_HEADER.format(width=WIDTH, height=HEIGHT)]
 
@@ -173,19 +288,34 @@ def build_word_pop_captions(
         text = _ass_escape(hook_overlay.upper().strip())
         lines.append(
             f"Dialogue: 1,{_ass_timestamp(0.0)},{_ass_timestamp(min(1.2, total_duration))},Hook,,0,0,0,,"
-            f"{{\\fad(120,180)}}{text}\n"
+            f"{{\\fad(0,180)}}{text}\n"
         )
 
-    for i, wt in enumerate(word_timings):
-        end = word_timings[i + 1].start_seconds if i + 1 < len(word_timings) else total_duration
-        end = max(end, wt.start_seconds + 0.08)
-        text = _ass_escape(wt.word.upper().translate(_PUNCT_TO_STRIP))
-        if not text:
-            continue
-        pop = r"{\fscx120\fscy120\t(0,90,\fscx100\fscy100)}"
-        lines.append(
-            f"Dialogue: 0,{_ass_timestamp(wt.start_seconds)},{_ass_timestamp(end)},Word,,0,0,0,,{pop}{text}\n"
-        )
+    phrases = group_into_phrases(word_timings, max_words, max_chars)
+    for p_index, phrase in enumerate(phrases):
+        # The last word of a phrase holds until the next phrase starts, so the
+        # phrase is on screen continuously rather than blinking between words.
+        if p_index + 1 < len(phrases):
+            phrase_end = phrases[p_index + 1][0][0].start_seconds
+        else:
+            phrase_end = total_duration
+
+        for w_index, (wt, _) in enumerate(phrase):
+            start = wt.start_seconds
+            if w_index + 1 < len(phrase):
+                end = phrase[w_index + 1][0].start_seconds
+            else:
+                end = phrase_end
+            end = max(end, start + 0.08)
+            rendered = " ".join(
+                f"{{\\c{highlight_colour}}}{text}{{\\c{CAPTION_BASE_COLOUR}}}"
+                if j == w_index else text
+                for j, (_, text) in enumerate(phrase)
+            )
+            lines.append(
+                f"Dialogue: 0,{_ass_timestamp(start)},{_ass_timestamp(end)},Word,,0,0,0,,{rendered}\n"
+            )
+
     out_path.write_text("".join(lines), encoding="utf-8")
 
 
@@ -393,10 +523,16 @@ def assemble_video(
     silent_concat = tmp_dir / "silent_concat.mp4"
     concat_clips(clip_paths, silent_concat, tmp_dir)
 
-    captions_path = tmp_dir / "captions.ass"
-    build_word_pop_captions(word_timings, total_duration, captions_path, hook_overlay=hook_overlay)
-
     assembly_cfg = config["assembly"]
+
+    captions_path = tmp_dir / "captions.ass"
+    build_phrase_captions(
+        word_timings, total_duration, captions_path,
+        hook_overlay=hook_overlay,
+        max_words=assembly_cfg.get("caption_max_words", CAPTION_MAX_WORDS),
+        max_chars=assembly_cfg.get("caption_max_chars", CAPTION_MAX_CHARS),
+        highlight_colour=assembly_cfg.get("caption_highlight_colour", CAPTION_HIGHLIGHT_COLOUR),
+    )
     music_dir = cfg.REPO_ROOT / assembly_cfg["music_dir"]
     sfx_dir = cfg.REPO_ROOT / assembly_cfg.get("sfx_dir", "assets/sfx")
 
@@ -424,6 +560,23 @@ def assemble_video(
         transition_sfx=transition_sfx,
         assembly_cfg=assembly_cfg,
     )
+    return out_path
+
+
+def extract_thumbnail(video_path: Path, out_path: Path) -> Path:
+    """Pulls frame zero out of the finished video as a JPEG.
+
+    Taken from the FINISHED video, not the raw shot image, so the thumbnail is
+    exactly the frame a viewer sees - opening visual plus the burned-in hook
+    text. Without an uploaded thumbnail YouTube picks its own frame, which is
+    how a lone caption word ended up representing a video.
+
+    q:v 3 keeps a 1080x1920 frame well inside YouTube's 2MB thumbnail limit.
+    """
+    _run([
+        "ffmpeg", "-y", "-i", str(video_path),
+        "-frames:v", "1", "-q:v", "3", str(out_path),
+    ])
     return out_path
 
 

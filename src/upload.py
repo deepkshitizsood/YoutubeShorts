@@ -110,3 +110,21 @@ def upload_short(
     while response is None:
         _, response = request.next_chunk()
     return response["id"]
+
+
+def set_thumbnail(video_id: str, image_path: Path) -> None:
+    """Sets a custom thumbnail on an already-uploaded video.
+
+    Deliberately NOT a scope widening: thumbnails.set accepts the
+    youtube.upload scope the refresh token already holds, so the warning above
+    SCOPES does not apply here and no token needs regenerating.
+
+    Custom thumbnails require a phone-verified channel. On an unverified one
+    the API returns 403, which the caller treats as a warning - a thumbnail is
+    a nice-to-have and must never undo an upload that already succeeded.
+    """
+    youtube = youtube_client()
+    youtube.thumbnails().set(
+        videoId=video_id,
+        media_body=MediaFileUpload(str(image_path), mimetype="image/jpeg"),
+    ).execute()
