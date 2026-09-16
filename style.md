@@ -192,7 +192,7 @@ Enceladus, Iapetus and Sagittarius A* all need identifying when named.
   script.
 - Never invent a study, name, date, or mission.
 
-## Hook patterns (rotate; never repeat within a batch)
+## Hook patterns (rotate; never repeat back-to-back)
 
 `INVERTED_ASSUMPTION` · `NAKED_NUMBER` · `SECOND_PERSON_IMPLICATION` ·
 `SCALE_COLLAPSE` · `TIMEBOMB` · `MISSING_THING` · `WRONG_NAME` ·
@@ -201,9 +201,18 @@ Enceladus, Iapetus and Sagittarius A* all need identifying when named.
 These sit *inside* a format (Part 1, §3) — the format is the shape of the
 script, the hook pattern is the shape of its first line.
 
-## Anti-sameness, per batch
+## Anti-sameness
 
-- No two scripts share a hook pattern.
-- No two scripts share a subject cluster.
-- No two scripts share a loop-closer shape.
-- "Universe" appears in at most two hooks.
+Measured **back-to-back**, not across a whole batch. A month of thirty-odd
+scripts cannot give every video a unique hook pattern — there are eight
+patterns and ten clusters, so the stricter reading is arithmetically
+impossible. What actually protects the channel is that consecutive uploads
+don't feel like the same video, since that is the order a viewer meets them in.
+
+- No two consecutive scripts share a hook pattern.
+- No two consecutive scripts share a subject cluster.
+- No two consecutive scripts share a loop-closer shape.
+- "Universe" appears in at most two hooks per batch.
+
+Format rotation (Part 1, §3) is the one the checker enforces in code; these
+three are the writer's job.

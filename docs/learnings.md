@@ -51,6 +51,32 @@ time a script or idea gets denied._
   written protocol or a second pair of eyes. Both now exist — `style.md` §5 and
   the trap warnings in `gen_scripts.py`.
 
+- **2026-09-16 — two bugs that only appeared when scripts were hand-written.**
+  Writing 36 scripts by hand exposed faults the live path had been hiding.
+  First, `assemble.py::compute_shot_windows` reads `shot["word_count"]` to line
+  each visual up with the narration timings, and only `script_gen.py` ever set
+  it — a queue-sourced render would have thrown every picture out of sync.
+  It is now derived inside `validate_script()`, so both paths get it. Second,
+  `gen_scripts.ingest_file` called the validator without `prev_format`, which
+  silently skipped format rotation on exactly the path the monthly batches use.
+  Lesson: a code path that has never carried real work is not tested, however
+  carefully it was written. Both are now covered by the shared validator rather
+  than by whichever path happens to run.
+
+- **2026-09-16 — pacing is a function of beat length, not shot count.** Because
+  each beat's words are split across that beat's planned visuals, a long beat
+  with two visuals leaves one image on screen for eight seconds, which reads as
+  a slideshow no matter how good the image is. `content/batch_2026_09.py` now
+  rejects any shot over five seconds; it caught 18 beats I would otherwise have
+  shipped. The fix is always more visuals, never a shorter beat.
+
+- **2026-09-16 — a rule in `style.md` was arithmetically impossible.** It
+  required that no two scripts in a batch share a hook pattern or cluster, but
+  a 36-script month has only 8 patterns and 10 clusters to draw on. Rewritten
+  as back-to-back rather than per-batch, which is what actually protects
+  against sameness, since consecutive uploads are the order a viewer meets
+  them in.
+
 ## What the numbers say
 
 _Updated each month from `data/performance_log.json` and the weekly report._
