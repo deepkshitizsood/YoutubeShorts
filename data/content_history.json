@@ -1274,5 +1274,28 @@
     "total_shots": 9,
     "created_at": "2026-09-16T12:46:23.490793+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Jupiter_s_Moon_Io_Has_Four_Hundred_Erupting_Volcanoes",
+    "pillar_id": "planets_and_moons",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "solar_system_oddities",
+    "title": "Jupiter's Moon Io Has Four Hundred Erupting Volcanoes",
+    "video_id": "SYM3WtmLESg",
+    "length_variant": null,
+    "mood": "energetic",
+    "closing_question": null,
+    "central_claim": "Tidal flexing between Jupiter and the other large moons melts Io from inside.",
+    "sources": [
+      "Voyager 1 discovered active plumes on Io in 1979",
+      "Roughly 400 active volcanoes catalogued from Galileo and Juno observations",
+      "Plume heights up to ~300 km; ISS orbits at ~400 km, so the comparison is 'higher than most of the way to the station', phrased conservatively."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 10,
+    "created_at": "2026-09-16T18:51:19.656550+00:00",
+    "dry_run": false
   }
 ]

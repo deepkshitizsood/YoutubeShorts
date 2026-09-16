@@ -1271,10 +1271,10 @@
       "anchor": "400 volcanoes",
       "anchor_spoken": "four hundred erupting volcanoes",
       "batch_id": "2026-09-16",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "SYM3WtmLESg",
       "queued_at": "2026-09-16T11:43:23.643908+00:00",
-      "published_at": null
+      "published_at": "2026-09-16T18:51:19.652002+00:00"
     },
     {
       "id": "cb-0011",
