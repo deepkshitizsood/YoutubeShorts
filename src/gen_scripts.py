@@ -37,7 +37,37 @@ BANNED_PHRASES = [
     "what if i told you", "little did they know", "this changes everything",
     "literally", "insane", "absolutely wild",
 ]
-WORD_COUNT_MIN, WORD_COUNT_MAX = 110, 135
+# Only ever the first thing said - harmless mid-script, fatal as an opener.
+BANNED_OPENERS = ["did you know", "in this video", "imagine", "the truth is",
+                  "here's something", "scientists were shocked", "you won't believe"]
+BANNED_CLOSERS = ["like and subscribe", "follow for more", "comment below",
+                  "subscribe for more", "hit the like"]
+
+# Runtime, not word count, is the real limit: ~2.5 words per spoken second.
+WORDS_PER_SECOND = 2.5
+RUNTIME_MIN_SECONDS, RUNTIME_MAX_SECONDS = 25.0, 45.0
+WORD_COUNT_MIN = int(RUNTIME_MIN_SECONDS * WORDS_PER_SECOND)   # 62
+WORD_COUNT_MAX = int(RUNTIME_MAX_SECONDS * WORDS_PER_SECOND)   # 112
+
+BEAT_ORDER = ["hook", "turn", "mechanism", "spike", "loop"]
+FORMAT_LETTERS = {"A", "B", "C", "D", "E"}
+HOOK_MAX_WORDS = 12
+TITLE_MAX_CHARS = 70
+MIN_SECOND_PERSON = 2
+
+# Phrases that historically hid a real error. Not auto-fail - a human has to
+# look, because each is legitimate in some contexts and wrong in others.
+TRAP_PATTERNS = [
+    (r"\bever built\b", "expired superlative? (was true of Hubble, not since Webb)"),
+    (r"\bmost powerful\b", "expired superlative?"),
+    (r"\b(largest|biggest|fastest|first|only)\b", "superlative - does it still hold?"),
+    (r"everything you (have )?ever", "overstated universal - is it literally all?"),
+    # Deliberately broad: this exact trap shipped a false statement once
+    # (Venus sidereal day in the hook, solar day in the closer). A noisy
+    # warning beats a silent error.
+    (r"\bday\b[^.?!]*\byear\b|\byear\b[^.?!]*\bday\b", "day vs year - sidereal or solar? say which"),
+]
+SECOND_PERSON_RE = re.compile(r"\b(you|your|you're|yours|yourself)\b", re.I)
 
 # Fixed per-cluster tags (SEO breadth + specificity), combined with BASE_TAGS.
 # A deterministic dict, not a model call - see docs/prompt_scripting.md's
@@ -150,20 +180,88 @@ def reconstruct_shots(shot_list: list[dict]) -> str:
     return " ".join(s.get("narration_segment", "") for s in shot_list)
 
 
-def validate_script(concept: dict, item: dict) -> None:
+def reconstruct_beats(beats: dict) -> str:
+    return " ".join(beats.get(name, "").strip() for name in BEAT_ORDER).strip()
+
+
+def estimated_seconds(script: str) -> float:
+    return len(script.split()) / WORDS_PER_SECOND
+
+
+def check_traps(script: str) -> list[str]:
+    """Phrases that have hidden real errors before. Warnings, not failures -
+    each is fine in some contexts and wrong in others, so a human decides."""
+    return [
+        f"{note} -> {match.group(0)!r}"
+        for pattern, note in TRAP_PATTERNS
+        if (match := re.search(pattern, script, re.I))
+    ]
+
+
+def validate_script(concept: dict, item: dict, prev_format: str | None = None) -> None:
     """Raises ValueError with a specific reason - never silently coerces.
-    Every check here maps to a real failure mode this project has already
-    hit once (drifted numbers, desynced shots) or explicitly guards against."""
+    Every check maps to a real failure mode this project has already hit:
+    drifted numbers, desynced shots, a one-word thumbnail, a script that ran
+    long, a sidereal/solar day conflation that shipped as a false statement."""
     script = item.get("script", "")
     words = len(script.split())
-    if not (WORD_COUNT_MIN <= words <= WORD_COUNT_MAX):
-        raise ValueError(f"{words} words, outside {WORD_COUNT_MIN}-{WORD_COUNT_MAX}")
+    seconds = estimated_seconds(script)
+    if not (RUNTIME_MIN_SECONDS <= seconds <= RUNTIME_MAX_SECONDS):
+        raise ValueError(
+            f"{words} words is about {seconds:.0f}s spoken, outside the "
+            f"{RUNTIME_MIN_SECONDS:.0f}-{RUNTIME_MAX_SECONDS:.0f}s range"
+        )
     if re.search(r"\d", script):
         raise ValueError("digit found in narration (numbers must be spelled out)")
     low = script.lower()
     for phrase in BANNED_PHRASES:
         if phrase in low:
             raise ValueError(f"banned phrase found: {phrase!r}")
+
+    # --- five beats, and they must add up to exactly what gets spoken ---
+    beats = item.get("beats") or {}
+    missing = [b for b in BEAT_ORDER if not (beats.get(b) or "").strip()]
+    if missing:
+        raise ValueError(f"missing or empty beat(s): {', '.join(missing)}")
+    if reconstruct_beats(beats) != script.strip():
+        raise ValueError("the five beats do not concatenate to the narration exactly")
+
+    # --- the hook is the payoff, not a run-up ---
+    hook = beats["hook"].strip()
+    hook_words = len(hook.split())
+    if hook_words > HOOK_MAX_WORDS:
+        raise ValueError(f"HOOK is {hook_words} words; must be under {HOOK_MAX_WORDS}")
+    hook_low = hook.lower()
+    for opener in BANNED_OPENERS:
+        if hook_low.startswith(opener):
+            raise ValueError(f"HOOK starts with a banned opener: {opener!r}")
+
+    # --- format rotation, enforced rather than trusted ---
+    fmt = (item.get("format_letter") or "").strip().upper()
+    if fmt not in FORMAT_LETTERS:
+        raise ValueError(f"format_letter {fmt!r} must be one of {sorted(FORMAT_LETTERS)}")
+    if prev_format and fmt == prev_format.upper():
+        raise ValueError(
+            f"format {fmt} repeats the previous script's format - consecutive repeats "
+            f"are what make a channel look machine-made"
+        )
+
+    # --- the viewer has to be in the script, especially at the end ---
+    if len(SECOND_PERSON_RE.findall(script)) < MIN_SECOND_PERSON:
+        raise ValueError(f"second person appears fewer than {MIN_SECOND_PERSON} times")
+    if not SECOND_PERSON_RE.search(beats["loop"]):
+        raise ValueError("the LOOP beat must address the viewer directly")
+
+    for closer in BANNED_CLOSERS:
+        if closer in low:
+            raise ValueError(f"banned closer found: {closer!r}")
+
+    if not (item.get("sources") or []):
+        raise ValueError("missing sources block")
+
+    title = (item.get("title") or concept.get("title") or "").strip()
+    if len(title) > TITLE_MAX_CHARS:
+        raise ValueError(f"title is {len(title)} chars; max {TITLE_MAX_CHARS}")
     if concept["anchor_spoken"].lower() not in low:
         raise ValueError(f"anchor_spoken {concept['anchor_spoken']!r} not found verbatim")
     # The overlay is half the "thumbnail" on a Short, so it gets checked like

@@ -116,19 +116,20 @@ content:
     - uplifting     # wholesome / positive payoffs
 
   # Length is deliberately varied so the analytics loop can learn which performs
-  # better on THIS channel. Published benchmarks disagree: sub-30s Shorts get
-  # 70-85% completion vs 50-65% for 30-60s, but longer Shorts have been shown to
-  # earn more total views. Rather than guess, alternate and measure.
+  # better on THIS channel, and so a batch doesn't consist of thirty videos of
+  # identical length. Both variants sit inside the 25-45s runtime standard in
+  # style.md; the old 50-second option was removed on 2026-09-16 because it
+  # exceeded that ceiling. ~2.5 spoken words per second.
   length_variants:
     - name: short
       seconds: 30
-      words: 85
+      words: 75
       shots: 11
       weight: 0.5
     - name: long
-      seconds: 50
-      words: 140
-      shots: 18
+      seconds: 43
+      words: 107
+      shots: 16
       weight: 0.5
 
   # Call A (src/gen_ideas.py) - infrequent, search-heavy ideation. Produces
