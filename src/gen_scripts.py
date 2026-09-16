@@ -60,7 +60,11 @@ MIN_SECOND_PERSON = 2
 TRAP_PATTERNS = [
     (r"\bever built\b", "expired superlative? (was true of Hubble, not since Webb)"),
     (r"\bmost powerful\b", "expired superlative?"),
-    (r"\b(largest|biggest|fastest|first|only)\b", "superlative - does it still hold?"),
+    # "only"/"first" need the article to be a superlative CLAIM - bare "only
+    # two hundred days" or "First Mercury goes" are grammar, not claims.
+    (r"\bthe (first|only)\b", "superlative claim - does it still hold?"),
+    (r"\b(largest|biggest|fastest|longest|hottest|densest|brightest)\b",
+     "superlative - does it still hold?"),
     (r"everything you (have )?ever", "overstated universal - is it literally all?"),
     # Deliberately broad: this exact trap shipped a false statement once
     # (Venus sidereal day in the hook, solar day in the closer). A noisy
