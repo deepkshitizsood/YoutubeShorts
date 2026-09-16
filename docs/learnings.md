@@ -26,6 +26,31 @@ time a script or idea gets denied._
   dinosaurs facing each other — not a phone on a table, which was a prop
   mentioned in the script rather than the idea of the video.
 
+- **2026-09-15 — unfamiliar object names kill a thumbnail.** Two ideas were
+  sent back for naming objects the audience doesn't know: "Betelgeuse" and
+  "Io" meant nothing to a scrolling viewer. Rule added to `style.md`: identify
+  what a thing is in the same breath as naming it, in the title and thumbnail
+  text as well as the narration, and prefer letting the opening image do the
+  work (Io shown with Jupiter behind it). The audience knows planet names and
+  the Sun; assume nothing beyond that.
+
+- **2026-09-16 — cite the source in the video.** Scripts should name the
+  mission or instrument behind the fact in a few words ("Cassini measured it on
+  its final dive"). Credibility is cheap to buy and we were spending nothing on
+  it. Rule added to `style.md`, including the distinction that matters: credit
+  the *discovery*, never the *checking* — "MESSENGER found ice" yes, "sources
+  confirm" no.
+
+- **2026-09-16 — a passing script is not a correct script.** Eight scripts
+  passed the checker, then a written quality standard caught three real errors
+  in them: the sidereal/solar day conflation that made a Venus closer false,
+  "the finest telescope ever built" (expired the day Webb launched), and
+  "everything you have ever seen in the night sky is circling" Sagittarius A*
+  (Andromeda isn't). Lesson: mechanical checks catch mechanical faults. The
+  errors that actually embarrass you are semantic, and they need either a
+  written protocol or a second pair of eyes. Both now exist — `style.md` §5 and
+  the trap warnings in `gen_scripts.py`.
+
 ## What the numbers say
 
 _Updated each month from `data/performance_log.json` and the weekly report._
