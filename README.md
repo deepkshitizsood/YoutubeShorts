@@ -7,9 +7,15 @@ this was built from for the full design rationale.
 
 ## Pipeline
 
-`analytics pull -> strategy pick -> script (Claude Sonnet 5) -> voiceover (Google Cloud TTS)
+`analytics pull -> strategy pick -> script (popped from the queue) -> voiceover (Google Cloud TTS)
 -> AI images (Gemini 2.5 Flash Image, aka "Nano Banana") [+ optional AI hero clip (Runway)]
 -> ffmpeg assembly -> YouTube upload -> spend ledger update`
+
+Scripts are written by hand in a monthly session rather than generated per run
+(`content.script_source: "queue"` in `config.yaml`). The daily run pops the next
+approved script off `data/script_queue.json`, so it spends nothing on the LLM.
+See `content/README.md` for how a batch is written and ingested. Setting
+`script_source` back to `"live"` restores per-run generation with Claude Sonnet 5.
 
 Runs once/day via GitHub Actions (free tier — see `.github/workflows/daily_short.yml`).
 Actual cost varies day to day — see `data/spend_ledger.json` for real recent spend against

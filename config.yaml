@@ -21,15 +21,15 @@ posting:
   visibility_on_launch: "public"
 
 content:
-  # "live" = today's path: script_gen.py calls Claude fresh, once per run
-  # (the only mode that has ever run in production). "queue" = pop a
-  # pre-generated, pre-approved script off data/script_queue.json instead
-  # (see src/queue.py, src/gen_ideas.py, src/gen_scripts.py) - built but not
-  # yet exercised in production. Do not flip to "queue" until one real
-  # ideation + scripting batch has been run and inspected by hand (see the
-  # plan's cutover sequence) - this default keeps the live channel completely
-  # unaffected while that path is built and tested.
-  script_source: "live"
+  # "queue" = pop a pre-written, pre-approved script off data/script_queue.json
+  # (see src/queue.py and content/README.md). "live" = the older path, where
+  # script_gen.py calls Claude fresh on every run.
+  #
+  # Switched to "queue" once 36 hand-written scripts were validated and
+  # ingested: scripting is now done in a monthly session on the flat-rate
+  # subscription, so the daily run costs nothing in LLM spend. Reverting to
+  # "live" is a one-word change and that path is still intact.
+  script_source: "queue"
 
   # THE NICHE. Every video must sit inside it.
   #
