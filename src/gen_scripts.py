@@ -24,7 +24,7 @@ from . import config as cfg
 from . import budget, keywords
 from .gen_ideas import load_idea_bank, save_idea_bank
 from .http_util import RetryableError, retry_call
-from .queue import append_script_queue
+from .queue import append_script_queue, load_queue
 from .script_gen import LLMUsage, _enforce_title_length, _validate_mood
 
 STYLE_MD_PATH = cfg.REPO_ROOT / "style.md"
@@ -292,6 +292,12 @@ def validate_script(concept: dict, item: dict, prev_format: str | None = None) -
             raise ValueError(f"shot {shot.get('index')}: missing visual_prompt")
         if shot["media_type"] == "stock" and not shot.get("stock_query"):
             raise ValueError(f"shot {shot.get('index')}: stock shot missing stock_query")
+        # assemble.py::compute_shot_windows walks cumulative word_count to find
+        # each shot's slot in the TTS word timings. Derived here rather than
+        # trusted from whoever wrote the shot, exactly as script_gen.py does
+        # for the live path: a count that drifts by one desyncs every later
+        # visual, and the drift accumulates to the end of the video.
+        shot["word_count"] = len(shot["narration_segment"].split())
 
 
 def _call_batch(client: Anthropic, llm_cfg: dict, style_md: str, prompt: str, usage: LLMUsage) -> list[dict]:
@@ -367,15 +373,32 @@ def templatize(concept: dict, item: dict, config: dict) -> dict:
         "topic": _safe_slug(title), "title": title, "description": description,
         "tags": tags, "hook_overlay": hook_overlay, "mood": mood,
         "script": item["script"], "shot_list": item["shot_list"],
+        # Carried through so the NEXT batch can check format rotation against
+        # what actually shipped, rather than trusting a human to remember.
+        "beats": item["beats"], "format_letter": item["format_letter"].upper(),
         # Optional: written during the monthly session for videos we may want
         # a Hindi audio track on later (see scripts/make_hindi_audio.py).
         "script_hi": item.get("script_hi"),
-        "central_claim": concept["mechanism"], "sources": [concept["source"]],
+        "central_claim": concept["mechanism"],
+        # The script's own sources block wins - it lists what each claim rests
+        # on. The concept's single source is only the fallback.
+        "sources": item.get("sources") or [concept["source"]],
         "anchor": concept["anchor"], "anchor_spoken": concept["anchor_spoken"],
         "batch_id": datetime.now(timezone.utc).date().isoformat(),
         "status": "queued", "video_id": None,
         "queued_at": datetime.now(timezone.utc).isoformat(), "published_at": None,
     }
+
+
+def last_format_used() -> str | None:
+    """The format letter of the most recently queued script, so a new batch
+    continues the rotation instead of restarting it. Returns None on an empty
+    queue."""
+    entries = load_queue().get("entries") or []
+    for entry in reversed(entries):
+        if entry.get("format_letter"):
+            return entry["format_letter"].upper()
+    return None
 
 
 def generate_for_approved(config: dict, ledger: dict, max_items: int | None = None) -> list[dict]:
@@ -492,16 +515,22 @@ def ingest_file(config: dict, path: str) -> list[dict]:
     print(f"[gen_scripts] Parsed {len(items)} script(s) from {path}.")
 
     queued, failed = [], []
+    # Rotation is chained across the file AND across what is already queued,
+    # so a hand-written batch cannot restart the sequence and ship two
+    # same-shaped scripts back to back - the one rule style.md calls a
+    # monetization risk rather than a matter of taste.
+    prev_format = last_format_used()
     for item in items:
         concept = by_id.get(item.get("id"))
         if concept is None:
             failed.append((item.get("id"), "no matching concept in the idea bank"))
             continue
         try:
-            validate_script(concept, item)
+            validate_script(concept, item, prev_format=prev_format)
         except ValueError as e:
             failed.append((item.get("id"), str(e)))
             continue
+        prev_format = (item.get("format_letter") or "").strip().upper()
         queued.append(templatize(concept, item, config))
         concept["status"] = "scripted"
         concept["scripted_at"] = datetime.now(timezone.utc).isoformat()
