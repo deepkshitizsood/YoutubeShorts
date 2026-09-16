@@ -236,10 +236,10 @@
       "anchor": "243 Earth days",
       "anchor_spoken": "two hundred forty three Earth days",
       "batch_id": "2026-09-16",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "OiVVylewPKw",
       "queued_at": "2026-09-16T08:42:46.325452+00:00",
-      "published_at": null
+      "published_at": "2026-09-16T12:46:23.488362+00:00"
     },
     {
       "id": "cb-0003",

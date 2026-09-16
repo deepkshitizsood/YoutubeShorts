@@ -1252,5 +1252,27 @@
     "total_shots": 9,
     "created_at": "2026-09-16T12:34:09.008989+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "Venus_Takes_Longer_to_Spin_Than_to_Orbit_the_Sun",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "solar_system_oddities",
+    "title": "Venus Takes Longer to Spin Than to Orbit the Sun",
+    "video_id": "OiVVylewPKw",
+    "length_variant": null,
+    "mood": "mysterious",
+    "closing_question": null,
+    "central_claim": "Venus rotates once every 243 Earth days while orbiting in 225, and it turns backwards.",
+    "sources": [
+      "Sidereal rotation period of Venus 243.0 d vs orbital period 224.7 d - radar measurement, NASA Magellan",
+      "The solar day on Venus is 117 d. This script uses the SIDEREAL day throughout and the loop claims only the backwards spin, not a day-length comparison."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 9,
+    "created_at": "2026-09-16T12:46:23.490793+00:00",
+    "dry_run": false
   }
 ]
