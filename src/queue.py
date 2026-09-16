@@ -66,6 +66,22 @@ def pop_any_queued(config: dict) -> dict | None:
     return chosen
 
 
+def release(item_id: str) -> None:
+    """Puts a popped item back on the queue, unpublished.
+
+    A --dry-run builds the video but never uploads it, so the script has not
+    been used and must stay available. Without this a single test run silently
+    burns a script: it gets marked published with video_id=None and is never
+    posted. Only 'popped' items are released - never one that really shipped.
+    """
+    queue = load_queue()
+    for e in queue["entries"]:
+        if e.get("id") == item_id and e.get("status") == "popped":
+            e["status"] = "queued"
+            break
+    save_queue(queue)
+
+
 def mark_published(item_id: str, video_id: str | None) -> None:
     queue = load_queue()
     for e in queue["entries"]:

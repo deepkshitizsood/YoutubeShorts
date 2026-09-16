@@ -188,7 +188,14 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             # Finalizes the queue entry's status in the same finally block that
             # already handles "upload succeeded but something after it threw" -
             # a crash here still leaves the item correctly marked published.
-            queue.mark_published(queue_item_id, video_id)
+            # A dry run uploads nothing, so the script is untouched and goes
+            # back on the queue rather than being marked published with no
+            # video against it.
+            if dry_run:
+                queue.release(queue_item_id)
+                print(f"[queue] Released {queue_item_id} back to the queue (--dry-run)")
+            else:
+                queue.mark_published(queue_item_id, video_id)
         strategy.append_content_history({
             "topic": data["topic"],
             "pillar_id": brief["pillar_id"],
