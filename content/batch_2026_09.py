@@ -22,6 +22,50 @@ def V(media_type, stock_query, visual_prompt):
 
 MAX_SHOT_SECONDS = 5.0
 
+# Per-video search keywords, merged ahead of the cluster and base tags in
+# gen_scripts.templatize(). Grounded in vidIQ keyword research (2026-09-16):
+# the bare subject noun is worth far more than the generic phrase built on it
+# - "venus" 261K searches/month vs "venus planet facts" under 750. Lead with
+# the subject, then the natural variants a viewer would actually type.
+KEYWORDS = {
+    "hubble":           ["hubble", "hubble telescope", "galaxies", "hubble deep field"],
+    "venus":            ["venus", "planet venus", "venus planet", "venus day length"],
+    "timedilation":     ["time dilation", "gravity", "relativity", "atomic clock"],
+    "moon":             ["moon", "moon facts", "tides", "earth and moon"],
+    "sun_giant":        ["sun", "red giant", "sun facts", "death of the sun"],
+    "meteor":           ["meteor", "shooting star", "meteor shower", "space myths"],
+    "horizon":          ["observable universe", "universe size", "cosmology", "edge of the universe"],
+    "sgr_a":            ["black hole", "milky way", "supermassive black hole", "sagittarius a star"],
+    "saturn_rings":     ["saturn", "saturn rings", "saturn facts", "cassini"],
+    "io":               ["jupiter", "io", "jupiter moons", "volcanoes"],
+    "galaxy_collision": ["andromeda", "milky way", "galaxy collision", "galaxies"],
+    "gold":             ["neutron star", "gold", "where gold comes from", "supernova"],
+    "laser_mirrors":    ["apollo", "moon landing", "nasa", "distance to the moon"],
+    "freeze":           ["space", "vacuum", "space myths", "human body in space"],
+    "neptune_diamonds": ["neptune", "planet neptune", "diamond rain", "neptune facts"],
+    "wider_than_old":   ["universe", "universe size", "big bang", "expanding universe"],
+    "apollo_memory":    ["apollo 11", "moon landing", "nasa", "apollo guidance computer"],
+    "glass_rain":       ["exoplanet", "exoplanets", "alien planet", "glass rain planet"],
+    "twinkle":          ["stars", "why stars twinkle", "astronomy", "space myths"],
+    "mercury_ice":      ["mercury", "planet mercury", "mercury facts", "ice on mercury"],
+    "sun_vanishes":     ["sun", "gravity", "speed of light", "physics"],
+    "betelgeuse":       ["betelgeuse", "orion", "supernova", "red supergiant"],
+    "hawking":          ["black hole", "hawking radiation", "stephen hawking", "do black holes die"],
+    "black_hole_photo": ["black hole", "black hole image", "event horizon telescope", "first black hole photo"],
+    "iapetus":          ["saturn", "iapetus", "saturn moons", "cassini"],
+    "tv_static":        ["big bang", "cosmic microwave background", "tv static", "origin of the universe"],
+    "webb_cold":        ["james webb space telescope", "webb telescope", "jwst", "nasa"],
+    "red_dwarf":        ["red dwarf", "stars", "star lifespan", "age of the universe"],
+    "triton":           ["neptune", "triton", "neptune moons", "voyager 2"],
+    "white_sun":        ["sun", "colour of the sun", "why is the sky blue", "space myths"],
+    "laika":            ["laika", "space dog", "sputnik", "space history"],
+    "seven_worlds":     ["trappist 1", "exoplanets", "earth like planets", "alien worlds"],
+    "barycentre":       ["jupiter", "sun", "solar system", "how planets orbit"],
+    "you_are_moving":   ["earth", "speed of the earth", "universe", "physics"],
+    "rogue_planets":    ["rogue planet", "exoplanets", "planets", "starless planets"],
+    "taller":           ["astronauts", "space station", "human body in space", "nasa"],
+}
+
 B = {}
 ORDER = []
 
@@ -1331,7 +1375,13 @@ def refresh_queued(config, bank_by_title, items):
             continue
         item = dict(item, id=concept["id"])
         rebuilt = gen_scripts.templatize(concept, item, config)
-        if rebuilt["shot_list"] == entry["shot_list"] and rebuilt["script"] == entry["script"]:
+        # Compare every content field, not just the script: tags, description
+        # and hook_overlay change too, and an earlier version of this check
+        # compared only script/shot_list, so improved SEO metadata silently
+        # never reached the queue. batch_id is excluded - it is today's date,
+        # so including it would report a change on every single run.
+        bookkeeping = {"status", "video_id", "queued_at", "published_at", "batch_id"}
+        if all(rebuilt[k] == entry.get(k) for k in rebuilt if k not in bookkeeping):
             continue
         # Keep the queue's own bookkeeping; replace only the content.
         rebuilt.update({k: entry[k] for k in ("status", "video_id", "queued_at", "published_at")})
@@ -1403,6 +1453,7 @@ def main():
             "format_letter": d["fmt"], "hook_overlay": d["overlay"], "mood": d["mood"],
             "title": d["title"], "sources": d["sources"], "shot_list": shots,
             "word_count": len(script.split()), "pattern_used": d["pattern"],
+            "keywords": KEYWORDS[key],
         }
         try:
             gs.validate_script(concept, item, prev_format=prev)

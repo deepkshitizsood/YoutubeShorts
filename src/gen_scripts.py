@@ -54,6 +54,7 @@ FORMAT_LETTERS = {"A", "B", "C", "D", "E"}
 HOOK_MAX_WORDS = 12
 TITLE_MAX_CHARS = 70
 MIN_SECOND_PERSON = 2
+MIN_VIDEO_KEYWORDS = 3
 
 # Phrases that historically hid a real error. Not auto-fail - a human has to
 # look, because each is legitimate in some contexts and wrong in others.
@@ -88,7 +89,13 @@ CLUSTER_TAGS: dict[str, list[str]] = {
     "cosmology_and_origins": ["big bang", "origin of universe", "cosmology"],
     "things_we_got_wrong": ["space myths", "mythbusting", "you were taught wrong"],
 }
-BASE_TAGS = ["space facts", "astronomy", "space", "universe", "didyouknow"]
+# Measured with vidIQ keyword research, 2026-09-16 (monthly YouTube searches,
+# and volume in India, this channel's #1 market at 21.6% of views):
+#   facts 1.75M (488K IN) . space 1.80M (189K IN) . science 988K (153K IN)
+#   space facts 368K (70K IN) . universe 486K . astronomy 186K
+# "facts" and "science" were missing entirely despite being the two largest
+# terms, and "facts" is the single strongest term in our biggest market.
+BASE_TAGS = ["space facts", "astronomy", "space", "universe", "facts", "science", "didyouknow"]
 
 USER_PROMPT_TEMPLATE = """Write the narration for each of the following approved concepts. One
 script per concept, in the same order.
@@ -263,6 +270,17 @@ def validate_script(concept: dict, item: dict, prev_format: str | None = None) -
     if not (item.get("sources") or []):
         raise ValueError("missing sources block")
 
+    # Without these the video inherits only generic cluster tags, and the one
+    # term most likely to be searched - the subject itself - is absent.
+    video_keywords = item.get("keywords") or []
+    if len(video_keywords) < MIN_VIDEO_KEYWORDS:
+        raise ValueError(
+            f"needs at least {MIN_VIDEO_KEYWORDS} subject keywords for SEO, got {len(video_keywords)}"
+        )
+    for kw in video_keywords:
+        if not str(kw).strip() or len(str(kw)) > 60:
+            raise ValueError(f"bad keyword {kw!r} (empty, or over YouTube's 60-char tag limit)")
+
     title = (item.get("title") or concept.get("title") or "").strip()
     if len(title) > TITLE_MAX_CHARS:
         raise ValueError(f"title is {len(title)} chars; max {TITLE_MAX_CHARS}")
@@ -359,9 +377,23 @@ def templatize(concept: dict, item: dict, config: dict) -> dict:
     """Deterministic, code-only construction of everything docs/prompt_scripting.md's
     'not the model's job' table assigns to Python - no LLM call for any of this."""
     title = _enforce_title_length(concept["title"])
-    tags = keywords.normalize_tags(CLUSTER_TAGS.get(concept["cluster"], []) + BASE_TAGS)
+    # The script's own subject keywords come FIRST: normalize_tags() truncates
+    # at YouTube's 500-char budget, and the per-video terms are the ones worth
+    # protecting. vidIQ shows the bare subject noun ("venus", 261K searches/mo)
+    # far outranks the generic cluster phrase ("planet facts", 7K) - before
+    # this, a Venus video was not tagged "venus" at all.
+    tags = keywords.normalize_tags(
+        (item.get("keywords") or []) + CLUSTER_TAGS.get(concept["cluster"], []) + BASE_TAGS
+    )
     hashtags = " ".join(f"#{t.replace(' ', '')}" for t in dict.fromkeys(["Shorts"] + tags))
-    description = f"{title}. {concept['consequence']}\n\n{hashtags}"
+    # Opens on the spoken hook rather than restating the title: YouTube shows
+    # the first line under the title, so repeating it wasted the slot.
+    description = (
+        f"{item['beats']['hook']}\n\n"
+        f"{concept['consequence']}\n\n"
+        f"Source: {concept['source']}\n\n"
+        f"{hashtags}"
+    )
     # Deliberately written per script, NOT sliced from the hook. Slicing the
     # first four words produced fragments like "PHONE" - see style.md, "The
     # opening frame IS the thumbnail". validate_script() enforces the shape.
