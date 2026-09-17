@@ -1297,5 +1297,27 @@
     "total_shots": 10,
     "created_at": "2026-09-16T18:51:19.656550+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "It_Rains_Diamonds_Inside_Neptune",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": "solar_system_oddities",
+    "title": "It Rains Diamonds Inside Neptune",
+    "video_id": "6qvkxnaMpzo",
+    "length_variant": null,
+    "mood": "dramatic",
+    "closing_question": null,
+    "central_claim": "Shock compression experiments show methane breaking down into diamond at Neptune's interior pressures.",
+    "sources": [
+      "Laboratory shock compression experiments producing nanodiamonds from hydrocarbons at ice giant interior conditions",
+      "Lab-supported and modelled, never directly observed inside Neptune - the script says so explicitly."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 10,
+    "created_at": "2026-09-17T18:58:00.462150+00:00",
+    "dry_run": false
   }
 ]
