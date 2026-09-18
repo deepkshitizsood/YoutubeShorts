@@ -2309,10 +2309,10 @@
       "anchor": "8,000 km/h winds",
       "anchor_spoken": "eight thousand kilometres an hour",
       "batch_id": "2026-09-16",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "qVdt4vPds5g",
       "queued_at": "2026-09-16T11:43:23.644546+00:00",
-      "published_at": null
+      "published_at": "2026-09-18T18:19:53.670874+00:00"
     },
     {
       "id": "cb-0019",
