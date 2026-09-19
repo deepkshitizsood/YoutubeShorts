@@ -2578,10 +2578,10 @@
       "anchor": "400 degrees C",
       "anchor_spoken": "four hundred degrees",
       "batch_id": "2026-09-16",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "_AT_Dms-2cg",
       "queued_at": "2026-09-16T11:43:23.644704+00:00",
-      "published_at": null
+      "published_at": "2026-09-19T17:57:54.979784+00:00"
     },
     {
       "id": "cb-0021",
