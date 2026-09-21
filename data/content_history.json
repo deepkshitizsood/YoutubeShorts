@@ -1387,5 +1387,28 @@
     "total_shots": 11,
     "created_at": "2026-09-20T18:12:42.610293+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Neptune_Is_Slowly_Pulling_Its_Main_Moon_Apart",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "solar_system_oddities",
+    "title": "Neptune Is Slowly Pulling Its Main Moon Apart",
+    "video_id": "_MHQrYKl5B8",
+    "length_variant": null,
+    "mood": "dramatic",
+    "closing_question": null,
+    "central_claim": "A retrograde orbit loses energy to tides rather than gaining it, so the orbit decays.",
+    "sources": [
+      "Triton orbits Neptune retrograde, indicating capture rather than co-formation",
+      "Voyager 2 flew past Neptune and Triton in 1989",
+      "Tidal decay of a retrograde orbit leads to eventual breakup inside the Roche limit, on a timescale of billions of years"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 0,
+    "total_shots": 10,
+    "created_at": "2026-09-21T19:59:06.247355+00:00",
+    "dry_run": false
   }
 ]
