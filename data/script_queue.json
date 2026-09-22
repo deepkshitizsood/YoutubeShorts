@@ -364,10 +364,10 @@
       "anchor": "33 centimetres",
       "anchor_spoken": "thirty three centimetres",
       "batch_id": "2026-09-16",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "dNW7hb5hzv8",
       "queued_at": "2026-09-16T08:42:46.325527+00:00",
-      "published_at": null
+      "published_at": "2026-09-22T18:46:52.124952+00:00"
     },
     {
       "id": "cb-0004",

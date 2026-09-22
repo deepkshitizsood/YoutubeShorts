@@ -1410,5 +1410,26 @@
     "total_shots": 10,
     "created_at": "2026-09-21T19:59:06.247355+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Your_Head_Is_Ageing_Faster_Than_Your_Feet",
+    "pillar_id": "cosmic_scale",
+    "series_id": "how_big",
+    "cluster": "physics_limits",
+    "title": "Your Head Is Ageing Faster Than Your Feet",
+    "video_id": "dNW7hb5hzv8",
+    "length_variant": null,
+    "mood": "mysterious",
+    "closing_question": null,
+    "central_claim": "Clocks closer to Earth's mass run slower, and the effect is measurable over a third of a metre.",
+    "sources": [
+      "NIST aluminium ion optical clock experiment, 2010 - gravitational time dilation measured across a 33 cm height difference"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 9,
+    "created_at": "2026-09-22T18:46:52.128649+00:00",
+    "dry_run": false
   }
 ]
