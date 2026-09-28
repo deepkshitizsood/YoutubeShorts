@@ -1792,6 +1792,17 @@
       "searches": 0,
       "cache_creation_tokens": 0,
       "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-09-28T21:12:36Z",
+      "item": "tts",
+      "usd": 0.0056,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
     }
   ]
 }
