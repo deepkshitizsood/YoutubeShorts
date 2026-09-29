@@ -488,7 +488,7 @@
       "anchor": "75,000 km",
       "anchor_spoken": "seventy five thousand kilometres",
       "batch_id": "2026-09-16",
-      "status": "queued",
+      "status": "popped",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325607+00:00",
       "published_at": null
