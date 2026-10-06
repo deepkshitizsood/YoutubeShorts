@@ -1641,5 +1641,29 @@
     "total_shots": 11,
     "created_at": "2026-10-06T08:28:36.250096+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Most_Planets_May_Have_No_Sun_at_All",
+    "pillar_id": "planets_and_moons",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "exoplanets",
+    "title": "Most Planets May Have No Sun at All",
+    "video_id": "RJ11lx_grDM",
+    "length_variant": null,
+    "mood": "mysterious",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Gravitational microlensing surveys detect free-floating planets by their brief lensing of background stars.",
+    "sources": [
+      "Microlensing surveys detect free-floating planets via brief brightening of background stars",
+      "Population estimates run to billions in the galaxy, but remain a leading estimate rather than a settled count - the script says so",
+      "Subsurface oceans on rogue worlds are a modelled possibility, phrased as 'may' in the script"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 0,
+    "total_shots": 12,
+    "created_at": "2026-10-06T20:11:20.782544+00:00",
+    "dry_run": false
   }
 ]
