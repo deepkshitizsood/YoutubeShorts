@@ -1594,5 +1594,29 @@
     "total_shots": 12,
     "created_at": "2026-10-06T08:22:07.764519+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Four_Million_Suns_Crushed_Into_a_Point",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": "galactic_structure",
+    "title": "Four Million Suns Crushed Into a Point",
+    "video_id": "gyRzMijwobk",
+    "length_variant": null,
+    "mood": "dramatic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Stellar orbits around an invisible point reveal its mass.",
+    "sources": [
+      "Sagittarius A* mass 4.297 million solar masses, from tracking the orbits of stars at the galactic centre",
+      "Event Horizon Telescope image of Sagittarius A*, 2022",
+      "The loop is constrained to stars in our own galaxy - Andromeda does not orbit Sagittarius A*."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 0,
+    "total_shots": 10,
+    "created_at": "2026-10-06T08:25:15.228114+00:00",
+    "dry_run": false
   }
 ]
