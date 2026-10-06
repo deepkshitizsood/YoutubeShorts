@@ -1618,5 +1618,28 @@
     "total_shots": 10,
     "created_at": "2026-10-06T08:25:15.228114+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Saturn_s_Rings_Are_Younger_Than_T-Rex",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "deep_time",
+    "title": "Saturn's Rings Are Younger Than T-Rex",
+    "video_id": "DeggBKpkIQg",
+    "length_variant": null,
+    "mood": "dramatic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Ring mass and dust contamination measured by Cassini imply a recent origin.",
+    "sources": [
+      "Cassini Grand Finale gravity measurement of ring mass, 2017, implying an age of 10-100 million years",
+      "Genuinely contested - some models still allow an ancient ring system. The script flags this in four words rather than stating it flat."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 0,
+    "total_shots": 11,
+    "created_at": "2026-10-06T08:28:36.250096+00:00",
+    "dry_run": false
   }
 ]
