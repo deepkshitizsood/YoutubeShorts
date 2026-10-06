@@ -1,0 +1,49 @@
+name: Voice Samples
+
+# Renders one real queued script in several candidate voices so they can be
+# auditioned before changing providers.tts.voice. Uses the production
+# synthesis path, so a voice without SSML <mark> support fails here rather
+# than in a published video.
+#
+# Cost: ~550 chars per voice against Neural2's 1M/month free allowance.
+
+on:
+  workflow_dispatch:
+    inputs:
+      voices:
+        description: "Space-separated voice names (blank = the built-in candidate list)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Render voice samples
+        env:
+          GOOGLE_TTS_API_KEY: ${{ secrets.GOOGLE_TTS_API_KEY }}
+        run: |
+          if [ -n "${{ inputs.voices }}" ]; then
+            python -m scripts.sample_voices --voices ${{ inputs.voices }}
+          else
+            python -m scripts.sample_voices
+          fi
+
+      - name: Upload the samples
+        uses: actions/upload-artifact@v4
+        with:
+          name: voice-samples
+          path: output/voice_samples/
+          retention-days: 14
