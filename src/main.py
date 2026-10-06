@@ -140,7 +140,7 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     narration_path.write_bytes(narration.audio_bytes)
     tts_cost = tts.estimated_cost_usd(config, narration.char_count)
     budget.record_spend(ledger, "tts", tts_cost)
-    print(f"[tts] {len(narration.word_timings)} words synthesized (~${tts_cost:.3f})")
+    print(f"[tts] {len(narration.word_timings)} words synthesized in {narration.voice} (~${tts_cost:.3f})")
 
     media_dir = run_dir / "media"
     shot_media_paths, shot_kinds, billable_images = visuals.resolve_shot_media(
@@ -221,6 +221,9 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
             "video_id": video_id,
             "length_variant": data.get("length_variant"),
             "mood": data.get("mood"),
+            # Which of the rotating voices spoke this one. The rotation is an
+            # A/B test, and it is only a test if the choice is recorded.
+            "voice": narration.voice,
             "closing_question": data.get("closing_question"),
             # Audit trail: if a viewer disputes a claim, this is what was checked.
             "central_claim": data.get("central_claim"),

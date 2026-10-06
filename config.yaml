@@ -261,11 +261,19 @@ providers:
     max_cost_per_scripting_batch_usd: 1.00
   tts:
     provider: google_cloud_tts
-    # Neural2, not Studio or Chirp 3 HD: those sound better but do not support
-    # the SSML <mark> tag, and tts.py needs per-word timepoints for caption
-    # sync - it raises rather than silently stacking every word at t=0.
-    # Switched D -> J on 2026-10-06 for a warmer, more documentary read.
-    voice: "en-US-Neural2-J"
+    # Not Studio or Chirp 3 HD: those sound better but do not support the SSML
+    # <mark> tag, and tts.py needs per-word timepoints for caption sync - it
+    # raises rather than silently stacking every word at t=0. Every voice here
+    # was verified through the real synthesis path by scripts/sample_voices.py.
+    #
+    # Two voices, alternating by date (even/odd day of year). Picked by ear on
+    # 2026-10-06 after auditioning eight candidates on a full script. The
+    # alternation doubles as a free A/B test: main.py records the voice used
+    # against each video_id in content history, so analytics can eventually
+    # say which one holds attention better.
+    voices:
+      - "en-US-Wavenet-F"   # even days
+      - "en-US-Neural2-H"   # odd days
     est_cost_per_1k_chars_usd: 0.012
 
   # Second audio track for Indian viewers, added manually in YouTube Studio

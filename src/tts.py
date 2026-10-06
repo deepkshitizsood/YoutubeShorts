@@ -11,6 +11,7 @@ import io
 import re
 import wave
 from dataclasses import dataclass
+from datetime import date
 from xml.sax.saxutils import escape as xml_escape
 
 import requests
@@ -33,6 +34,7 @@ class NarrationResult:
     audio_bytes: bytes  # LINEAR16 WAV
     word_timings: list[WordTiming]
     char_count: int
+    voice: str = ""  # which voice actually spoke it - recorded per video
 
 
 def _build_ssml(script: str) -> tuple[str, list[str]]:
@@ -48,16 +50,34 @@ def _build_ssml(script: str) -> tuple[str, list[str]]:
     return ssml, words
 
 
+def voice_for_today(providers: dict, today: date | None = None) -> str:
+    """Picks today's voice from `providers.tts.voices`, alternating by date.
+
+    Keyed on the day of the year, not on a counter, so the choice is the same
+    whatever else happens: a failed run, a retry, or two posts in one day
+    cannot drift the rotation out of step or silently favour one voice.
+
+    Falls back to the older single `voice` key so a config that predates the
+    rotation still works.
+    """
+    voices = providers.get("voices")
+    if not voices:
+        return providers["voice"]
+    day = (today or date.today()).timetuple().tm_yday
+    return voices[day % len(voices)]
+
+
 def synthesize(config: dict, script: str) -> NarrationResult:
     api_key = cfg.env("GOOGLE_TTS_API_KEY")
     ssml, words = _build_ssml(script)
     providers = config["providers"]["tts"]
+    voice = voice_for_today(providers)
 
     payload = {
         "input": {"ssml": ssml},
         "voice": {
             "languageCode": "en-US",
-            "name": providers["voice"],
+            "name": voice,
         },
         "audioConfig": {"audioEncoding": "LINEAR16"},
         "enableTimePointing": ["SSML_MARK"],
@@ -81,7 +101,7 @@ def synthesize(config: dict, script: str) -> NarrationResult:
         raise RuntimeError(
             f"Cloud TTS returned {len(timepoints)} timepoints for {len(words)} words "
             f"({len(missing)} missing). Caption sync would be broken - refusing to continue. "
-            f"Check that voice '{providers['voice']}' supports SSML <mark> timepointing."
+            f"Check that voice '{voice}' supports SSML <mark> timepointing."
         )
 
     word_timings = [
@@ -90,7 +110,8 @@ def synthesize(config: dict, script: str) -> NarrationResult:
     ]
 
     char_count = len(re.sub(r"\s+", "", script))
-    return NarrationResult(audio_bytes=audio_bytes, word_timings=word_timings, char_count=char_count)
+    return NarrationResult(audio_bytes=audio_bytes, word_timings=word_timings,
+                            char_count=char_count, voice=voice)
 
 
 def estimated_cost_usd(config: dict, char_count: int) -> float:

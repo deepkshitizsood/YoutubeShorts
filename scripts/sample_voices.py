@@ -63,6 +63,10 @@ def main() -> None:
     results = []
     for voice in args.voices:
         patched = copy.deepcopy(config)
+        # Pin to exactly this voice: voice_for_today() prefers the `voices`
+        # rotation list, which would otherwise override every request here and
+        # render the same two voices eight times.
+        patched["providers"]["tts"].pop("voices", None)
         patched["providers"]["tts"]["voice"] = voice
         try:
             narration = tts.synthesize(patched, script)
