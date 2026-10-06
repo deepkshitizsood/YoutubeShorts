@@ -30,13 +30,21 @@
         {
           "index": 0,
           "beat": "hook",
-          "narration_segment": "What hides in a patch of sky with nothing in it?",
+          "narration_segment": "What hides in a patch of",
           "media_type": "ai",
           "visual_prompt": "A perfectly black square of empty night sky, faint film grain only, vertical composition, cinematic",
-          "word_count": 11
+          "word_count": 6
         },
         {
           "index": 1,
+          "beat": "hook",
+          "narration_segment": "sky with nothing in it?",
+          "media_type": "ai",
+          "visual_prompt": "A fingertip covering a tiny patch of night sky at arm's length",
+          "word_count": 5
+        },
+        {
+          "index": 2,
           "beat": "turn",
           "narration_segment": "Astronomers picked a dark spot near the Big Dipper, no",
           "media_type": "ai",
@@ -44,7 +52,7 @@
           "word_count": 10
         },
         {
-          "index": 2,
+          "index": 3,
           "beat": "turn",
           "narration_segment": "wider than a pinhead held at arm's length. Nothing was",
           "media_type": "stock",
@@ -53,7 +61,7 @@
           "word_count": 10
         },
         {
-          "index": 3,
+          "index": 4,
           "beat": "turn",
           "narration_segment": "there. Colleagues called it a waste of the telescope.",
           "media_type": "ai",
@@ -61,7 +69,7 @@
           "word_count": 9
         },
         {
-          "index": 4,
+          "index": 5,
           "beat": "mechanism",
           "narration_segment": "Hubble stared into that emptiness for ten days,",
           "media_type": "ai",
@@ -69,7 +77,7 @@
           "word_count": 8
         },
         {
-          "index": 5,
+          "index": 6,
           "beat": "mechanism",
           "narration_segment": "collecting three hundred and forty two separate exposures.",
           "media_type": "ai",
@@ -77,7 +85,7 @@
           "word_count": 8
         },
         {
-          "index": 6,
+          "index": 7,
           "beat": "spike",
           "narration_segment": "The darkness filled with roughly three thousand galaxies.",
           "media_type": "ai",
@@ -85,7 +93,7 @@
           "word_count": 8
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "spike",
           "narration_segment": "Not stars. Galaxies, each holding billions of suns.",
           "media_type": "ai",
@@ -93,7 +101,7 @@
           "word_count": 8
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "Every blank patch of sky you glance past holds the",
           "media_type": "ai",
@@ -101,7 +109,7 @@
           "word_count": 10
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "same crowd. You have never once seen an empty sky.",
           "media_type": "ai",
@@ -441,22 +449,31 @@
         {
           "index": 5,
           "beat": "spike",
-          "narration_segment": "Tides pull by the cube of distance, so early tides ran more",
+          "narration_segment": "Tides pull by the cube of distance, so",
           "media_type": "ai",
           "visual_prompt": "Titanic ancient tides surging kilometres up a barren primordial coastline",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 6,
           "beat": "spike",
-          "narration_segment": "than a hundred times stronger than the water you paddle in.",
+          "narration_segment": "early tides ran more than a hundred times",
           "media_type": "stock",
           "visual_prompt": "Gentle modern waves lapping at an ordinary beach",
           "stock_query": "ocean waves shore",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 7,
+          "beat": "spike",
+          "narration_segment": "stronger than the water you paddle in.",
+          "media_type": "stock",
+          "visual_prompt": "A tide line on wet sand, water retreated far down the beach",
+          "stock_query": "low tide beach",
+          "word_count": 7
+        },
+        {
+          "index": 8,
           "beat": "loop",
           "narration_segment": "Tonight's Moon is the smallest one any human has ever",
           "media_type": "ai",
@@ -464,7 +481,7 @@
           "word_count": 10
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "seen. Every year you get a slightly worse view.",
           "media_type": "ai",
@@ -688,29 +705,37 @@
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "It arrives at up to seventy kilometres per second, far too",
+          "narration_segment": "It arrives at up to seventy kilometres per",
           "media_type": "ai",
           "visual_prompt": "Slow motion meteor with a bright compressed shock layer glowing ahead of the rock",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "fast to shove the air aside. The air piles up in",
+          "narration_segment": "second, far too fast to shove the air",
           "media_type": "ai",
           "visual_prompt": "Air molecules stacking and compressing in front of a hypersonic object",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 6,
           "beat": "mechanism",
-          "narration_segment": "front and compresses, and compressed gas turns violently hot.",
+          "narration_segment": "aside. The air piles up in front and",
           "media_type": "ai",
           "visual_prompt": "The compressed cushion flaring white hot while the rock behind it stays dark",
-          "word_count": 9
+          "word_count": 8
         },
         {
           "index": 7,
+          "beat": "mechanism",
+          "narration_segment": "compresses, and compressed gas turns violently hot.",
+          "media_type": "ai",
+          "visual_prompt": "A shockwave cone forming ahead of a hypersonic object, schlieren style",
+          "word_count": 7
+        },
+        {
+          "index": 8,
           "beat": "spike",
           "narration_segment": "Squeeze a bicycle pump and feel the",
           "media_type": "stock",
@@ -719,7 +744,7 @@
           "word_count": 7
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "spike",
           "narration_segment": "barrel warm. Same effect, wildly faster.",
           "media_type": "ai",
@@ -727,7 +752,7 @@
           "word_count": 6
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "That pebble is destroyed by air it never",
           "media_type": "ai",
@@ -735,7 +760,7 @@
           "word_count": 8
         },
         {
-          "index": 10,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "quite touches. Your wish rides on a shockwave.",
           "media_type": "ai",
@@ -1110,18 +1135,26 @@
         {
           "index": 8,
           "beat": "loop",
-          "narration_segment": "The rings are a phase, not a feature. You happen to",
+          "narration_segment": "The rings are a phase, not a feature.",
           "media_type": "ai",
           "visual_prompt": "Saturn's rings thinning and dispersing away into empty space over time",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 9,
           "beat": "loop",
-          "narration_segment": "be alive for it, and you are watching Saturn wear them.",
+          "narration_segment": "You happen to be alive for it, and",
           "media_type": "ai",
           "visual_prompt": "Saturn seen through a small backyard telescope, rings sharp and present",
-          "word_count": 11
+          "word_count": 8
+        },
+        {
+          "index": 10,
+          "beat": "loop",
+          "narration_segment": "you are watching Saturn wear them.",
+          "media_type": "ai",
+          "visual_prompt": "A child at a telescope eyepiece, Saturn small and sharp in view",
+          "word_count": 6
         }
       ],
       "beats": {
@@ -1331,21 +1364,29 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "Hubble measured its approach across the sky. But stars sit so",
+          "narration_segment": "Hubble measured its approach across the sky.",
           "media_type": "ai",
           "visual_prompt": "Hubble tracking tiny shifts in Andromeda's position, measurement grid overlaid",
-          "word_count": 11
+          "word_count": 7
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "far apart that almost none of them will ever touch.",
+          "narration_segment": "But stars sit so far apart that",
           "media_type": "ai",
           "visual_prompt": "Zoom from a dense-looking galaxy arm to the vast empty gaps between its stars",
-          "word_count": 10
+          "word_count": 7
         },
         {
           "index": 5,
+          "beat": "mechanism",
+          "narration_segment": "almost none of them will ever touch.",
+          "media_type": "ai",
+          "visual_prompt": "Two star fields passing straight through each other, nothing colliding",
+          "word_count": 7
+        },
+        {
+          "index": 6,
           "beat": "spike",
           "narration_segment": "Shrink the Sun to a grain of sand and",
           "media_type": "stock",
@@ -1354,7 +1395,7 @@
           "word_count": 9
         },
         {
-          "index": 6,
+          "index": 7,
           "beat": "spike",
           "narration_segment": "the next grain sits tens of kilometres away.",
           "media_type": "ai",
@@ -1362,7 +1403,7 @@
           "word_count": 8
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "loop",
           "narration_segment": "The sky you would stand under just fills with",
           "media_type": "ai",
@@ -1370,7 +1411,7 @@
           "word_count": 9
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "unfamiliar stars. Not one of them hits you.",
           "media_type": "ai",
@@ -1463,29 +1504,37 @@
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "In twenty seventeen, detectors caught two neutron stars colliding one hundred and",
+          "narration_segment": "In twenty seventeen, detectors caught two neutron stars colliding",
           "media_type": "ai",
           "visual_prompt": "Two neutron stars merging in a blinding burst, gravitational waves spreading outward",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "thirty million light years away. Neutron stars are the collapsed cores of",
+          "narration_segment": "one hundred and thirty million light years away. Neutron",
           "media_type": "ai",
           "visual_prompt": "A detector readout spiking as the gravitational wave arrives",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 6,
           "beat": "mechanism",
-          "narration_segment": "dead suns. The crash flung out heavy elements, gold among them.",
+          "narration_segment": "stars are the collapsed cores of dead suns. The",
           "media_type": "ai",
           "visual_prompt": "Heavy elements spraying outward from the merger as glowing debris",
-          "word_count": 11
+          "word_count": 9
         },
         {
           "index": 7,
+          "beat": "mechanism",
+          "narration_segment": "crash flung out heavy elements, gold among them.",
+          "media_type": "ai",
+          "visual_prompt": "A periodic table with gold lighting up as the blast reaches it",
+          "word_count": 8
+        },
+        {
+          "index": 8,
           "beat": "spike",
           "narration_segment": "One collision made several times the Earth's",
           "media_type": "ai",
@@ -1493,7 +1542,7 @@
           "word_count": 7
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "spike",
           "narration_segment": "mass in gold, scattered into space.",
           "media_type": "ai",
@@ -1501,7 +1550,7 @@
           "word_count": 6
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "Every gold thing you own is wreckage from",
           "media_type": "stock",
@@ -1510,7 +1559,7 @@
           "word_count": 8
         },
         {
-          "index": 10,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "a crash like that. You are wearing it.",
           "media_type": "ai",
@@ -1579,21 +1628,29 @@
         {
           "index": 1,
           "beat": "turn",
-          "narration_segment": "Three crews set down panels of reflectors and aimed them back at",
+          "narration_segment": "Three crews set down panels of reflectors and",
           "media_type": "ai",
           "visual_prompt": "An Apollo astronaut setting a reflector panel down and levelling it",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 2,
           "beat": "turn",
-          "narration_segment": "Earth. Nobody switched them off, because they need no power at all.",
+          "narration_segment": "aimed them back at Earth. Nobody switched them",
           "media_type": "ai",
           "visual_prompt": "The panel sitting alone on the Moon as decades pass, undisturbed and unpowered",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 3,
+          "beat": "turn",
+          "narration_segment": "off, because they need no power at all.",
+          "media_type": "ai",
+          "visual_prompt": "Three landing site markers glowing on a map of the lunar surface",
+          "word_count": 8
+        },
+        {
+          "index": 4,
           "beat": "mechanism",
           "narration_segment": "Observatories still fire lasers at those panels. Timing",
           "media_type": "ai",
@@ -1601,7 +1658,7 @@
           "word_count": 8
         },
         {
-          "index": 4,
+          "index": 5,
           "beat": "mechanism",
           "narration_segment": "how long the light takes to come back",
           "media_type": "ai",
@@ -1609,7 +1666,7 @@
           "word_count": 8
         },
         {
-          "index": 5,
+          "index": 6,
           "beat": "mechanism",
           "narration_segment": "gives the distance to within a few millimetres.",
           "media_type": "ai",
@@ -1617,24 +1674,32 @@
           "word_count": 8
         },
         {
-          "index": 6,
-          "beat": "spike",
-          "narration_segment": "That is how we know the Moon drifts three point eight centimetres",
-          "media_type": "ai",
-          "visual_prompt": "The Moon's orbit expanding by a hair's width, measurement callout on screen",
-          "word_count": 12
-        },
-        {
           "index": 7,
           "beat": "spike",
-          "narration_segment": "further away each year, about as fast as your fingernails grow.",
-          "media_type": "stock",
-          "visual_prompt": "A close up of a hand, fingernails in sharp focus",
-          "stock_query": "fingernails hand",
-          "word_count": 11
+          "narration_segment": "That is how we know the Moon drifts",
+          "media_type": "ai",
+          "visual_prompt": "The Moon's orbit expanding by a hair's width, measurement callout on screen",
+          "word_count": 8
         },
         {
           "index": 8,
+          "beat": "spike",
+          "narration_segment": "three point eight centimetres further away each year,",
+          "media_type": "stock",
+          "visual_prompt": "A close up of a hand, fingernails in sharp focus",
+          "stock_query": "fingernails hand",
+          "word_count": 8
+        },
+        {
+          "index": 9,
+          "beat": "spike",
+          "narration_segment": "about as fast as your fingernails grow.",
+          "media_type": "ai",
+          "visual_prompt": "A few centimetres measured against the vast Earth to Moon gap",
+          "word_count": 7
+        },
+        {
+          "index": 10,
           "beat": "loop",
           "narration_segment": "Fifty years on, abandoned hardware is still answering. You can",
           "media_type": "ai",
@@ -1642,7 +1707,7 @@
           "word_count": 10
         },
         {
-          "index": 9,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "watch the Moon leave, one nail's length at a time.",
           "media_type": "ai",
@@ -1734,21 +1799,29 @@
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "Heat can only leave your body as radiation, which is slow. A",
+          "narration_segment": "Heat can only leave your body as radiation,",
           "media_type": "ai",
           "visual_prompt": "Faint infrared heat radiating slowly off a body into black empty space",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "NASA chamber accident in nineteen sixty six showed what actually happens first.",
+          "narration_segment": "which is slow. A NASA chamber accident in",
           "media_type": "ai",
           "visual_prompt": "A nineteen sixties NASA vacuum test chamber, heavy steel door and viewing port",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 6,
+          "beat": "mechanism",
+          "narration_segment": "nineteen sixty six showed what actually happens first.",
+          "media_type": "ai",
+          "visual_prompt": "A thermometer falling slowly rather than plunging, in vacuum",
+          "word_count": 8
+        },
+        {
+          "index": 7,
           "beat": "spike",
           "narration_segment": "The air in your lungs would rush out, and",
           "media_type": "ai",
@@ -1756,7 +1829,7 @@
           "word_count": 9
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "spike",
           "narration_segment": "you would black out in about fifteen seconds.",
           "media_type": "ai",
@@ -1764,12 +1837,20 @@
           "word_count": 8
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
-          "narration_segment": "You would not be frozen. You would be unconscious, and still warm.",
+          "narration_segment": "You would not be frozen. You",
           "media_type": "ai",
           "visual_prompt": "The floating figure unconscious but still radiating warmth, drifting slowly",
-          "word_count": 12
+          "word_count": 6
+        },
+        {
+          "index": 10,
+          "beat": "loop",
+          "narration_segment": "would be unconscious, and still warm.",
+          "media_type": "ai",
+          "visual_prompt": "A drifting figure, unconscious but still glowing warm in infrared",
+          "word_count": 6
         }
       ],
       "beats": {
@@ -1792,8 +1873,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644233+00:00",
-      "published_at": null,
-      "batch_key": "freeze"
+      "published_at": null
     },
     {
       "id": "cb-0015",
@@ -1964,45 +2044,61 @@
         {
           "index": 1,
           "beat": "turn",
-          "narration_segment": "Light has had thirteen point eight billion years to travel. So",
+          "narration_segment": "Light has had thirteen point eight billion years",
           "media_type": "ai",
           "visual_prompt": "A clock counting 13.8 billion years beside a measuring line across the cosmos",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 2,
           "beat": "turn",
-          "narration_segment": "the whole thing should be twice that across. It is not.",
+          "narration_segment": "to travel. So the whole thing should be",
           "media_type": "ai",
           "visual_prompt": "The measuring line overshooting the clock's reach, mismatch highlighted",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 3,
-          "beat": "mechanism",
-          "narration_segment": "Space itself stretched while the light was still in flight. That",
+          "beat": "turn",
+          "narration_segment": "twice that across. It is not.",
           "media_type": "ai",
-          "visual_prompt": "A grid of space stretching outward while a photon crawls across it",
-          "word_count": 11
+          "visual_prompt": "A ruler laid across a star field, far longer than the clock beside it",
+          "word_count": 6
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "carries distant galaxies further out than their light alone could ever",
+          "narration_segment": "Space itself stretched while the light was still in",
           "media_type": "ai",
-          "visual_prompt": "Galaxies riding the stretching grid away from a central observer",
-          "word_count": 11
+          "visual_prompt": "A grid of space stretching outward while a photon crawls across it",
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "reach. The measured span is about ninety three billion light years.",
+          "narration_segment": "flight. That carries distant galaxies further out than their",
           "media_type": "ai",
-          "visual_prompt": "The full span of the observable universe drawn as a glowing measured diameter",
-          "word_count": 11
+          "visual_prompt": "Galaxies riding the stretching grid away from a central observer",
+          "word_count": 9
         },
         {
           "index": 6,
+          "beat": "mechanism",
+          "narration_segment": "light alone could ever reach. The measured span is",
+          "media_type": "ai",
+          "visual_prompt": "The full span of the observable universe drawn as a glowing measured diameter",
+          "word_count": 9
+        },
+        {
+          "index": 7,
+          "beat": "mechanism",
+          "narration_segment": "about ninety three billion light years.",
+          "media_type": "ai",
+          "visual_prompt": "Two galaxies drifting apart as the space between them stretches",
+          "word_count": 6
+        },
+        {
+          "index": 8,
           "beat": "spike",
           "narration_segment": "Picture ants walking across a balloon",
           "media_type": "stock",
@@ -2011,7 +2107,7 @@
           "word_count": 6
         },
         {
-          "index": 7,
+          "index": 9,
           "beat": "spike",
           "narration_segment": "that keeps inflating underneath them.",
           "media_type": "ai",
@@ -2019,7 +2115,7 @@
           "word_count": 5
         },
         {
-          "index": 8,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "Nothing outran light. The road you are looking",
           "media_type": "ai",
@@ -2027,7 +2123,7 @@
           "word_count": 8
         },
         {
-          "index": 9,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "down simply got longer while you were looking.",
           "media_type": "ai",
@@ -2055,8 +2151,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644387+00:00",
-      "published_at": null,
-      "batch_key": "wider_than_old"
+      "published_at": null
     },
     {
       "id": "cb-0017",
@@ -2357,21 +2452,29 @@
         {
           "index": 1,
           "beat": "turn",
-          "narration_segment": "That shimmer everyone has watched since childhood is not something the star",
+          "narration_segment": "That shimmer everyone has watched since childhood is",
           "media_type": "ai",
           "visual_prompt": "A child on grass looking up at a twinkling night sky, seen from behind",
-          "word_count": 12
+          "word_count": 8
         },
         {
           "index": 2,
           "beat": "turn",
-          "narration_segment": "is doing. It is coming from the air above your head.",
+          "narration_segment": "not something the star is doing. It is",
           "media_type": "ai",
           "visual_prompt": "Layers of turbulent air drawn over a dark sky, moving and rippling",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 3,
+          "beat": "turn",
+          "narration_segment": "coming from the air above your head.",
+          "media_type": "ai",
+          "visual_prompt": "A child silhouetted pointing up at a flickering star",
+          "word_count": 7
+        },
+        {
+          "index": 4,
           "beat": "mechanism",
           "narration_segment": "Starlight crosses a hundred kilometres of restless atmosphere on",
           "media_type": "ai",
@@ -2379,7 +2482,7 @@
           "word_count": 9
         },
         {
-          "index": 4,
+          "index": 5,
           "beat": "mechanism",
           "narration_segment": "the way down. Pockets of warm and cool air",
           "media_type": "ai",
@@ -2387,7 +2490,7 @@
           "word_count": 9
         },
         {
-          "index": 5,
+          "index": 6,
           "beat": "mechanism",
           "narration_segment": "bend it slightly differently, moment to moment.",
           "media_type": "ai",
@@ -2395,7 +2498,7 @@
           "word_count": 7
         },
         {
-          "index": 6,
+          "index": 7,
           "beat": "spike",
           "narration_segment": "It is the same wobble you see rising off hot",
           "media_type": "stock",
@@ -2404,7 +2507,7 @@
           "word_count": 10
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "spike",
           "narration_segment": "tarmac in summer, only far away and far fainter.",
           "media_type": "ai",
@@ -2412,20 +2515,28 @@
           "word_count": 9
         },
         {
-          "index": 8,
-          "beat": "loop",
-          "narration_segment": "Planets barely shimmer, because they are discs and not points. On",
-          "media_type": "ai",
-          "visual_prompt": "A steady planet beside a shimmering star in the same patch of sky",
-          "word_count": 11
-        },
-        {
           "index": 9,
           "beat": "loop",
-          "narration_segment": "the next clear night you can tell them apart by eye.",
+          "narration_segment": "Planets barely shimmer, because they are discs and",
+          "media_type": "ai",
+          "visual_prompt": "A steady planet beside a shimmering star in the same patch of sky",
+          "word_count": 8
+        },
+        {
+          "index": 10,
+          "beat": "loop",
+          "narration_segment": "not points. On the next clear night you",
           "media_type": "ai",
           "visual_prompt": "A person on a hillside picking out the steady point among the flickering ones",
-          "word_count": 11
+          "word_count": 8
+        },
+        {
+          "index": 11,
+          "beat": "loop",
+          "narration_segment": "can tell them apart by eye.",
+          "media_type": "ai",
+          "visual_prompt": "A finger tracing between a steady planet and a shimmering star",
+          "word_count": 6
         }
       ],
       "beats": {
@@ -2448,8 +2559,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644624+00:00",
-      "published_at": null,
-      "batch_key": "twinkle"
+      "published_at": null
     },
     {
       "id": "cb-0020",
@@ -2669,21 +2779,29 @@
         {
           "index": 6,
           "beat": "spike",
-          "narration_segment": "So Earth would keep curving around nothing for eight minutes and",
+          "narration_segment": "So Earth would keep curving around nothing for",
           "media_type": "ai",
           "visual_prompt": "A sunlit Earth with a countdown of eight minutes running, Sun already absent",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 7,
           "beat": "spike",
-          "narration_segment": "twenty seconds, and the sky would stay lit the whole time.",
+          "narration_segment": "eight minutes and twenty seconds, and the sky",
           "media_type": "ai",
           "visual_prompt": "The last of the sunlight sweeping across the planet and going out",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 8,
+          "beat": "spike",
+          "narration_segment": "would stay lit the whole time.",
+          "media_type": "ai",
+          "visual_prompt": "A clock ticking through eight minutes under a still-bright sky",
+          "word_count": 6
+        },
+        {
+          "index": 9,
           "beat": "loop",
           "narration_segment": "You could finish a conversation before the dark arrived.",
           "media_type": "stock",
@@ -2692,7 +2810,7 @@
           "word_count": 9
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "The Sun you can see right now already left.",
           "media_type": "ai",
@@ -2751,13 +2869,21 @@
         {
           "index": 0,
           "beat": "hook",
-          "narration_segment": "The red star in Orion is six centuries out of date.",
+          "narration_segment": "The red star in Orion is",
           "media_type": "ai",
           "visual_prompt": "The Orion constellation with its shoulder star blazing deep red, recognisable shape, vertical",
-          "word_count": 11
+          "word_count": 6
         },
         {
           "index": 1,
+          "beat": "hook",
+          "narration_segment": "six centuries out of date.",
+          "media_type": "ai",
+          "visual_prompt": "A red supergiant churning and pulsing, its surface boiling",
+          "word_count": 5
+        },
+        {
+          "index": 2,
           "beat": "turn",
           "narration_segment": "Find Orion tonight and look at its shoulder. The",
           "media_type": "ai",
@@ -2765,7 +2891,7 @@
           "word_count": 9
         },
         {
-          "index": 2,
+          "index": 3,
           "beat": "turn",
           "narration_segment": "red one is Betelgeuse, a dying supergiant star.",
           "media_type": "ai",
@@ -2773,7 +2899,7 @@
           "word_count": 8
         },
         {
-          "index": 3,
+          "index": 4,
           "beat": "mechanism",
           "narration_segment": "It sits about six hundred and fifty light years away.",
           "media_type": "ai",
@@ -2781,7 +2907,7 @@
           "word_count": 10
         },
         {
-          "index": 4,
+          "index": 5,
           "beat": "mechanism",
           "narration_segment": "The light landing on your eye left before Columbus sailed.",
           "media_type": "ai",
@@ -2789,7 +2915,7 @@
           "word_count": 10
         },
         {
-          "index": 5,
+          "index": 6,
           "beat": "spike",
           "narration_segment": "It has swollen enough to swallow the orbit",
           "media_type": "ai",
@@ -2797,7 +2923,7 @@
           "word_count": 8
         },
         {
-          "index": 6,
+          "index": 7,
           "beat": "spike",
           "narration_segment": "of Jupiter. When it does explode, it will",
           "media_type": "ai",
@@ -2805,7 +2931,7 @@
           "word_count": 8
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "spike",
           "narration_segment": "be visible in daylight. Nobody can say when.",
           "media_type": "ai",
@@ -2813,7 +2939,7 @@
           "word_count": 8
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "You are not really watching a star. You",
           "media_type": "ai",
@@ -2821,7 +2947,7 @@
           "word_count": 8
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "are watching a very old message about one.",
           "media_type": "ai",
@@ -2906,58 +3032,82 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "Empty space constantly throws up pairs of particles. Right at the edge",
+          "narration_segment": "Empty space constantly throws up pairs of particles. Right",
           "media_type": "ai",
           "visual_prompt": "Particle pairs flickering into existence in empty space and annihilating",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "of a black hole, one can escape while the other falls in,",
+          "narration_segment": "at the edge of a black hole, one can",
           "media_type": "ai",
           "visual_prompt": "One particle of a pair escaping the horizon while its partner falls in",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "so the hole loses a little mass. Never yet observed.",
+          "narration_segment": "escape while the other falls in, so the hole",
           "media_type": "ai",
           "visual_prompt": "The black hole's boundary contracting by an imperceptible amount",
-          "word_count": 10
+          "word_count": 9
         },
         {
           "index": 6,
-          "beat": "spike",
-          "narration_segment": "It is absurdly slow. A black hole as heavy as our Sun",
+          "beat": "mechanism",
+          "narration_segment": "loses a little mass. Never yet observed.",
           "media_type": "ai",
-          "visual_prompt": "A vast string of zeros scrolling endlessly across a dark starfield",
-          "word_count": 12
+          "visual_prompt": "A horizon line with particles flickering into being on either side",
+          "word_count": 7
         },
         {
           "index": 7,
           "beat": "spike",
-          "narration_segment": "would need a number of years written with sixty seven zeros.",
+          "narration_segment": "It is absurdly slow. A black hole as",
           "media_type": "ai",
-          "visual_prompt": "A Sun mass black hole beside a clock whose hands never visibly move",
-          "word_count": 11
+          "visual_prompt": "A vast string of zeros scrolling endlessly across a dark starfield",
+          "word_count": 8
         },
         {
           "index": 8,
-          "beat": "loop",
-          "narration_segment": "Nothing you can point at lasts forever, not even these. They",
+          "beat": "spike",
+          "narration_segment": "heavy as our Sun would need a number",
           "media_type": "ai",
-          "visual_prompt": "Stars and galaxies winking out one by one across an emptying universe",
-          "word_count": 11
+          "visual_prompt": "A Sun mass black hole beside a clock whose hands never visibly move",
+          "word_count": 8
         },
         {
           "index": 9,
+          "beat": "spike",
+          "narration_segment": "of years written with sixty seven zeros.",
+          "media_type": "ai",
+          "visual_prompt": "A single grain of sand beside an impossibly long written number",
+          "word_count": 7
+        },
+        {
+          "index": 10,
           "beat": "loop",
-          "narration_segment": "will simply outlive you by more zeros than you can say.",
+          "narration_segment": "Nothing you can point at lasts forever, not",
+          "media_type": "ai",
+          "visual_prompt": "Stars and galaxies winking out one by one across an emptying universe",
+          "word_count": 8
+        },
+        {
+          "index": 11,
+          "beat": "loop",
+          "narration_segment": "even these. They will simply outlive you by",
           "media_type": "ai",
           "visual_prompt": "A final faint black hole glow fading into total darkness",
-          "word_count": 11
+          "word_count": 8
+        },
+        {
+          "index": 12,
+          "beat": "loop",
+          "narration_segment": "more zeros than you can say.",
+          "media_type": "ai",
+          "visual_prompt": "A clock face carrying far more digits than it can display",
+          "word_count": 6
         }
       ],
       "beats": {
@@ -2981,8 +3131,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644940+00:00",
-      "published_at": null,
-      "batch_key": "hawking"
+      "published_at": null
     },
     {
       "id": "cb-0024",
@@ -3038,46 +3187,62 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "The Event Horizon Telescope imaged superheated gas whipping around a monster at",
+          "narration_segment": "The Event Horizon Telescope imaged superheated gas whipping around",
           "media_type": "ai",
           "visual_prompt": "A global array of radio dishes across the Earth all pointing at one target",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "the heart of a giant galaxy, fifty five million light years away.",
+          "narration_segment": "a monster at the heart of a giant galaxy,",
           "media_type": "ai",
           "visual_prompt": "Superheated gas whipping in a tight circle around an invisible centre",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "The hole itself sits in the middle, giving off nothing at all.",
+          "narration_segment": "fifty five million light years away. The hole itself",
           "media_type": "ai",
           "visual_prompt": "The elliptical galaxy M87 with a bright jet streaming from its core",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 6,
-          "beat": "spike",
-          "narration_segment": "You are seeing a hole in the picture, the way you",
-          "media_type": "stock",
-          "visual_prompt": "A dense crowd of people from above",
-          "stock_query": "crowd of people",
-          "word_count": 11
+          "beat": "mechanism",
+          "narration_segment": "sits in the middle, giving off nothing at all.",
+          "media_type": "ai",
+          "visual_prompt": "Radio dishes on separate continents syncing to one atomic clock",
+          "word_count": 9
         },
         {
           "index": 7,
           "beat": "spike",
-          "narration_segment": "would recognise someone by the gap they leave in a crowd.",
-          "media_type": "ai",
-          "visual_prompt": "A person shaped gap opening in that crowd, the absence obvious",
-          "word_count": 11
+          "narration_segment": "You are seeing a hole in the picture,",
+          "media_type": "stock",
+          "visual_prompt": "A dense crowd of people from above",
+          "stock_query": "crowd of people",
+          "word_count": 8
         },
         {
           "index": 8,
+          "beat": "spike",
+          "narration_segment": "the way you would recognise someone by the",
+          "media_type": "ai",
+          "visual_prompt": "A person shaped gap opening in that crowd, the absence obvious",
+          "word_count": 8
+        },
+        {
+          "index": 9,
+          "beat": "spike",
+          "narration_segment": "gap they leave in a crowd.",
+          "media_type": "ai",
+          "visual_prompt": "The crowd closing up, the person-shaped gap now the only thing visible",
+          "word_count": 6
+        },
+        {
+          "index": 10,
           "beat": "loop",
           "narration_segment": "That picture is a portrait of an absence.",
           "media_type": "ai",
@@ -3085,7 +3250,7 @@
           "word_count": 8
         },
         {
-          "index": 9,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "The one thing you are looking for is",
           "media_type": "ai",
@@ -3093,7 +3258,7 @@
           "word_count": 8
         },
         {
-          "index": 10,
+          "index": 12,
           "beat": "loop",
           "narration_segment": "the part that is not there.",
           "media_type": "ai",
@@ -3122,8 +3287,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645022+00:00",
-      "published_at": null,
-      "batch_key": "black_hole_photo"
+      "published_at": null
     },
     {
       "id": "cb-0025",
@@ -3321,29 +3485,37 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "Space is filled with faint leftover heat from the moment it",
+          "narration_segment": "Space is filled with faint leftover heat from",
           "media_type": "ai",
           "visual_prompt": "The early universe turning from opaque fog to transparent, light streaming free",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "first turned transparent. Penzias and Wilson found it in nineteen sixty",
+          "narration_segment": "the moment it first turned transparent. Penzias and",
           "media_type": "ai",
           "visual_prompt": "A large horn antenna pointed at the sky in a nineteen sixties setting",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "five while trying to hunt down noise in an antenna.",
+          "narration_segment": "Wilson found it in nineteen sixty five while",
           "media_type": "ai",
           "visual_prompt": "Two researchers checking readouts beside the antenna, backs to camera",
-          "word_count": 10
+          "word_count": 8
         },
         {
           "index": 6,
+          "beat": "mechanism",
+          "narration_segment": "trying to hunt down noise in an antenna.",
+          "media_type": "ai",
+          "visual_prompt": "A radio telescope dish against a dusk sky, hissing with noise",
+          "word_count": 8
+        },
+        {
+          "index": 7,
           "beat": "spike",
           "narration_segment": "They checked the antenna for",
           "media_type": "stock",
@@ -3352,7 +3524,7 @@
           "word_count": 5
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "spike",
           "narration_segment": "pigeons first. The signal stayed.",
           "media_type": "ai",
@@ -3360,7 +3532,7 @@
           "word_count": 5
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "You were watching the oldest light there is,",
           "media_type": "ai",
@@ -3368,7 +3540,7 @@
           "word_count": 8
         },
         {
-          "index": 9,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "and you switched over to find something on.",
           "media_type": "ai",
@@ -3397,8 +3569,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645176+00:00",
-      "published_at": null,
-      "batch_key": "tv_static"
+      "published_at": null
     },
     {
       "id": "cb-0027",
@@ -3634,18 +3805,26 @@
         {
           "index": 8,
           "beat": "loop",
-          "narration_segment": "You are alive in the era before any of them have",
+          "narration_segment": "You are alive in the era before",
           "media_type": "ai",
           "visual_prompt": "A vast stretch of future time unrolling with the red dwarfs still burning",
-          "word_count": 11
+          "word_count": 7
         },
         {
           "index": 9,
           "beat": "loop",
-          "narration_segment": "aged. Every one you can see will outlast the question.",
+          "narration_segment": "any of them have aged. Every one",
           "media_type": "ai",
           "visual_prompt": "A person looking up at a faint red star from a dark field, seen from behind",
-          "word_count": 10
+          "word_count": 7
+        },
+        {
+          "index": 10,
+          "beat": "loop",
+          "narration_segment": "you can see will outlast the question.",
+          "media_type": "ai",
+          "visual_prompt": "One faint red star still burning as brighter stars wink out around it",
+          "word_count": 7
         }
       ],
       "beats": {
@@ -3669,8 +3848,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645328+00:00",
-      "published_at": null,
-      "batch_key": "red_dwarf"
+      "published_at": null
     },
     {
       "id": "cb-0029",
@@ -3858,37 +4036,45 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "The Sun's surface sits near five thousand five hundred degrees, and the",
+          "narration_segment": "The Sun's surface sits near five thousand five hundred",
           "media_type": "ai",
           "visual_prompt": "The Sun's churning white photosphere in close detail",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "light leaving it comes out essentially white. Our atmosphere then scatters the",
+          "narration_segment": "degrees, and the light leaving it comes out essentially",
           "media_type": "ai",
           "visual_prompt": "A temperature readout beside the surface, thousands of degrees",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "short blue wavelengths across the whole sky, so what reaches your eye",
+          "narration_segment": "white. Our atmosphere then scatters the short blue wavelengths",
           "media_type": "ai",
           "visual_prompt": "A white light beam entering the atmosphere and its blue component scattering away",
-          "word_count": 12
+          "word_count": 9
         },
         {
           "index": 6,
           "beat": "mechanism",
-          "narration_segment": "directly has had that blue taken out of it.",
+          "narration_segment": "across the whole sky, so what reaches your eye",
           "media_type": "ai",
           "visual_prompt": "Blue light spreading across the whole dome of the sky while the beam warms",
           "word_count": 9
         },
         {
           "index": 7,
+          "beat": "mechanism",
+          "narration_segment": "directly has had that blue taken out of it.",
+          "media_type": "ai",
+          "visual_prompt": "White sunlight through a prism, the blue end scattering away sideways",
+          "word_count": 9
+        },
+        {
+          "index": 8,
           "beat": "spike",
           "narration_segment": "That scattered blue is the sky. The sky",
           "media_type": "ai",
@@ -3896,7 +4082,7 @@
           "word_count": 8
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "spike",
           "narration_segment": "is made of the Sun's missing colour.",
           "media_type": "ai",
@@ -3904,20 +4090,28 @@
           "word_count": 7
         },
         {
-          "index": 9,
-          "beat": "loop",
-          "narration_segment": "Astronauts above the air see a plain white Sun. Yours looks",
-          "media_type": "ai",
-          "visual_prompt": "An astronaut's view from orbit with a stark white Sun against black",
-          "word_count": 11
-        },
-        {
           "index": 10,
           "beat": "loop",
-          "narration_segment": "yellow only because you are standing under an ocean of gas.",
+          "narration_segment": "Astronauts above the air see a plain white",
+          "media_type": "ai",
+          "visual_prompt": "An astronaut's view from orbit with a stark white Sun against black",
+          "word_count": 8
+        },
+        {
+          "index": 11,
+          "beat": "loop",
+          "narration_segment": "Sun. Yours looks yellow only because you are",
           "media_type": "ai",
           "visual_prompt": "The same Sun seen from the ground, warm yellow through thick air",
-          "word_count": 11
+          "word_count": 8
+        },
+        {
+          "index": 12,
+          "beat": "loop",
+          "narration_segment": "standing under an ocean of gas.",
+          "media_type": "ai",
+          "visual_prompt": "An astronaut's visor reflecting a stark white Sun against black space",
+          "word_count": 6
         }
       ],
       "beats": {
@@ -3941,8 +4135,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645497+00:00",
-      "published_at": null,
-      "batch_key": "white_sun"
+      "published_at": null
     },
     {
       "id": "cb-0031",
@@ -4030,21 +4223,29 @@
         {
           "index": 7,
           "beat": "spike",
-          "narration_segment": "One of the scientists involved said, years afterwards, that they had",
+          "narration_segment": "One of the scientists involved said, years",
           "media_type": "ai",
           "visual_prompt": "An elderly scientist sitting quietly in an office, seen from behind, no face",
-          "word_count": 11
+          "word_count": 7
         },
         {
           "index": 8,
           "beat": "spike",
-          "narration_segment": "not learned enough from it to justify what they did.",
+          "narration_segment": "afterwards, that they had not learned enough",
           "media_type": "ai",
           "visual_prompt": "An old mission photograph on a desk, the room otherwise empty",
-          "word_count": 10
+          "word_count": 7
         },
         {
           "index": 9,
+          "beat": "spike",
+          "narration_segment": "from it to justify what they did.",
+          "media_type": "ai",
+          "visual_prompt": "An empty laboratory corridor, a dog lead hanging on a hook",
+          "word_count": 7
+        },
+        {
+          "index": 10,
           "beat": "loop",
           "narration_segment": "You know her name because she did not come",
           "media_type": "ai",
@@ -4052,7 +4253,7 @@
           "word_count": 9
         },
         {
-          "index": 10,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "back. Every crewed flight you have watched since was",
           "media_type": "ai",
@@ -4060,7 +4261,7 @@
           "word_count": 9
         },
         {
-          "index": 11,
+          "index": 12,
           "beat": "loop",
           "narration_segment": "built around making sure that does not happen again.",
           "media_type": "ai",
@@ -4538,45 +4739,61 @@
         {
           "index": 1,
           "beat": "turn",
-          "narration_segment": "Worlds can be flung out of their systems while those systems",
+          "narration_segment": "Worlds can be flung out of their systems",
           "media_type": "ai",
           "visual_prompt": "A young chaotic planetary system flinging a planet outward on a slingshot path",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 2,
           "beat": "turn",
-          "narration_segment": "are still forming. Once loose, they drift between the stars forever.",
+          "narration_segment": "while those systems are still forming. Once loose,",
           "media_type": "ai",
           "visual_prompt": "The ejected planet receding into total darkness, its star shrinking away",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 3,
-          "beat": "mechanism",
-          "narration_segment": "Surveys catch them by the way their gravity briefly bends the light",
+          "beat": "turn",
+          "narration_segment": "they drift between the stars forever.",
           "media_type": "ai",
-          "visual_prompt": "A background star briefly brightening as an unseen mass passes in front",
-          "word_count": 12
+          "visual_prompt": "A planet tumbling away from its star into total darkness",
+          "word_count": 6
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "of a star behind them. The counts point to billions of them",
+          "narration_segment": "Surveys catch them by the way their gravity briefly",
           "media_type": "ai",
-          "visual_prompt": "A light curve spiking once and returning to flat",
-          "word_count": 12
+          "visual_prompt": "A background star briefly brightening as an unseen mass passes in front",
+          "word_count": 9
         },
         {
           "index": 5,
           "beat": "mechanism",
-          "narration_segment": "in our galaxy. This is the leading estimate, not a settled one.",
+          "narration_segment": "bends the light of a star behind them. The",
           "media_type": "ai",
-          "visual_prompt": "A galaxy map dotted with faint unlit worlds between the stars",
-          "word_count": 12
+          "visual_prompt": "A light curve spiking once and returning to flat",
+          "word_count": 9
         },
         {
           "index": 6,
+          "beat": "mechanism",
+          "narration_segment": "counts point to billions of them in our galaxy.",
+          "media_type": "ai",
+          "visual_prompt": "A galaxy map dotted with faint unlit worlds between the stars",
+          "word_count": 9
+        },
+        {
+          "index": 7,
+          "beat": "mechanism",
+          "narration_segment": "This is the leading estimate, not a settled one.",
+          "media_type": "ai",
+          "visual_prompt": "A survey telescope sweeping a dense star field, logging brief flashes",
+          "word_count": 9
+        },
+        {
+          "index": 8,
           "beat": "spike",
           "narration_segment": "A rogue world has no sunrise and no seasons. Some",
           "media_type": "ai",
@@ -4584,7 +4801,7 @@
           "word_count": 10
         },
         {
-          "index": 7,
+          "index": 9,
           "beat": "spike",
           "narration_segment": "may still hold liquid water beneath ice, warmed from within.",
           "media_type": "ai",
@@ -4592,7 +4809,7 @@
           "word_count": 10
         },
         {
-          "index": 8,
+          "index": 10,
           "beat": "loop",
           "narration_segment": "For every star you can see up there, there",
           "media_type": "ai",
@@ -4600,7 +4817,7 @@
           "word_count": 9
         },
         {
-          "index": 9,
+          "index": 11,
           "beat": "loop",
           "narration_segment": "may be a starless world you never will.",
           "media_type": "ai",
@@ -4629,8 +4846,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645896+00:00",
-      "published_at": null,
-      "batch_key": "rogue_planets"
+      "published_at": null
     },
     {
       "id": "cb-0036",
@@ -4684,21 +4900,29 @@
         {
           "index": 3,
           "beat": "mechanism",
-          "narration_segment": "Take the weight off and the cushions swell back out. NASA",
+          "narration_segment": "Take the weight off and the cushions swell",
           "media_type": "ai",
           "visual_prompt": "The same discs expanding as the compressing load is removed",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 4,
           "beat": "mechanism",
-          "narration_segment": "has measured crew members gaining up to five centimetres in orbit.",
+          "narration_segment": "back out. NASA has measured crew members gaining",
           "media_type": "ai",
           "visual_prompt": "A crew member being measured against a marked wall inside a space station",
-          "word_count": 11
+          "word_count": 8
         },
         {
           "index": 5,
+          "beat": "mechanism",
+          "narration_segment": "up to five centimetres in orbit.",
+          "media_type": "ai",
+          "visual_prompt": "A measuring tape pulled out by five centimetres against a wall",
+          "word_count": 6
+        },
+        {
+          "index": 6,
           "beat": "spike",
           "narration_segment": "You do a smaller version of this nightly. You are",
           "media_type": "stock",
@@ -4707,7 +4931,7 @@
           "word_count": 10
         },
         {
-          "index": 6,
+          "index": 7,
           "beat": "spike",
           "narration_segment": "measurably taller waking up than you were going to bed.",
           "media_type": "ai",
@@ -4715,7 +4939,7 @@
           "word_count": 10
         },
         {
-          "index": 7,
+          "index": 8,
           "beat": "loop",
           "narration_segment": "Your height is not a fixed number. It is",
           "media_type": "ai",
@@ -4723,7 +4947,7 @@
           "word_count": 9
         },
         {
-          "index": 8,
+          "index": 9,
           "beat": "loop",
           "narration_segment": "just how hard the floor is pushing back.",
           "media_type": "ai",
@@ -4752,8 +4976,7 @@
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645968+00:00",
-      "published_at": null,
-      "batch_key": "taller"
+      "published_at": null
     }
   ]
 }

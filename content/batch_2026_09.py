@@ -20,7 +20,51 @@ def V(media_type, stock_query, visual_prompt):
     return (media_type, stock_query, visual_prompt)
 
 
-MAX_SHOT_SECONDS = 5.0
+MAX_SHOT_SECONDS = 4.0
+
+# One extra visual for each beat that would otherwise hold a single image for
+# more than MAX_SHOT_SECONDS. Appended at build time rather than edited into
+# the 36 add() blocks, so the pacing fix is auditable in one place.
+# Worth having only because the image budget went 7 -> 11 per video: below
+# that, extra shots just re-showed an earlier picture at a different zoom.
+EXTRA_VISUALS = {
+    ("white_sun", "mechanism"):        V("ai", None, "White sunlight through a prism, the blue end scattering away sideways"),
+    ("white_sun", "loop"):             V("ai", None, "An astronaut's visor reflecting a stark white Sun against black space"),
+    ("venus", "hook"):                 V("ai", None, "A clock face beside an orbital path, the clock losing the race"),
+    ("venus", "mechanism"):            V("ai", None, "A radar dish on Earth tracking Venus low across a night sky"),
+    ("twinkle", "turn"):               V("ai", None, "A child silhouetted pointing up at a flickering star"),
+    ("twinkle", "loop"):               V("ai", None, "A finger tracing between a steady planet and a shimmering star"),
+    ("triton", "turn"):                V("ai", None, "Triton's backwards orbit drawn as an arrow against Neptune's spin"),
+    ("triton", "spike"):               V("ai", None, "Neptune encircled by a bright new ring of shattered moon debris"),
+    ("rogue_planets", "turn"):         V("ai", None, "A planet tumbling away from its star into total darkness"),
+    ("rogue_planets", "mechanism"):    V("ai", None, "A survey telescope sweeping a dense star field, logging brief flashes"),
+    ("moon", "spike"):                 V("stock", "low tide beach", "A tide line on wet sand, water retreated far down the beach"),
+    ("laser_mirrors", "turn"):         V("ai", None, "Three landing site markers glowing on a map of the lunar surface"),
+    ("laser_mirrors", "spike"):        V("ai", None, "A few centimetres measured against the vast Earth to Moon gap"),
+    ("hawking", "mechanism"):          V("ai", None, "A horizon line with particles flickering into being on either side"),
+    ("hawking", "spike"):              V("ai", None, "A single grain of sand beside an impossibly long written number"),
+    ("hawking", "loop"):               V("ai", None, "A clock face carrying far more digits than it can display"),
+    ("gold", "mechanism"):             V("ai", None, "A periodic table with gold lighting up as the blast reaches it"),
+    ("glass_rain", "turn"):            V("ai", None, "A telescope splitting the planet's light into a spectrum of colour bands"),
+    ("glass_rain", "loop"):            V("ai", None, "Horizontal glass streaks scouring across bare rock"),
+    ("freeze", "mechanism"):           V("ai", None, "A thermometer falling slowly rather than plunging, in vacuum"),
+    ("freeze", "loop"):                V("ai", None, "A drifting figure, unconscious but still glowing warm in infrared"),
+    ("black_hole_photo", "mechanism"): V("ai", None, "Radio dishes on separate continents syncing to one atomic clock"),
+    ("black_hole_photo", "spike"):     V("ai", None, "The crowd closing up, the person-shaped gap now the only thing visible"),
+    ("wider_than_old", "turn"):        V("ai", None, "A ruler laid across a star field, far longer than the clock beside it"),
+    ("wider_than_old", "mechanism"):   V("ai", None, "Two galaxies drifting apart as the space between them stretches"),
+    ("tv_static", "mechanism"):        V("ai", None, "A radio telescope dish against a dusk sky, hissing with noise"),
+    ("taller", "mechanism"):           V("ai", None, "A measuring tape pulled out by five centimetres against a wall"),
+    ("sun_vanishes", "spike"):         V("ai", None, "A clock ticking through eight minutes under a still-bright sky"),
+    ("saturn_rings", "loop"):          V("ai", None, "A child at a telescope eyepiece, Saturn small and sharp in view"),
+    ("red_dwarf", "loop"):             V("ai", None, "One faint red star still burning as brighter stars wink out around it"),
+    ("meteor", "mechanism"):           V("ai", None, "A shockwave cone forming ahead of a hypersonic object, schlieren style"),
+    ("laika", "spike"):                V("ai", None, "An empty laboratory corridor, a dog lead hanging on a hook"),
+    ("io", "spike"):                   V("ai", None, "The space station crossing a twilight sky as a bright moving point"),
+    ("hubble", "hook"):                V("ai", None, "A fingertip covering a tiny patch of night sky at arm's length"),
+    ("galaxy_collision", "mechanism"): V("ai", None, "Two star fields passing straight through each other, nothing colliding"),
+    ("betelgeuse", "hook"):            V("ai", None, "A red supergiant churning and pulsing, its surface boiling"),
+}
 
 # Per-video search keywords, merged ahead of the cluster and base tags in
 # gen_scripts.templatize(). Grounded in vidIQ keyword research (2026-09-16):
@@ -1454,7 +1498,11 @@ def main():
     for key in ORDER:
         d = B[key]
         script = gs.reconstruct_beats(d["beats"])
-        shots = build_shots(d["beats"], d["visuals"])
+        visuals = {b: list(v) for b, v in d["visuals"].items()}
+        for (vkey, vbeat), extra in EXTRA_VISUALS.items():
+            if vkey == key:
+                visuals[vbeat].append(extra)
+        shots = build_shots(d["beats"], visuals)
         # The id is a placeholder: append_idea_bank() assigns the real one at
         # ingest. remap_ids.py writes it back into the scripts file.
         concept = {
