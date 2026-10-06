@@ -78,7 +78,7 @@ def add(key, **kw):
 add("hubble",
     cluster="observation_and_instruments", pattern="MISSING_THING", fmt="C",
     mood="mysterious",
-    title="Hubble Aimed at Nothing and Found Three Thousand Galaxies",
+    title="Hubble Aimed at Nothing, Found 3,000",
     overlay="POINTED AT EMPTY SKY",
     hook_a="What hides in a patch of sky with nothing in it?",
     hook_b="Astronomers stared at an empty sky for ten days",
@@ -112,7 +112,7 @@ add("hubble",
 add("venus",
     cluster="solar_system_oddities", pattern="INVERTED_ASSUMPTION", fmt="A",
     mood="mysterious",
-    title="Venus Takes Longer to Spin Than to Orbit the Sun",
+    title="Venus Spins Slower Than It Orbits",
     overlay="VENUS SPINS SLOWER THAN IT ORBITS",
     hook_a="Venus takes longer to spin once than to circle the Sun.",
     hook_b="One planet finishes its year before it finishes turning around",
@@ -146,7 +146,7 @@ add("venus",
 add("timedilation",
     cluster="physics_limits", pattern="SECOND_PERSON_IMPLICATION", fmt="E",
     mood="mysterious",
-    title="Your Head Is Ageing Faster Than Your Feet",
+    title="Your Head Ages Faster Than Your Feet",
     overlay="YOUR HEAD AGES FASTER",
     hook_a="Your head is ageing faster than your feet.",
     hook_b="Gravity makes the top of you older than the bottom",
@@ -178,7 +178,7 @@ add("timedilation",
 
 add("moon",
     cluster="deep_time", pattern="SCALE_COLLAPSE", fmt="A", mood="dramatic",
-    title="The Moon Once Orbited Five Times Closer to Earth",
+    title="The Moon Was Once Five Times Closer",
     overlay="THE MOON WAS FIVE TIMES CLOSER",
     hook_a="The Moon once orbited five times closer to Earth.",
     hook_b="The Moon used to fill a huge bite of the sky",
@@ -212,7 +212,7 @@ add("moon",
 
 add("sun_giant",
     cluster="stellar_lifecycle", pattern="TIMEBOMB", fmt="D", mood="dramatic",
-    title="The Sun Will Swallow Two of Its Own Planets",
+    title="The Sun Will Swallow Two Planets",
     overlay="THE SUN EATS TWO PLANETS",
     hook_a="Our Sun will swallow two of its own planets.",
     hook_b="Two planets are already scheduled to be eaten",
@@ -246,7 +246,7 @@ add("sun_giant",
 
 add("meteor",
     cluster="things_we_got_wrong", pattern="WRONG_NAME", fmt="B", mood="energetic",
-    title="Shooting Stars Do Not Burn Up From Friction",
+    title="Shooting Stars Don't Burn From Friction",
     overlay="NOT FRICTION. COMPRESSION.",
     hook_a="Shooting stars are not burning from friction.",
     hook_b="The meteor is killed by air it never touches",
@@ -281,7 +281,7 @@ add("meteor",
 add("horizon",
     cluster="cosmology_and_origins", pattern="OBSERVER_LIMIT", fmt="E",
     mood="mysterious",
-    title="There Is a Wall in Space You Can Never Cross",
+    title="The Wall in Space You Can Never Cross",
     overlay="A WALL YOU CANNOT CROSS",
     hook_a="There is a wall in space you can never cross.",
     hook_b="Some galaxies have already sent you their last light",
@@ -314,7 +314,7 @@ add("horizon",
 
 add("sgr_a",
     cluster="galactic_structure", pattern="NAKED_NUMBER", fmt="A", mood="dramatic",
-    title="Four Million Suns Are Crushed Into One Point",
+    title="Four Million Suns Crushed Into a Point",
     overlay="OUR GALAXY'S BLACK HOLE",
     hook_a="Four million Suns are crushed into a single point.",
     hook_b="Every star you can see is circling one dark point",
@@ -350,7 +350,7 @@ add("sgr_a",
 
 add("saturn_rings",
     cluster="deep_time", pattern="SCALE_COLLAPSE", fmt="B", mood="dramatic",
-    title="Saturn's Rings Are Younger Than the Dinosaurs",
+    title="Saturn's Rings Are Younger Than T-Rex",
     overlay="RINGS YOUNGER THAN T-REX",
     hook_a="Saturn's rings are younger than the dinosaurs.",
     hook_b="The rings are a phase, not a feature",
@@ -384,7 +384,7 @@ add("saturn_rings",
 
 add("io",
     cluster="solar_system_oddities", pattern="NAKED_NUMBER", fmt="A", mood="energetic",
-    title="Jupiter's Moon Io Has Four Hundred Erupting Volcanoes",
+    title="Jupiter's Moon Has 400 Volcanoes",
     overlay="JUPITER'S VOLCANO MOON",
     hook_a="One moon of Jupiter has four hundred erupting volcanoes.",
     hook_b="A moon being kneaded until it melts",
@@ -419,7 +419,7 @@ add("io",
 
 add("galaxy_collision",
     cluster="galactic_structure", pattern="INVERTED_ASSUMPTION", fmt="C", mood="mysterious",
-    title="Two Galaxies Will Collide and Nothing Will Hit",
+    title="Two Galaxies Collide, Nothing Hits",
     overlay="TWO GALAXIES, ZERO CRASHES",
     hook_a="What happens when two galaxies crash and nothing collides?",
     hook_b="The Milky Way is about to hit something",
@@ -453,7 +453,7 @@ add("galaxy_collision",
 
 add("gold",
     cluster="stellar_lifecycle", pattern="SECOND_PERSON_IMPLICATION", fmt="E", mood="dramatic",
-    title="The Gold in Your Ring Came From Colliding Stars",
+    title="Your Gold Came From Colliding Stars",
     overlay="YOUR GOLD CAME FROM A CRASH",
     hook_a="The gold on your finger was made by colliding stars.",
     hook_b="Gold needs something more violent than a star",
@@ -489,7 +489,7 @@ add("gold",
 
 add("laser_mirrors",
     cluster="observation_and_instruments", pattern="MISSING_THING", fmt="A", mood="uplifting",
-    title="Apollo Left Mirrors on the Moon and We Still Use Them",
+    title="We Still Fire Lasers at Apollo Mirrors",
     overlay="WE STILL SHOOT THE MOON",
     hook_a="Apollo left mirrors on the Moon that we still use.",
     hook_b="Hardware nobody maintains is still answering",
@@ -625,7 +625,7 @@ add("wider_than_old",
 
 add("apollo_memory",
     cluster="human_spaceflight", pattern="NAKED_NUMBER", fmt="D", mood="uplifting",
-    title="Apollo Flew to the Moon on Four Kilobytes of Memory",
+    title="Apollo Reached the Moon on 4KB",
     overlay="FOUR KILOBYTES WENT TO THE MOON",
     hook_a="Apollo reached the Moon on four kilobytes of memory.",
     hook_b="Almost everything you own beats the Moon computer",
@@ -727,7 +727,7 @@ add("twinkle",
 
 add("mercury_ice",
     cluster="solar_system_oddities", pattern="INVERTED_ASSUMPTION", fmt="A", mood="mysterious",
-    title="Mercury Has Ice Despite Sitting Closest to the Sun",
+    title="Mercury Has Ice Next to the Sun",
     overlay="ICE ON THE CLOSEST PLANET",
     hook_a="Mercury sits closest to the Sun and still has ice.",
     hook_b="Shade beats distance, even next to the Sun",
@@ -763,7 +763,7 @@ add("mercury_ice",
 
 add("sun_vanishes",
     cluster="physics_limits", pattern="OBSERVER_LIMIT", fmt="C", mood="mysterious",
-    title="If the Sun Vanished We Would Not Know for Eight Minutes",
+    title="You Would Not Know the Sun Vanished",
     overlay="EIGHT MINUTES OF NOT KNOWING",
     hook_a="If the Sun vanished, how long until you noticed?",
     hook_b="Earth would keep curving around nothing",
@@ -797,7 +797,7 @@ add("sun_vanishes",
 
 add("betelgeuse",
     cluster="stellar_lifecycle", pattern="TIMEBOMB", fmt="E", mood="mysterious",
-    title="Orion's Red Shoulder Star Is Six Centuries Out of Date",
+    title="Orion's Red Star Is 650 Years Late",
     overlay="ORION'S STAR IS LATE",
     hook_a="The red star in Orion is six centuries out of date.",
     hook_b="You are watching a six hundred year old message",
@@ -904,7 +904,7 @@ add("black_hole_photo",
 
 add("iapetus",
     cluster="solar_system_oddities", pattern="MISSING_THING", fmt="A", mood="mysterious",
-    title="Saturn's Moon Iapetus Is Two Different Colours",
+    title="Saturn's Moon Is Two Different Colours",
     overlay="ONE MOON, TWO COLOURS",
     hook_a="One moon of Saturn is black on one side.",
     hook_b="A moon painted dark on the face that leads",
@@ -1046,7 +1046,7 @@ add("red_dwarf",
 
 add("triton",
     cluster="solar_system_oddities", pattern="TIMEBOMB", fmt="A", mood="dramatic",
-    title="Neptune Is Slowly Pulling Its Main Moon Apart",
+    title="Neptune Is Tearing Its Moon Apart",
     overlay="TRITON IS FALLING IN",
     hook_a="Neptune is slowly pulling its main moon apart.",
     hook_b="A captured moon spiralling to its destruction",
@@ -1118,7 +1118,7 @@ add("white_sun",
 
 add("laika",
     cluster="human_spaceflight", pattern="MISSING_THING", fmt="A", mood="dramatic",
-    title="The Dog Sent to Orbit Who Never Came Home",
+    title="The Dog Sent to Orbit, Never Returned",
     overlay="SHE NEVER CAME HOME",
     hook_a="A stray dog reached orbit and never came home.",
     hook_b="The capsule was built with no way back",
@@ -1155,7 +1155,7 @@ add("laika",
 
 add("seven_worlds",
     cluster="exoplanets", pattern="NAKED_NUMBER", fmt="D", mood="mysterious",
-    title="Seven Earth-Sized Worlds Orbit One Tiny Star",
+    title="Seven Earth-Sized Worlds, One Star",
     overlay="SEVEN EARTHS, ONE STAR",
     hook_a="Seven Earth-sized worlds orbit one tiny star.",
     hook_b="Neighbour planets that hang huge in the sky",
@@ -1227,7 +1227,7 @@ add("barycentre",
 
 add("you_are_moving",
     cluster="physics_limits", pattern="SECOND_PERSON_IMPLICATION", fmt="E", mood="energetic",
-    title="You Are Moving at Six Hundred Kilometres Per Second",
+    title="You Are Moving at 600 km Per Second",
     overlay="YOU ARE NOT SITTING STILL",
     hook_a="You are moving six hundred kilometres every second.",
     hook_b="You have never once been at rest",
@@ -1355,7 +1355,7 @@ def build_shots(beats, visuals):
     return shots
 
 
-def refresh_queued(config, bank_by_title, items):
+def refresh_queued(config, bank_by_key, items):
     """Rewrites still-queued entries whose script was edited since ingest.
 
     Correcting a script and re-running the batch file is routine, so a second
@@ -1369,11 +1369,14 @@ def refresh_queued(config, bank_by_title, items):
     by_id = {e["id"]: e for e in queue["entries"]}
     changed = 0
     for item in items:
-        concept = bank_by_title[item["title"]]
+        concept = bank_by_key[item["batch_key"]]
         entry = by_id.get(concept["id"])
         if entry is None or entry.get("status") != "queued":
             continue
         item = dict(item, id=concept["id"])
+        # Keep the bank's copy of the title in step with the batch file, so the
+        # two cannot drift apart silently.
+        concept["title"] = item["title"]
         rebuilt = gen_scripts.templatize(concept, item, config)
         # Compare every content field, not just the script: tags, description
         # and hook_overlay change too, and an earlier version of this check
@@ -1390,6 +1393,15 @@ def refresh_queued(config, bank_by_title, items):
         changed += 1
     if changed:
         q.save_queue(queue)
+        # The bank's titles were mutated above; persist them or the queue and
+        # the bank disagree on what each concept is called.
+        from src import gen_ideas
+        bank = gen_ideas.load_idea_bank()
+        titles = {c["batch_key"]: c["title"] for c in bank_by_key.values()}
+        for c in bank:
+            if c.get("batch_key") in titles:
+                c["title"] = titles[c["batch_key"]]
+        gen_ideas.save_idea_bank(bank)
     print(f"[batch] Refreshed {changed} already-queued entr{'y' if changed == 1 else 'ies'}.")
 
 
@@ -1405,15 +1417,19 @@ def ingest(concepts, items):
     # already in the bank are skipped rather than queued a second time. Title
     # is the key because ids do not exist until the bank assigns them.
     bank = gen_ideas.load_idea_bank()
-    already = {c["title"]: c for c in bank}
-    fresh_titles = {c["title"] for c in concepts} - set(already)
+    # Keyed on batch_key, NOT title. Matching on title meant that editing a
+    # title made the concept look brand new: a round of title rewrites once
+    # created 20 duplicate concepts and 20 duplicate queue entries instead of
+    # updating the originals.
+    already = {c["batch_key"]: c for c in bank if c.get("batch_key")}
+    fresh_keys = {c["batch_key"] for c in concepts} - set(already)
 
-    revised = [i for i in items if i["title"] in already]
+    revised = [i for i in items if i["batch_key"] in already]
     if revised:
         refresh_queued(cfg.load_config(), already, revised)
 
-    concepts = [c for c in concepts if c["title"] in fresh_titles]
-    items = [i for i in items if i["title"] in fresh_titles]
+    concepts = [c for c in concepts if c["batch_key"] in fresh_keys]
+    items = [i for i in items if i["batch_key"] in fresh_keys]
     if not concepts:
         print("[batch] No new concepts to add.")
         return
@@ -1421,11 +1437,11 @@ def ingest(concepts, items):
     saved = gen_ideas.finalize_and_save(concepts, pre_approved=True)
     if len(saved) != len(concepts):
         raise SystemExit(f"bank saved {len(saved)} of {len(concepts)} concepts - not ingesting scripts")
-    by_title = {c["title"]: c["id"] for c in saved}
+    by_key = {c["batch_key"]: c["id"] for c in saved}
 
     tmp = Path("output/drafts/_ingest.json")
     for it in items:
-        it["id"] = by_title[it["title"]]
+        it["id"] = by_key[it["batch_key"]]
     tmp.write_text(json.dumps(items, ensure_ascii=False), encoding="utf-8")
     gen_scripts.ingest_file(cfg.load_config(), str(tmp))
 
@@ -1447,13 +1463,15 @@ def main():
             "anchor_spoken": d["anchor_spoken"], "mechanism": d["mechanism"],
             "consequence": d["consequence"], "cluster": d["cluster"], "pattern": d["pattern"],
             "source": d["source"], "confidence": d["confidence"], "saturation": d["saturation"],
+            # Stable identity across title edits - see ingest().
+            "batch_key": key,
         }
         item = {
             "id": key, "script": script, "beats": d["beats"],
             "format_letter": d["fmt"], "hook_overlay": d["overlay"], "mood": d["mood"],
             "title": d["title"], "sources": d["sources"], "shot_list": shots,
             "word_count": len(script.split()), "pattern_used": d["pattern"],
-            "keywords": KEYWORDS[key],
+            "keywords": KEYWORDS[key], "batch_key": key,
         }
         try:
             gs.validate_script(concept, item, prev_format=prev)

@@ -4,9 +4,9 @@
       "id": "cb-0001",
       "cluster": "observation_and_instruments",
       "pattern": "MISSING_THING",
-      "topic": "Hubble_Aimed_at_Nothing_and_Found_Three_Thousand_Galaxies",
-      "title": "Hubble Aimed at Nothing and Found Three Thousand Galaxies",
-      "description": "What hides in a patch of sky with nothing in it?\n\nNo patch of sky is actually empty.\n\nSource: Hubble Deep Field, NASA and STScI, December 1995\n\n#Shorts #hubble #hubbletelescope #galaxies #hubbledeepfield #telescope #spaceobservation #astronomytools #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Hubble_Aimed_at_Nothing_Found_3_000",
+      "title": "Hubble Aimed at Nothing, Found 3,000",
+      "description": "What hides in a patch of sky with nothing in it?\n\nNo patch of sky is actually empty.\n\nSource: Hubble Deep Field, NASA and STScI, December 1995\n\n#Shorts #hubble #hubbletelescope #galaxies #hubbledeepfield",
       "tags": [
         "hubble",
         "hubble telescope",
@@ -124,8 +124,8 @@
       ],
       "anchor": "3,000 galaxies",
       "anchor_spoken": "roughly three thousand galaxies",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325354+00:00",
       "published_at": null
@@ -245,7 +245,8 @@
       "status": "published",
       "video_id": "OiVVylewPKw",
       "queued_at": "2026-09-16T08:42:46.325452+00:00",
-      "published_at": "2026-09-16T12:46:23.488362+00:00"
+      "published_at": "2026-09-16T12:46:23.488362+00:00",
+      "batch_key": "venus"
     },
     {
       "id": "cb-0003",
@@ -367,15 +368,16 @@
       "status": "published",
       "video_id": "dNW7hb5hzv8",
       "queued_at": "2026-09-16T08:42:46.325527+00:00",
-      "published_at": "2026-09-22T18:46:52.124952+00:00"
+      "published_at": "2026-09-22T18:46:52.124952+00:00",
+      "batch_key": "timedilation"
     },
     {
       "id": "cb-0004",
       "cluster": "deep_time",
       "pattern": "SCALE_COLLAPSE",
-      "topic": "The_Moon_Once_Orbited_Five_Times_Closer_to_Earth",
-      "title": "The Moon Once Orbited Five Times Closer to Earth",
-      "description": "The Moon once orbited five times closer to Earth.\n\nEarth's tides were once more than a hundred times stronger.\n\nSource: Lunar Laser Ranging via Apollo retroreflectors, and lunar formation models\n\n#Shorts #moon #moonfacts #tides #earthandmoon #universeage #cosmictime #deeptime #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "The_Moon_Was_Once_Five_Times_Closer",
+      "title": "The Moon Was Once Five Times Closer",
+      "description": "The Moon once orbited five times closer to Earth.\n\nEarth's tides were once more than a hundred times stronger.\n\nSource: Lunar Laser Ranging via Apollo retroreflectors, and lunar formation models\n\n#Shorts #moon #moonfacts #tides #earthandmoon",
       "tags": [
         "moon",
         "moon facts",
@@ -487,8 +489,8 @@
       ],
       "anchor": "75,000 km",
       "anchor_spoken": "seventy five thousand kilometres",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325607+00:00",
       "published_at": null
@@ -497,9 +499,9 @@
       "id": "cb-0005",
       "cluster": "stellar_lifecycle",
       "pattern": "TIMEBOMB",
-      "topic": "The_Sun_Will_Swallow_Two_of_Its_Own_Planets",
-      "title": "The Sun Will Swallow Two of Its Own Planets",
-      "description": "Our Sun will swallow two of its own planets.\n\nEvery planet has an end date set by its star.\n\nSource: Standard stellar evolution models for a one solar mass star\n\n#Shorts #sun #redgiant #sunfacts #deathofthesun #stars #supernova #stardeath #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "The_Sun_Will_Swallow_Two_Planets",
+      "title": "The Sun Will Swallow Two Planets",
+      "description": "Our Sun will swallow two of its own planets.\n\nEvery planet has an end date set by its star.\n\nSource: Standard stellar evolution models for a one solar mass star\n\n#Shorts #sun #redgiant #sunfacts #deathofthesun",
       "tags": [
         "sun",
         "red giant",
@@ -618,8 +620,8 @@
       ],
       "anchor": "5 billion years",
       "anchor_spoken": "five billion years",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325681+00:00",
       "published_at": null
@@ -628,9 +630,9 @@
       "id": "cb-0006",
       "cluster": "things_we_got_wrong",
       "pattern": "WRONG_NAME",
-      "topic": "Shooting_Stars_Do_Not_Burn_Up_From_Friction",
-      "title": "Shooting Stars Do Not Burn Up From Friction",
-      "description": "Shooting stars are not burning from friction.\n\nA widely taught explanation is simply wrong.\n\nSource: settled atmospheric entry physics, deliberately unattributed\n\n#Shorts #meteor #shootingstar #meteorshower #spacemyths #mythbusting #youweretaughtwrong #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Shooting_Stars_Don_t_Burn_From_Friction",
+      "title": "Shooting Stars Don't Burn From Friction",
+      "description": "Shooting stars are not burning from friction.\n\nA widely taught explanation is simply wrong.\n\nSource: settled atmospheric entry physics, deliberately unattributed\n\n#Shorts #meteor #shootingstar #meteorshower #spacemyths",
       "tags": [
         "meteor",
         "shooting star",
@@ -756,8 +758,8 @@
       ],
       "anchor": "70 km per second",
       "anchor_spoken": "seventy kilometres per second",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325762+00:00",
       "published_at": null
@@ -766,9 +768,9 @@
       "id": "cb-0007",
       "cluster": "cosmology_and_origins",
       "pattern": "OBSERVER_LIMIT",
-      "topic": "There_Is_a_Wall_in_Space_You_Can_Never_Cross",
-      "title": "There Is a Wall in Space You Can Never Cross",
-      "description": "There is a wall in space you can never cross.\n\nPart of reality is permanently unobservable.\n\nSource: Observable universe radius from standard cosmological parameters\n\n#Shorts #observableuniverse #universesize #cosmology #edgeoftheuniverse #bigbang #originofuniverse #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "The_Wall_in_Space_You_Can_Never_Cross",
+      "title": "The Wall in Space You Can Never Cross",
+      "description": "There is a wall in space you can never cross.\n\nPart of reality is permanently unobservable.\n\nSource: Observable universe radius from standard cosmological parameters\n\n#Shorts #observableuniverse #universesize #cosmology #edgeoftheuniverse",
       "tags": [
         "observable universe",
         "universe size",
@@ -878,8 +880,8 @@
       ],
       "anchor": "46 billion light years",
       "anchor_spoken": "forty six billion light years",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325832+00:00",
       "published_at": null
@@ -888,9 +890,9 @@
       "id": "cb-0008",
       "cluster": "galactic_structure",
       "pattern": "NAKED_NUMBER",
-      "topic": "Four_Million_Suns_Are_Crushed_Into_One_Point",
-      "title": "Four Million Suns Are Crushed Into One Point",
-      "description": "Four million Suns are crushed into a single point.\n\nOur whole galaxy turns around something we cannot see.\n\nSource: Event Horizon Telescope image 2022, and decades of stellar orbit tracking\n\n#Shorts #blackhole #milkyway #supermassiveblackhole #sagittariusastar #galaxy #galaxies #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Four_Million_Suns_Crushed_Into_a_Point",
+      "title": "Four Million Suns Crushed Into a Point",
+      "description": "Four million Suns are crushed into a single point.\n\nOur whole galaxy turns around something we cannot see.\n\nSource: Event Horizon Telescope image 2022, and decades of stellar orbit tracking\n\n#Shorts #blackhole #milkyway #supermassiveblackhole #sagittariusastar",
       "tags": [
         "black hole",
         "milky way",
@@ -1008,8 +1010,8 @@
       ],
       "anchor": "4.3 million solar masses",
       "anchor_spoken": "four point three million times our Sun",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T08:42:46.325905+00:00",
       "published_at": null
@@ -1018,9 +1020,9 @@
       "id": "cb-0009",
       "cluster": "deep_time",
       "pattern": "SCALE_COLLAPSE",
-      "topic": "Saturn_s_Rings_Are_Younger_Than_the_Dinosaurs",
-      "title": "Saturn's Rings Are Younger Than the Dinosaurs",
-      "description": "Saturn's rings are younger than the dinosaurs.\n\nSaturn has not always looked the way we picture it.\n\nSource: Cassini Grand Finale ring mass measurement, 2017\n\n#Shorts #saturn #saturnrings #saturnfacts #cassini #universeage #cosmictime #deeptime #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Saturn_s_Rings_Are_Younger_Than_T-Rex",
+      "title": "Saturn's Rings Are Younger Than T-Rex",
+      "description": "Saturn's rings are younger than the dinosaurs.\n\nSaturn has not always looked the way we picture it.\n\nSource: Cassini Grand Finale ring mass measurement, 2017\n\n#Shorts #saturn #saturnrings #saturnfacts #cassini",
       "tags": [
         "saturn",
         "saturn rings",
@@ -1138,8 +1140,8 @@
       ],
       "anchor": "<100 million years",
       "anchor_spoken": "a hundred million years",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.643808+00:00",
       "published_at": null
@@ -1274,15 +1276,16 @@
       "status": "published",
       "video_id": "SYM3WtmLESg",
       "queued_at": "2026-09-16T11:43:23.643908+00:00",
-      "published_at": "2026-09-16T18:51:19.652002+00:00"
+      "published_at": "2026-09-16T18:51:19.652002+00:00",
+      "batch_key": "io"
     },
     {
       "id": "cb-0011",
       "cluster": "galactic_structure",
       "pattern": "INVERTED_ASSUMPTION",
-      "topic": "Two_Galaxies_Will_Collide_and_Nothing_Will_Hit",
-      "title": "Two Galaxies Will Collide and Nothing Will Hit",
-      "description": "What happens when two galaxies crash and nothing collides?\n\nEmptiness, not matter, is what a galaxy is mostly made of.\n\nSource: Hubble measurements of Andromeda's transverse motion\n\n#Shorts #andromeda #milkyway #galaxycollision #galaxies #galaxy #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Two_Galaxies_Collide_Nothing_Hits",
+      "title": "Two Galaxies Collide, Nothing Hits",
+      "description": "What happens when two galaxies crash and nothing collides?\n\nEmptiness, not matter, is what a galaxy is mostly made of.\n\nSource: Hubble measurements of Andromeda's transverse motion\n\n#Shorts #andromeda #milkyway #galaxycollision #galaxies",
       "tags": [
         "andromeda",
         "milky way",
@@ -1392,7 +1395,7 @@
       ],
       "anchor": "4 billion years",
       "anchor_spoken": "four billion years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.643987+00:00",
@@ -1402,9 +1405,9 @@
       "id": "cb-0012",
       "cluster": "stellar_lifecycle",
       "pattern": "SECOND_PERSON_IMPLICATION",
-      "topic": "The_Gold_in_Your_Ring_Came_From_Colliding_Stars",
-      "title": "The Gold in Your Ring Came From Colliding Stars",
-      "description": "The gold on your finger was made by colliding stars.\n\nJewellery is debris from one of the most violent events in physics.\n\nSource: LIGO and Virgo detection of the neutron star merger GW170817, 2017\n\n#Shorts #neutronstar #gold #wheregoldcomesfrom #supernova #stars #stardeath #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Your_Gold_Came_From_Colliding_Stars",
+      "title": "Your Gold Came From Colliding Stars",
+      "description": "The gold on your finger was made by colliding stars.\n\nJewellery is debris from one of the most violent events in physics.\n\nSource: LIGO and Virgo detection of the neutron star merger GW170817, 2017\n\n#Shorts #neutronstar #gold #wheregoldcomesfrom #supernova",
       "tags": [
         "neutron star",
         "gold",
@@ -1532,7 +1535,7 @@
       ],
       "anchor": "130 million light years",
       "anchor_spoken": "one hundred and thirty million light years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644070+00:00",
@@ -1542,9 +1545,9 @@
       "id": "cb-0013",
       "cluster": "observation_and_instruments",
       "pattern": "MISSING_THING",
-      "topic": "Apollo_Left_Mirrors_on_the_Moon_and_We_Still_Use_Them",
-      "title": "Apollo Left Mirrors on the Moon and We Still Use Them",
-      "description": "Apollo left mirrors on the Moon that we still use.\n\nThe Moon's retreat is measured, not inferred.\n\nSource: Lunar Laser Ranging, Apollo 11, 14 and 15 retroreflector arrays\n\n#Shorts #apollo #moonlanding #nasa #distancetothemoon #telescope #spaceobservation #astronomytools #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "We_Still_Fire_Lasers_at_Apollo_Mirrors",
+      "title": "We Still Fire Lasers at Apollo Mirrors",
+      "description": "Apollo left mirrors on the Moon that we still use.\n\nThe Moon's retreat is measured, not inferred.\n\nSource: Lunar Laser Ranging, Apollo 11, 14 and 15 retroreflector arrays\n\n#Shorts #apollo #moonlanding #nasa #distancetothemoon",
       "tags": [
         "apollo",
         "moon landing",
@@ -1663,8 +1666,8 @@
       ],
       "anchor": "3.8 cm per year",
       "anchor_spoken": "three point eight centimetres",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644157+00:00",
       "published_at": null
@@ -1675,7 +1678,7 @@
       "pattern": "INVERTED_ASSUMPTION",
       "topic": "You_Would_Not_Freeze_Instantly_in_Space",
       "title": "You Would Not Freeze Instantly in Space",
-      "description": "Space would not freeze you. Not quickly, anyway.\n\nThe danger in vacuum is oxygen, not cold.\n\nSource: NASA vacuum chamber accident, 1966\n\n#Shorts #space #vacuum #spacemyths #humanbodyinspace #physicsfacts #sciencefacts #physics #spacefacts #astronomy #universe #facts #science #didyouknow",
+      "description": "Space would not freeze you. Not quickly, anyway.\n\nThe danger in vacuum is oxygen, not cold.\n\nSource: NASA vacuum chamber accident, 1966\n\n#Shorts #space #vacuum #spacemyths #humanbodyinspace",
       "tags": [
         "space",
         "vacuum",
@@ -1785,11 +1788,12 @@
       ],
       "anchor": "15 seconds",
       "anchor_spoken": "about fifteen seconds",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644233+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "freeze"
     },
     {
       "id": "cb-0015",
@@ -1920,7 +1924,8 @@
       "status": "published",
       "video_id": "6qvkxnaMpzo",
       "queued_at": "2026-09-16T11:43:23.644307+00:00",
-      "published_at": "2026-09-17T18:58:00.459727+00:00"
+      "published_at": "2026-09-17T18:58:00.459727+00:00",
+      "batch_key": "neptune_diamonds"
     },
     {
       "id": "cb-0016",
@@ -1928,7 +1933,7 @@
       "pattern": "SCALE_COLLAPSE",
       "topic": "The_Universe_Is_Wider_Than_It_Is_Old",
       "title": "The Universe Is Wider Than It Is Old",
-      "description": "How is the universe wider than it is old?\n\nDistance in cosmology does not mean what everyday distance means.\n\nSource: Standard cosmological parameters for the observable universe\n\n#Shorts #universe #universesize #bigbang #expandinguniverse #universeage #cosmictime #deeptime #spacefacts #astronomy #space #facts #science #didyouknow",
+      "description": "How is the universe wider than it is old?\n\nDistance in cosmology does not mean what everyday distance means.\n\nSource: Standard cosmological parameters for the observable universe\n\n#Shorts #universe #universesize #bigbang #expandinguniverse",
       "tags": [
         "universe",
         "universe size",
@@ -2046,19 +2051,20 @@
       ],
       "anchor": "93 billion light years",
       "anchor_spoken": "ninety three billion light years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644387+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "wider_than_old"
     },
     {
       "id": "cb-0017",
       "cluster": "human_spaceflight",
       "pattern": "NAKED_NUMBER",
-      "topic": "Apollo_Flew_to_the_Moon_on_Four_Kilobytes_of_Memory",
-      "title": "Apollo Flew to the Moon on Four Kilobytes of Memory",
-      "description": "Apollo reached the Moon on four kilobytes of memory.\n\nCapability and computing power are not the same thing.\n\nSource: Apollo Guidance Computer specifications\n\n#Shorts #apollo11 #moonlanding #nasa #apolloguidancecomputer #spacemissions #astronauts #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Apollo_Reached_the_Moon_on_4KB",
+      "title": "Apollo Reached the Moon on 4KB",
+      "description": "Apollo reached the Moon on four kilobytes of memory.\n\nCapability and computing power are not the same thing.\n\nSource: Apollo Guidance Computer specifications\n\n#Shorts #apollo11 #moonlanding #nasa #apolloguidancecomputer",
       "tags": [
         "apollo 11",
         "moon landing",
@@ -2187,7 +2193,7 @@
       ],
       "anchor": "4 kilobytes",
       "anchor_spoken": "four kilobytes",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644466+00:00",
@@ -2312,7 +2318,8 @@
       "status": "published",
       "video_id": "qVdt4vPds5g",
       "queued_at": "2026-09-16T11:43:23.644546+00:00",
-      "published_at": "2026-09-18T18:19:53.670874+00:00"
+      "published_at": "2026-09-18T18:19:53.670874+00:00",
+      "batch_key": "glass_rain"
     },
     {
       "id": "cb-0019",
@@ -2320,7 +2327,7 @@
       "pattern": "WRONG_NAME",
       "topic": "Stars_Do_Not_Actually_Twinkle",
       "title": "Stars Do Not Actually Twinkle",
-      "description": "Stars do not actually twinkle.\n\nSomething everyone has watched their whole life is misattributed.\n\nSource: settled atmospheric optics, deliberately unattributed\n\n#Shorts #stars #whystarstwinkle #astronomy #spacemyths #mythbusting #youweretaughtwrong #spacefacts #space #universe #facts #science #didyouknow",
+      "description": "Stars do not actually twinkle.\n\nSomething everyone has watched their whole life is misattributed.\n\nSource: settled atmospheric optics, deliberately unattributed\n\n#Shorts #stars #whystarstwinkle #astronomy #spacemyths",
       "tags": [
         "stars",
         "why stars twinkle",
@@ -2437,11 +2444,12 @@
       ],
       "anchor": "100 km of atmosphere",
       "anchor_spoken": "a hundred kilometres",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644624+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "twinkle"
     },
     {
       "id": "cb-0020",
@@ -2581,15 +2589,16 @@
       "status": "published",
       "video_id": "_AT_Dms-2cg",
       "queued_at": "2026-09-16T11:43:23.644704+00:00",
-      "published_at": "2026-09-19T17:57:54.979784+00:00"
+      "published_at": "2026-09-19T17:57:54.979784+00:00",
+      "batch_key": "mercury_ice"
     },
     {
       "id": "cb-0021",
       "cluster": "physics_limits",
       "pattern": "OBSERVER_LIMIT",
-      "topic": "If_the_Sun_Vanished_We_Would_Not_Know_for_Eight_Minutes",
-      "title": "If the Sun Vanished We Would Not Know for Eight Minutes",
-      "description": "If the Sun vanished, how long until you noticed?\n\nNo influence in physics is instant, not even gravity.\n\nSource: LIGO and Virgo GW170817 timing against its gamma ray burst, 2017\n\n#Shorts #sun #gravity #speedoflight #physics #physicsfacts #sciencefacts #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "You_Would_Not_Know_the_Sun_Vanished",
+      "title": "You Would Not Know the Sun Vanished",
+      "description": "If the Sun vanished, how long until you noticed?\n\nNo influence in physics is instant, not even gravity.\n\nSource: LIGO and Virgo GW170817 timing against its gamma ray burst, 2017\n\n#Shorts #sun #gravity #speedoflight #physics",
       "tags": [
         "sun",
         "gravity",
@@ -2707,7 +2716,7 @@
       ],
       "anchor": "8 min 20 s",
       "anchor_spoken": "eight minutes and twenty seconds",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644783+00:00",
@@ -2717,9 +2726,9 @@
       "id": "cb-0022",
       "cluster": "stellar_lifecycle",
       "pattern": "TIMEBOMB",
-      "topic": "Orion_s_Red_Shoulder_Star_Is_Six_Centuries_Out_of_Date",
-      "title": "Orion's Red Shoulder Star Is Six Centuries Out of Date",
-      "description": "The red star in Orion is six centuries out of date.\n\nEvery star you see is a delayed report, not a live view.\n\nSource: Distance estimates for Betelgeuse, roughly 650 light years\n\n#Shorts #betelgeuse #orion #supernova #redsupergiant #stars #stardeath #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "Orion_s_Red_Star_Is_650_Years_Late",
+      "title": "Orion's Red Star Is 650 Years Late",
+      "description": "The red star in Orion is six centuries out of date.\n\nEvery star you see is a delayed report, not a live view.\n\nSource: Distance estimates for Betelgeuse, roughly 650 light years\n\n#Shorts #betelgeuse #orion #supernova #redsupergiant",
       "tags": [
         "betelgeuse",
         "orion",
@@ -2837,7 +2846,7 @@
       ],
       "anchor": "650 light years",
       "anchor_spoken": "six hundred and fifty light years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644861+00:00",
@@ -2849,7 +2858,7 @@
       "pattern": "INVERTED_ASSUMPTION",
       "topic": "Black_Holes_Are_Slowly_Evaporating",
       "title": "Black Holes Are Slowly Evaporating",
-      "description": "What happens to a black hole that stops eating?\n\nNothing in physics is genuinely permanent.\n\nSource: Hawking's 1974 prediction of black hole radiation\n\n#Shorts #blackhole #hawkingradiation #stephenhawking #doblackholesdie #physicsfacts #sciencefacts #physics #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "What happens to a black hole that stops eating?\n\nNothing in physics is genuinely permanent.\n\nSource: Hawking's 1974 prediction of black hole radiation\n\n#Shorts #blackhole #hawkingradiation #stephenhawking #doblackholesdie",
       "tags": [
         "black hole",
         "hawking radiation",
@@ -2968,11 +2977,12 @@
       ],
       "anchor": "10^67 years",
       "anchor_spoken": "sixty seven zeros",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.644940+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "hawking"
     },
     {
       "id": "cb-0024",
@@ -2980,7 +2990,7 @@
       "pattern": "WRONG_NAME",
       "topic": "We_Have_Never_Photographed_a_Black_Hole",
       "title": "We Have Never Photographed a Black Hole",
-      "description": "Nobody has ever photographed a black hole.\n\nThe subject of the most reproduced space image is an absence.\n\nSource: Event Horizon Telescope image of M87, 2019\n\n#Shorts #blackhole #blackholeimage #eventhorizontelescope #firstblackholephoto #telescope #spaceobservation #astronomytools #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "Nobody has ever photographed a black hole.\n\nThe subject of the most reproduced space image is an absence.\n\nSource: Event Horizon Telescope image of M87, 2019\n\n#Shorts #blackhole #blackholeimage #eventhorizontelescope #firstblackholephoto",
       "tags": [
         "black hole",
         "black hole image",
@@ -3108,11 +3118,12 @@
       ],
       "anchor": "55 million light years",
       "anchor_spoken": "fifty five million light years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645022+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "black_hole_photo"
     },
     {
       "id": "cb-0025",
@@ -3253,7 +3264,8 @@
       "status": "published",
       "video_id": "lbkhSkBBA8k",
       "queued_at": "2026-09-16T11:43:23.645101+00:00",
-      "published_at": "2026-09-20T18:12:42.605857+00:00"
+      "published_at": "2026-09-20T18:12:42.605857+00:00",
+      "batch_key": "iapetus"
     },
     {
       "id": "cb-0026",
@@ -3261,7 +3273,7 @@
       "pattern": "SECOND_PERSON_IMPLICATION",
       "topic": "Old_TV_Static_Was_Partly_the_Big_Bang",
       "title": "Old TV Static Was Partly the Big Bang",
-      "description": "Old television static was partly the Big Bang.\n\nThe origin of everything was on an unused channel.\n\nSource: Penzias and Wilson's detection of the cosmic microwave background, 1965\n\n#Shorts #bigbang #cosmicmicrowavebackground #tvstatic #originoftheuniverse #originofuniverse #cosmology #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "Old television static was partly the Big Bang.\n\nThe origin of everything was on an unused channel.\n\nSource: Penzias and Wilson's detection of the cosmic microwave background, 1965\n\n#Shorts #bigbang #cosmicmicrowavebackground #tvstatic #originoftheuniverse",
       "tags": [
         "big bang",
         "cosmic microwave background",
@@ -3381,11 +3393,12 @@
       ],
       "anchor": "~1% of static",
       "anchor_spoken": "about one percent",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645176+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "tv_static"
     },
     {
       "id": "cb-0027",
@@ -3393,7 +3406,7 @@
       "pattern": "NAKED_NUMBER",
       "topic": "The_Webb_Telescope_Must_Never_Warm_Up",
       "title": "The Webb Telescope Must Never Warm Up",
-      "description": "The Webb telescope must never be allowed to warm up.\n\nSome instruments are defined by what they must avoid, not what they collect.\n\nSource: James Webb Space Telescope sunshield and operating temperature specifications\n\n#Shorts #jameswebbspacetelescope #webbtelescope #jwst #nasa #telescope #spaceobservation #astronomytools #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "The Webb telescope must never be allowed to warm up.\n\nSome instruments are defined by what they must avoid, not what they collect.\n\nSource: James Webb Space Telescope sunshield and operating temperature specifications\n\n#Shorts #jameswebbspacetelescope #webbtelescope #jwst #nasa",
       "tags": [
         "james webb space telescope",
         "webb telescope",
@@ -3521,11 +3534,12 @@
       ],
       "anchor": "-220 C",
       "anchor_spoken": "minus two hundred and twenty degrees",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645255+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "webb_cold"
     },
     {
       "id": "cb-0028",
@@ -3533,7 +3547,7 @@
       "pattern": "SCALE_COLLAPSE",
       "topic": "No_Red_Dwarf_Star_Has_Ever_Died",
       "title": "No Red Dwarf Star Has Ever Died",
-      "description": "Why has no red dwarf star ever died?\n\nThe universe is early, not late.\n\nSource: Stellar evolution models for low mass main sequence stars\n\n#Shorts #reddwarf #stars #starlifespan #ageoftheuniverse #supernova #stardeath #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "Why has no red dwarf star ever died?\n\nThe universe is early, not late.\n\nSource: Stellar evolution models for low mass main sequence stars\n\n#Shorts #reddwarf #stars #starlifespan #ageoftheuniverse",
       "tags": [
         "red dwarf",
         "stars",
@@ -3651,11 +3665,12 @@
       ],
       "anchor": "trillions of years",
       "anchor_spoken": "trillions of years",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645328+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "red_dwarf"
     },
     {
       "id": "cb-0029",
@@ -3786,7 +3801,8 @@
       "status": "published",
       "video_id": "_MHQrYKl5B8",
       "queued_at": "2026-09-16T11:43:23.645407+00:00",
-      "published_at": "2026-09-21T19:59:06.242846+00:00"
+      "published_at": "2026-09-21T19:59:06.242846+00:00",
+      "batch_key": "triton"
     },
     {
       "id": "cb-0030",
@@ -3794,7 +3810,7 @@
       "pattern": "WRONG_NAME",
       "topic": "The_Sun_Is_Actually_White_Not_Yellow",
       "title": "The Sun Is Actually White, Not Yellow",
-      "description": "The Sun is not yellow. It is white.\n\nThe colour of the sky and the colour of the Sun are the same fact.\n\nSource: Solar spectrum and atmospheric scattering; confirmed by observation above the atmosphere\n\n#Shorts #sun #colourofthesun #whyistheskyblue #spacemyths #mythbusting #youweretaughtwrong #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "The Sun is not yellow. It is white.\n\nThe colour of the sky and the colour of the Sun are the same fact.\n\nSource: Solar spectrum and atmospheric scattering; confirmed by observation above the atmosphere\n\n#Shorts #sun #colourofthesun #whyistheskyblue #spacemyths",
       "tags": [
         "sun",
         "colour of the sun",
@@ -3921,19 +3937,20 @@
       ],
       "anchor": "5,500 C surface",
       "anchor_spoken": "five thousand five hundred degrees",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645497+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "white_sun"
     },
     {
       "id": "cb-0031",
       "cluster": "human_spaceflight",
       "pattern": "MISSING_THING",
-      "topic": "The_Dog_Sent_to_Orbit_Who_Never_Came_Home",
-      "title": "The Dog Sent to Orbit Who Never Came Home",
-      "description": "A stray dog reached orbit and never came home.\n\nCrewed spaceflight safety practice was built on this.\n\nSource: Sputnik 2, 1957, and Russian records released in 2002\n\n#Shorts #laika #spacedog #sputnik #spacehistory #spacemissions #nasa #astronauts #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "topic": "The_Dog_Sent_to_Orbit_Never_Returned",
+      "title": "The Dog Sent to Orbit, Never Returned",
+      "description": "A stray dog reached orbit and never came home.\n\nCrewed spaceflight safety practice was built on this.\n\nSource: Sputnik 2, 1957, and Russian records released in 2002\n\n#Shorts #laika #spacedog #sputnik #spacehistory",
       "tags": [
         "laika",
         "space dog",
@@ -4068,7 +4085,7 @@
       ],
       "anchor": "1957",
       "anchor_spoken": "nineteen fifty seven",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645581+00:00",
@@ -4211,7 +4228,8 @@
       "status": "published",
       "video_id": "_sbZOsIoFtQ",
       "queued_at": "2026-09-16T11:43:23.645661+00:00",
-      "published_at": "2026-09-23T19:00:35.246590+00:00"
+      "published_at": "2026-09-23T19:00:35.246590+00:00",
+      "batch_key": "seven_worlds"
     },
     {
       "id": "cb-0033",
@@ -4342,15 +4360,16 @@
       "status": "published",
       "video_id": "jjtI8eoYjXw",
       "queued_at": "2026-09-16T11:43:23.645737+00:00",
-      "published_at": "2026-09-24T19:03:36.484257+00:00"
+      "published_at": "2026-09-24T19:03:36.484257+00:00",
+      "batch_key": "barycentre"
     },
     {
       "id": "cb-0034",
       "cluster": "physics_limits",
       "pattern": "SECOND_PERSON_IMPLICATION",
-      "topic": "You_Are_Moving_at_Six_Hundred_Kilometres_Per_Second",
-      "title": "You Are Moving at Six Hundred Kilometres Per Second",
-      "description": "You are moving six hundred kilometres every second.\n\nThere is no state of rest to return to.\n\nSource: Cosmic microwave background dipole measured by COBE and Planck\n\n#Shorts #earth #speedoftheearth #universe #physics #physicsfacts #sciencefacts #spacefacts #astronomy #space #facts #science #didyouknow",
+      "topic": "You_Are_Moving_at_600_km_Per_Second",
+      "title": "You Are Moving at 600 km Per Second",
+      "description": "You are moving six hundred kilometres every second.\n\nThere is no state of rest to return to.\n\nSource: Cosmic microwave background dipole measured by COBE and Planck\n\n#Shorts #earth #speedoftheearth #universe #physics",
       "tags": [
         "earth",
         "speed of the earth",
@@ -4476,7 +4495,7 @@
       ],
       "anchor": "630 km/s",
       "anchor_spoken": "six hundred and thirty kilometres a second",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645817+00:00",
@@ -4488,7 +4507,7 @@
       "pattern": "MISSING_THING",
       "topic": "Most_Planets_May_Have_No_Sun_at_All",
       "title": "Most Planets May Have No Sun at All",
-      "description": "Most planets may have no sun at all.\n\nThe default state of a planet may be starless.\n\nSource: Gravitational microlensing surveys of free-floating planets\n\n#Shorts #rogueplanet #exoplanets #planets #starlessplanets #alienplanets #habitablezone #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "Most planets may have no sun at all.\n\nThe default state of a planet may be starless.\n\nSource: Gravitational microlensing surveys of free-floating planets\n\n#Shorts #rogueplanet #exoplanets #planets #starlessplanets",
       "tags": [
         "rogue planet",
         "exoplanets",
@@ -4606,11 +4625,12 @@
       ],
       "anchor": "billions of rogue worlds",
       "anchor_spoken": "billions of them",
-      "batch_id": "2026-09-16",
-      "status": "popped",
+      "batch_id": "2026-10-06",
+      "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645896+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "rogue_planets"
     },
     {
       "id": "cb-0036",
@@ -4618,7 +4638,7 @@
       "pattern": "SECOND_PERSON_IMPLICATION",
       "topic": "Astronauts_Come_Home_Two_Inches_Taller",
       "title": "Astronauts Come Home Two Inches Taller",
-      "description": "Astronauts come home taller than they left.\n\nBody dimensions are a response to load, not a constant.\n\nSource: NASA crew height measurements in orbit\n\n#Shorts #astronauts #spacestation #humanbodyinspace #nasa #spacemissions #spacefacts #astronomy #space #universe #facts #science #didyouknow",
+      "description": "Astronauts come home taller than they left.\n\nBody dimensions are a response to load, not a constant.\n\nSource: NASA crew height measurements in orbit\n\n#Shorts #astronauts #spacestation #humanbodyinspace #nasa",
       "tags": [
         "astronauts",
         "space station",
@@ -4728,11 +4748,12 @@
       ],
       "anchor": "5 cm",
       "anchor_spoken": "five centimetres",
-      "batch_id": "2026-09-16",
+      "batch_id": "2026-10-06",
       "status": "queued",
       "video_id": null,
       "queued_at": "2026-09-16T11:43:23.645968+00:00",
-      "published_at": null
+      "published_at": null,
+      "batch_key": "taller"
     }
   ]
 }

@@ -52,7 +52,10 @@ WORD_COUNT_MAX = int(RUNTIME_MAX_SECONDS * WORDS_PER_SECOND)   # 112
 BEAT_ORDER = ["hook", "turn", "mechanism", "spike", "loop"]
 FORMAT_LETTERS = {"A", "B", "C", "D", "E"}
 HOOK_MAX_WORDS = 12
-TITLE_MAX_CHARS = 70
+# Shorts truncate titles at ~40 visible characters, so anything past that is
+# written for nobody. Was 70, which put a third of a typical title out of view.
+TITLE_MAX_CHARS = 40
+MAX_HASHTAGS = 5
 MIN_SECOND_PERSON = 2
 MIN_VIDEO_KEYWORDS = 3
 
@@ -376,7 +379,10 @@ def _safe_slug(text: str) -> str:
 def templatize(concept: dict, item: dict, config: dict) -> dict:
     """Deterministic, code-only construction of everything docs/prompt_scripting.md's
     'not the model's job' table assigns to Python - no LLM call for any of this."""
-    title = _enforce_title_length(concept["title"])
+    # The script's own title wins over the concept's. validate_script() already
+    # treats it that way, and a title edited in the batch file must reach the
+    # queue - previously only the concept's (stale) title did.
+    title = _enforce_title_length(item.get("title") or concept["title"])
     # The script's own subject keywords come FIRST: normalize_tags() truncates
     # at YouTube's 500-char budget, and the per-video terms are the ones worth
     # protecting. vidIQ shows the bare subject noun ("venus", 261K searches/mo)
@@ -385,7 +391,13 @@ def templatize(concept: dict, item: dict, config: dict) -> dict:
     tags = keywords.normalize_tags(
         (item.get("keywords") or []) + CLUSTER_TAGS.get(concept["cluster"], []) + BASE_TAGS
     )
-    hashtags = " ".join(f"#{t.replace(' ', '')}" for t in dict.fromkeys(["Shorts"] + tags))
+    # Shorts guidance is 3-5 hashtags; we were emitting 14-15, which reads as
+    # spam and dilutes the ones that matter. The tag FIELD still gets the full
+    # list - it is a separate 500-char budget and costs nothing to fill.
+    hashtags = " ".join(
+        f"#{t.replace(' ', '')}"
+        for t in list(dict.fromkeys(["Shorts"] + tags))[:MAX_HASHTAGS]
+    )
     # Opens on the spoken hook rather than restating the title: YouTube shows
     # the first line under the title, so repeating it wasted the slot.
     description = (
