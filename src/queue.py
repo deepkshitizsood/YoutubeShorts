@@ -51,6 +51,23 @@ def pop_for_pillar(config: dict, pillar_id: str) -> dict | None:
     return chosen
 
 
+def pop_by_id(item_id: str) -> dict | None:
+    """Pops one named entry, ignoring the bandit's pillar choice.
+
+    For deliberately publishing a chosen script - backfilling, or testing a
+    change against known material - rather than whatever the rotation would
+    have picked. Returns None if the id is unknown or not still queued, so a
+    typo cannot silently publish some other video.
+    """
+    queue = load_queue()
+    for e in queue["entries"]:
+        if e.get("id") == item_id and e.get("status") == "queued":
+            e["status"] = "popped"
+            save_queue(queue)
+            return e
+    return None
+
+
 def pop_any_queued(config: dict) -> dict | None:
     """Fallback when no queued item matches the bandit's chosen pillar -
     popping something (with a logged warning from the caller) beats skipping

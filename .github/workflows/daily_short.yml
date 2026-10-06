@@ -7,6 +7,10 @@ on:
         description: "Generate the video but skip upload"
         type: boolean
         default: true
+      queue_id:
+        description: "Publish this specific queued script (e.g. cb-0004). Blank = normal rotation."
+        required: false
+        type: string
   # Pulled back to 1 post/day on 2026-08-27 for budget headroom under the
   # $50/month cap (see config.yaml's posting.videos_per_day comment) - real
   # Sonnet 5 + web search cost made 3/day too tight. Time is UTC and drifts 1h
@@ -55,10 +59,14 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: |
+          ARGS=""
+          if [ -n "${{ inputs.queue_id }}" ]; then
+            ARGS="--queue-id ${{ inputs.queue_id }}"
+          fi
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            python -m src.main --dry-run
+            python -m src.main --dry-run $ARGS
           else
-            python -m src.main
+            python -m src.main $ARGS
           fi
 
       - name: Upload generated video for inspection

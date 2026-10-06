@@ -26,7 +26,7 @@ def _safe_slug(topic: str) -> str:
     return (slug or "untitled")[:60]
 
 
-def run(dry_run: bool) -> None:
+def run(dry_run: bool, queue_id: str | None = None) -> None:
     cfg.ensure_dirs()
     config = cfg.load_config()
     ledger = budget.load_ledger()
@@ -34,13 +34,14 @@ def run(dry_run: bool) -> None:
     # persisted here in `finally` - otherwise a crash in visuals/assembly/upload
     # discards money already spent and the monthly cap never sees it.
     try:
-        _run_pipeline(dry_run, config, ledger)
+        _run_pipeline(dry_run, config, ledger, queue_id)
     finally:
         budget.save_ledger(ledger)
         print(f"[budget] Month-to-date spend: ${budget.month_to_date_spend(ledger):.2f}")
 
 
-def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
+def _run_pipeline(dry_run: bool, config: dict, ledger: dict,
+                  queue_id: str | None = None) -> None:
     status = budget.status(ledger, config)
     if status == "over":
         print(f"[budget] Monthly cap of ${config['budget']['monthly_cap_usd']} reached. Skipping run.")
@@ -67,7 +68,16 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
     queue_item_id = None
     queue_item_cluster = None
     if config["content"].get("script_source", "live") == "queue":
-        item = queue.pop_for_pillar(config, brief["pillar_id"])
+        if queue_id:
+            item = queue.pop_by_id(queue_id)
+            if item is None:
+                raise RuntimeError(
+                    f"--queue-id {queue_id!r} is not a queued entry (unknown id, or "
+                    f"already popped/published). Refusing to publish a different video."
+                )
+            print(f"[queue] Explicitly selected {queue_id}, bypassing the pillar rotation.")
+        else:
+            item = queue.pop_for_pillar(config, brief["pillar_id"])
         if item is None:
             item = queue.pop_any_queued(config)
             if item is not None:
@@ -243,8 +253,12 @@ def _run_pipeline(dry_run: bool, config: dict, ledger: dict) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true", help="Generate the video but skip upload")
+    parser.add_argument(
+        "--queue-id", default=None,
+        help="Publish this specific queued script instead of the bandit's pick",
+    )
     args = parser.parse_args()
-    run(dry_run=args.dry_run)
+    run(dry_run=args.dry_run, queue_id=args.queue_id)
 
 
 if __name__ == "__main__":
