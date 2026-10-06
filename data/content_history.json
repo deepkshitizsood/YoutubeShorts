@@ -1478,5 +1478,28 @@
     "total_shots": 10,
     "created_at": "2026-09-24T19:03:36.487363+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Two_Galaxies_Will_Collide_and_Nothing_Will_Hit",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "galactic_structure",
+    "title": "Two Galaxies Will Collide and Nothing Will Hit",
+    "video_id": null,
+    "length_variant": null,
+    "mood": "mysterious",
+    "closing_question": null,
+    "central_claim": "Stellar separations are so large that a galactic merger produces essentially no stellar collisions.",
+    "sources": [
+      "Hubble measurement of Andromeda's proper motion, giving a merger in roughly 4 billion years",
+      "Typical stellar separations make direct stellar collisions vanishingly unlikely during a merger",
+      "Scale analogy: Sun as a grain of sand puts the nearest star tens of kilometres away."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 9,
+    "created_at": "2026-10-06T07:12:40.409180+00:00",
+    "dry_run": true
   }
 ]
