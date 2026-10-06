@@ -1572,5 +1572,27 @@
     "total_shots": 10,
     "created_at": "2026-10-06T08:18:18.612558+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Shooting_Stars_Don_t_Burn_From_Friction",
+    "pillar_id": "space_myths",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "things_we_got_wrong",
+    "title": "Shooting Stars Don't Burn From Friction",
+    "video_id": "byGmq7oSjqQ",
+    "length_variant": null,
+    "mood": "energetic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "At those speeds the air cannot move aside, so it compresses in front of the rock and superheats.",
+    "sources": [
+      "Compression (ram) heating of the shock layer is settled atmospheric-entry physics. No single mission owns it, so style.md says credit nothing rather than invent an attribution."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 2,
+    "total_shots": 12,
+    "created_at": "2026-10-06T08:22:07.764519+00:00",
+    "dry_run": false
   }
 ]
