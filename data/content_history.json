@@ -1548,5 +1548,29 @@
     "total_shots": 12,
     "created_at": "2026-10-06T07:56:58.924592+00:00",
     "dry_run": true
+  },
+  {
+    "topic": "The_Moon_Was_Once_Five_Times_Closer",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "deep_time",
+    "title": "The Moon Was Once Five Times Closer",
+    "video_id": "rLm0eMKP5Hg",
+    "length_variant": null,
+    "mood": "dramatic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "The Moon settled at about 75,000 km and now sits near 384,000, and tidal force scales as the inverse cube of distance.",
+    "sources": [
+      "Post-formation lunar distance ~75,000 km - lunar formation models",
+      "Current mean distance 384,400 km and 3.8 cm/yr recession - Lunar Laser Ranging, Apollo retroreflectors",
+      "Tidal force scales as the inverse cube of distance: (384400/75000)^3 is about 134. The multiplier is derived FROM the sourced distances, not the reverse."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 2,
+    "total_shots": 10,
+    "created_at": "2026-10-06T08:18:18.612558+00:00",
+    "dry_run": false
   }
 ]

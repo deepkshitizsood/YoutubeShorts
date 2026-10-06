@@ -507,10 +507,10 @@
       "anchor": "75,000 km",
       "anchor_spoken": "seventy five thousand kilometres",
       "batch_id": "2026-10-06",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "rLm0eMKP5Hg",
       "queued_at": "2026-09-16T08:42:46.325607+00:00",
-      "published_at": null
+      "published_at": "2026-10-06T08:18:18.609114+00:00"
     },
     {
       "id": "cb-0005",

@@ -1946,6 +1946,28 @@
       "searches": 0,
       "cache_creation_tokens": 0,
       "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-10-06T08:16:42Z",
+      "item": "tts",
+      "usd": 0.0047,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
+    },
+    {
+      "date": "2026-10-06T08:17:26Z",
+      "item": "images",
+      "usd": 0.312,
+      "video_id": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "searches": 0,
+      "cache_creation_tokens": 0,
+      "cache_read_tokens": 0
     }
   ]
 }
