@@ -1665,5 +1665,27 @@
     "total_shots": 12,
     "created_at": "2026-10-06T20:11:20.782544+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Hubble_Aimed_at_Nothing_Found_3_000",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": "observation_and_instruments",
+    "title": "Hubble Aimed at Nothing, Found 3,000",
+    "video_id": "rN6bn-m8_vo",
+    "length_variant": null,
+    "mood": "mysterious",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "Ten days of exposure gathered enough faint light to reveal galaxies too dim for any single glance.",
+    "sources": [
+      "Hubble Deep Field, NASA/STScI, December 1995 - 342 exposures over 10 days, ~3,000 galaxies"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 11,
+    "created_at": "2026-10-07T20:44:57.389950+00:00",
+    "dry_run": false
   }
 ]
