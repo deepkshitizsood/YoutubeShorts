@@ -1687,5 +1687,28 @@
     "total_shots": 11,
     "created_at": "2026-10-07T20:44:57.389950+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "The_Sun_Will_Swallow_Two_Planets",
+    "pillar_id": "planets_and_moons",
+    "series_id": "how_big",
+    "cluster": "stellar_lifecycle",
+    "title": "The Sun Will Swallow Two Planets",
+    "video_id": null,
+    "length_variant": null,
+    "mood": "dramatic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Hydrogen exhaustion makes the Sun expand into a red giant far past the inner orbits.",
+    "sources": [
+      "Standard stellar evolution models for a one solar mass star - core hydrogen exhaustion and red giant expansion in roughly 5 billion years",
+      "Mercury and Venus lie inside the projected red giant radius; Earth's fate is model-dependent, so the script says 'might' rather than asserting it."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 10,
+    "created_at": "2026-10-08T20:41:23.274286+00:00",
+    "dry_run": false
   }
 ]
