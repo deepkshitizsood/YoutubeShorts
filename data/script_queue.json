@@ -2556,10 +2556,10 @@
       "anchor": "100 km of atmosphere",
       "anchor_spoken": "a hundred kilometres",
       "batch_id": "2026-10-06",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "8CxdhdpWSkQ",
       "queued_at": "2026-09-16T11:43:23.644624+00:00",
-      "published_at": null
+      "published_at": "2026-10-09T20:13:56.389725+00:00"
     },
     {
       "id": "cb-0020",

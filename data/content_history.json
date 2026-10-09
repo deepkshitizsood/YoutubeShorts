@@ -1710,5 +1710,28 @@
     "total_shots": 10,
     "created_at": "2026-10-08T20:41:23.274286+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Stars_Do_Not_Actually_Twinkle",
+    "pillar_id": "space_myths",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "things_we_got_wrong",
+    "title": "Stars Do Not Actually Twinkle",
+    "video_id": "8CxdhdpWSkQ",
+    "length_variant": null,
+    "mood": "mysterious",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "Moving pockets of warm and cool air bend starlight slightly differently moment to moment.",
+    "sources": [
+      "Atmospheric scintillation is settled optics with no single owning mission, so style.md says credit nothing rather than invent an attribution",
+      "Planets show a resolvable disc and so scintillate far less than point-source stars"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 12,
+    "created_at": "2026-10-09T20:13:56.394449+00:00",
+    "dry_run": false
   }
 ]
