@@ -1733,5 +1733,28 @@
     "total_shots": 12,
     "created_at": "2026-10-09T20:13:56.394449+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "The_Wall_in_Space_You_Can_Never_Cross",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": "cosmology_and_origins",
+    "title": "The Wall in Space You Can Never Cross",
+    "video_id": "RxfBdjMYtXw",
+    "length_variant": null,
+    "mood": "mysterious",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Light has had only a finite time to travel, so beyond a set distance nothing can ever reach us.",
+    "sources": [
+      "Comoving radius of the observable universe about 46.5 billion light years, from standard cosmological parameters",
+      "Accelerating expansion places distant galaxies permanently beyond the future event horizon"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 9,
+    "created_at": "2026-10-10T19:15:43.240595+00:00",
+    "dry_run": false
   }
 ]
