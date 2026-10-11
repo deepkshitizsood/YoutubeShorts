@@ -1756,5 +1756,28 @@
     "total_shots": 9,
     "created_at": "2026-10-10T19:15:43.240595+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "We_Still_Fire_Lasers_at_Apollo_Mirrors",
+    "pillar_id": "space_history",
+    "series_id": "how_big",
+    "cluster": "observation_and_instruments",
+    "title": "We Still Fire Lasers at Apollo Mirrors",
+    "video_id": "J38ClMfc_dc",
+    "length_variant": null,
+    "mood": "uplifting",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "Reflector panels need no power, so timing a laser's round trip still gives the distance.",
+    "sources": [
+      "Apollo 11, 14 and 15 left retroreflector arrays; Lunar Laser Ranging still uses them",
+      "Measured lunar recession 3.8 cm/yr, with range precision at the millimetre level"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 12,
+    "created_at": "2026-10-11T19:30:18.820168+00:00",
+    "dry_run": false
   }
 ]
