@@ -1803,5 +1803,29 @@
     "total_shots": 10,
     "created_at": "2026-10-12T22:30:31.795341+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Your_Gold_Came_From_Colliding_Stars",
+    "pillar_id": "planets_and_moons",
+    "series_id": "out_there_right_now",
+    "cluster": "stellar_lifecycle",
+    "title": "Your Gold Came From Colliding Stars",
+    "video_id": "_lMDV8dXMYA",
+    "length_variant": null,
+    "mood": "dramatic",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "Ordinary fusion stops at iron, so gold requires a neutron star collision.",
+    "sources": [
+      "GW170817 neutron star merger detected by LIGO/Virgo in 2017, at about 130 million light years",
+      "Follow-up observations identified heavy element production including gold",
+      "Mass estimates for gold produced are model-dependent, so the script says 'several Earth masses' rather than a precise figure."
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 2,
+    "total_shots": 12,
+    "created_at": "2026-10-13T20:38:19.098773+00:00",
+    "dry_run": false
   }
 ]
