@@ -1827,5 +1827,29 @@
     "total_shots": 12,
     "created_at": "2026-10-13T20:38:19.098773+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "The_Sun_Is_Actually_White_Not_Yellow",
+    "pillar_id": "space_myths",
+    "series_id": "how_big",
+    "cluster": "things_we_got_wrong",
+    "title": "The Sun Is Actually White, Not Yellow",
+    "video_id": "kiDwzh4YCIM",
+    "length_variant": null,
+    "mood": "energetic",
+    "voice": "en-US-Neural2-H",
+    "closing_question": null,
+    "central_claim": "Rayleigh scattering removes short wavelengths from the direct beam and redistributes them across the sky.",
+    "sources": [
+      "Solar photosphere temperature about 5,500 C, giving a near-white emitted spectrum",
+      "Rayleigh scattering preferentially removes short (blue) wavelengths from the direct beam",
+      "Observed directly from orbit, where the Sun appears white"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 1,
+    "total_shots": 13,
+    "created_at": "2026-10-14T19:19:36.434950+00:00",
+    "dry_run": false
   }
 ]
