@@ -1851,5 +1851,28 @@
     "total_shots": 13,
     "created_at": "2026-10-14T19:19:36.434950+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Apollo_Reached_the_Moon_on_4KB",
+    "pillar_id": "space_history",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "human_spaceflight",
+    "title": "Apollo Reached the Moon on 4KB",
+    "video_id": "IxTQNAtE1Fs",
+    "length_variant": null,
+    "mood": "uplifting",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "The guidance computer's erasable memory was about four kilobytes, and it flew every crewed lunar mission.",
+    "sources": [
+      "Apollo Guidance Computer erasable memory: 2048 words of 16 bits, about 4 KB",
+      "24 people flew to the Moon across Apollo 8 to 17; 12 walked on it"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 4,
+    "total_shots": 11,
+    "created_at": "2026-10-15T19:04:03.037855+00:00",
+    "dry_run": false
   }
 ]

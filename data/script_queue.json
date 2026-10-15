@@ -2289,10 +2289,10 @@
       "anchor": "4 kilobytes",
       "anchor_spoken": "four kilobytes",
       "batch_id": "2026-10-06",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "IxTQNAtE1Fs",
       "queued_at": "2026-09-16T11:43:23.644466+00:00",
-      "published_at": null
+      "published_at": "2026-10-15T19:04:03.033263+00:00"
     },
     {
       "id": "cb-0018",
