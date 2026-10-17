@@ -3706,10 +3706,10 @@
       "anchor": "-220 C",
       "anchor_spoken": "minus two hundred and twenty degrees",
       "batch_id": "2026-10-06",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "eCPwgpVWY_I",
       "queued_at": "2026-09-16T11:43:23.645255+00:00",
-      "published_at": null,
+      "published_at": "2026-10-17T17:52:46.992819+00:00",
       "batch_key": "webb_cold"
     },
     {
