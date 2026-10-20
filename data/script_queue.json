@@ -1870,10 +1870,10 @@
       "anchor": "15 seconds",
       "anchor_spoken": "about fifteen seconds",
       "batch_id": "2026-10-06",
-      "status": "queued",
-      "video_id": null,
+      "status": "published",
+      "video_id": "IPoh-bFCJvU",
       "queued_at": "2026-09-16T11:43:23.644233+00:00",
-      "published_at": null
+      "published_at": "2026-10-20T19:09:58.656842+00:00"
     },
     {
       "id": "cb-0015",
