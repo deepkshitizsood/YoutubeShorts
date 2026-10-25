@@ -2063,5 +2063,29 @@
     "total_shots": 13,
     "created_at": "2026-10-24T18:04:26.417164+00:00",
     "dry_run": false
+  },
+  {
+    "topic": "Old_TV_Static_Was_Partly_the_Big_Bang",
+    "pillar_id": "space_history",
+    "series_id": "you_were_taught_wrong",
+    "cluster": "cosmology_and_origins",
+    "title": "Old TV Static Was Partly the Big Bang",
+    "video_id": "t9Z-SniWKjI",
+    "length_variant": null,
+    "mood": "uplifting",
+    "voice": "en-US-Wavenet-F",
+    "closing_question": null,
+    "central_claim": "Leftover heat from the early universe fills all space and registers as radio noise.",
+    "sources": [
+      "Penzias and Wilson detected the cosmic microwave background in 1965 while eliminating antenna noise",
+      "A small percentage of analogue TV snow on a dead channel came from the CMB",
+      "They famously cleaned pigeon droppings from the horn antenna before accepting the signal was real"
+    ],
+    "web_searches": 1,
+    "script_hi": null,
+    "stock_shots": 3,
+    "total_shots": 11,
+    "created_at": "2026-10-25T18:22:48.755899+00:00",
+    "dry_run": false
   }
 ]
